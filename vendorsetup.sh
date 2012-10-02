@@ -1,0 +1,3 @@
+add_lunch_combo cm_ponyo-userdebug
+add_lunch_combo cm_ponyo-eng
+add_lunch_combo cm_ponyo-user

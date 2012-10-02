@@ -1,0 +1,12 @@
+diff --git a/libgralloc/pmemalloc.cpp b/libgralloc/pmemalloc.cpp
+index 0eae637..d83a6c2 100644
+--- a/libgralloc/pmemalloc.cpp
++++ b/libgralloc/pmemalloc.cpp
+@@ -29,6 +29,7 @@
+ #include <unistd.h>
+ #include <fcntl.h>
+ #include <sys/mman.h>
++#include <sys/ioctl.h>
+ #include <stdlib.h>
+ #include <cutils/log.h>
+ #include <errno.h>
