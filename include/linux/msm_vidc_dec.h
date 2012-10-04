@@ -64,6 +64,7 @@
 #define VDEC_S_ENOTIMPL	(VDEC_S_BASE + 12)
 /* Command is not implemented by the driver.  */
 #define VDEC_S_BUSY	(VDEC_S_BASE + 13)
+#define VDEC_S_INPUT_BITSTREAM_ERR (VDEC_S_BASE + 14)
 
 #define VDEC_INTF_VER	1
 #define VDEC_MSG_BASE	0x0000000
@@ -85,6 +86,7 @@
 #define VDEC_MSG_EVT_CONFIG_CHANGED	(VDEC_MSG_BASE + 13)
 #define VDEC_MSG_EVT_HW_ERROR	(VDEC_MSG_BASE + 14)
 #define VDEC_MSG_EVT_INFO_CONFIG_CHANGED	(VDEC_MSG_BASE + 15)
+#define VDEC_MSG_EVT_INFO_FIELD_DROPPED	(VDEC_MSG_BASE + 16)
 
 /*Buffer flags bits masks.*/
 #define VDEC_BUFFERFLAG_EOS	0x00000001
@@ -225,12 +227,25 @@ struct vdec_ioctl_msg {
 #define VDEC_IOCTL_SET_CONT_ON_RECONFIG  \
 	_IO(VDEC_IOCTL_MAGIC, 34)
 
+#define VDEC_IOCTL_SET_DISABLE_DMX \
+	_IOW(VDEC_IOCTL_MAGIC, 35, struct vdec_ioctl_msg)
+
+#define VDEC_IOCTL_GET_DISABLE_DMX \
+	_IOR(VDEC_IOCTL_MAGIC, 36, struct vdec_ioctl_msg)
+
+#define VDEC_IOCTL_GET_DISABLE_DMX_SUPPORT \
+	_IOR(VDEC_IOCTL_MAGIC, 37, struct vdec_ioctl_msg)
+
+#define VDEC_IOCTL_SET_PERF_CLK \
+	_IOR(VDEC_IOCTL_MAGIC, 38, struct vdec_ioctl_msg)
+
 enum vdec_picture {
 	PICTURE_TYPE_I,
 	PICTURE_TYPE_P,
 	PICTURE_TYPE_B,
 	PICTURE_TYPE_BI,
 	PICTURE_TYPE_SKIP,
+	PICTURE_TYPE_IDR,
 	PICTURE_TYPE_UNKNOWN
 };
 
@@ -520,6 +535,8 @@ struct vdec_input_frameinfo {
 	void *client_data;
 	int pmem_fd;
 	size_t pmem_offset;
+	void __user *desc_addr;
+	uint32_t desc_size;
 };
 
 struct vdec_framesize {
@@ -527,6 +544,12 @@ struct vdec_framesize {
 	uint32_t   top;
 	uint32_t   right;
 	uint32_t   bottom;
+};
+
+struct vdec_aspectratioinfo {
+	uint32_t aspect_ratio;
+	uint32_t par_width;
+	uint32_t par_height;
 };
 
 struct vdec_output_frameinfo {
@@ -540,6 +563,7 @@ struct vdec_output_frameinfo {
 	void *input_frame_clientdata;
 	struct vdec_framesize framesize;
 	enum vdec_interlaced_format interlaced_format;
+	struct vdec_aspectratioinfo aspect_ratio_info;
 };
 
 union vdec_msgdata {
