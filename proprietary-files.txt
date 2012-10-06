@@ -65,8 +65,6 @@ lib/libmmjpeg.so
 lib/libmmipl.so
 lib/libcamera.so
 lib/libgemini.so
-libcameraservice.so
-libcamera_client.so
 
 ## FIRMWARE & WIFI
 etc/firmware/vidc_720p_command_control.fw
