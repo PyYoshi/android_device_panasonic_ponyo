@@ -209,7 +209,7 @@ on post-fs-data
     chmod 666 /dev/mmc328x
     chmod 666 /dev/ecompass_ctrl
     chmod 666 /dev/cm3623_ps
-        chmod 666 /dev/cm3623_als
+    chmod 666 /dev/cm3623_als
     mkdir /data/misc/sensors 0777 system system
     service memsicd /system/bin/memsicd
         oneshot
