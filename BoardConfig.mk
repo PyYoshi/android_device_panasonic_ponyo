@@ -35,8 +35,8 @@ BOARD_USE_SCREENCAP := true
 COMMON_GLOBAL_CFLAGS += -DQCOM_HARDWARE
 #BOARD_OVERLAY_FORMAT_YCbCr_420_SP := true
 #TARGET_USES_SF_BYPASS := true
-TARGET_GRALLOC_USES_ASHMEM :=true
-TARGET_USES_OVERLAY := true
+#TARGET_GRALLOC_USES_ASHMEM :=true
+#TARGET_USES_OVERLAY := true
 USE_OPENGL_RENDERER := true
 
 #
@@ -61,7 +61,7 @@ WIFI_DRIVER_FW_PATH_STA     := "/vendor/firmware/fw_bcmdhd.bin"
 WIFI_DRIVER_FW_PATH_AP      := "/vendor/firmware/fw_bcmdhd_apsta.bin"
 WIFI_DRIVER_FW_PATH_P2P     := "/vendor/firmware/fw_bcmdhd_p2p.bin"
 
-#BOARD_KERNEL_CMDLINE := console=ttyMSM1 androidboot.hardware=qcom androidboot.baseband=msm
+BOARD_KERNEL_CMDLINE := console=ttyMSM1 androidboot.hardware=qcom
 BOARD_KERNEL_BASE := 0x13800000
 BOARD_KERNEL_PAGESIZE := 4096
 
