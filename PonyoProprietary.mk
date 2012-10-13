@@ -15,12 +15,13 @@
 # Prebuilt libraries that are needed to build open-source libraries
 
 PRODUCT_COPY_FILES += \
+	device/panasonic/ponyo/proprietary/root/ueventd.rc:root/ueventd.rc \
+	device/panasonic/ponyo/proprietary/root/initlogo.rle:root/initlogo.rle \
 	device/panasonic/ponyo/proprietary/root/init.qcom.rc:root/init.qcom.rc \
 	device/panasonic/ponyo/proprietary/root/init.qcom.sh:root/init.qcom.sh \
 	device/panasonic/ponyo/proprietary/root/init.rc:root/init.rc \
-	device/panasonic/ponyo/proprietary/root/init.target.rc:root/init.target.rc \
-	device/panasonic/ponyo/proprietary/root/ueventd.rc:root/ueventd.rc \
-	device/panasonic/ponyo/proprietary/root/initlogo.rle:root/initlogo.rle
+	device/panasonic/ponyo/proprietary/root/init.target.rc:root/init.target.rc
+	
 
 PRODUCT_COPY_FILES += \
     frameworks/base/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml \
@@ -37,7 +38,12 @@ PRODUCT_COPY_FILES += \
     frameworks/base/data/etc/android.hardware.telephony.gsm.xml:system/etc/permissions/android.hardware.telephony.gsm.xml
 
 PRODUCT_PACKAGES += \
-    librs_jn
+    librs_jn \
+    overlay.default \
+    gralloc.msm7x30 \
+    copybit.msm7x30 \
+    hwcomposer.msm7x30 \
+    lights.ponyo
 
 PRODUCT_COPY_FILES += \
 	frameworks/base/data/fonts/MTLc3m.ttf:system/fonts/MTLc3m.ttf \

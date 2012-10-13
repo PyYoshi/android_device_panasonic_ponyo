@@ -14,9 +14,6 @@ $(call inherit-product, build/target/product/full.mk)
 # proprietary side of the device
 $(call inherit-product-if-exists, device/panasonic/ponyo/PonyoProprietary.mk)
 
-# 
-PRODUCT_LOCALES := ja_JP
-
 PRODUCT_DEVICE := ponyo
 PRODUCT_NAME := cm_ponyo
 PRODUCT_BRAND := panasonic

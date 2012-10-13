@@ -2,42 +2,56 @@
 -include vendor/panasonic/ponyo/BoardConfigVendor.mk
 
 # Call headers from msm-3.0: needed to build libs in hardware/qcom/display
-# not work? build/core/binary.mk(489:492)にTARGET_SPECIFIC_HEADER_PATHの定義はされている
 TARGET_SPECIFIC_HEADER_PATH := device/panasonic/ponyo/include
 
-#USE_CAMERA_STUB := true
+USE_CAMERA_STUB := true
 
-TARGET_BOOTLOADER_BOARD_NAME := ponyo
+#TARGET_BOOTLOADER_BOARD_NAME := ponyo
 
 TARGET_NO_BOOTLOADER := true
 TARGET_BOARD_PLATFORM := msm7x30
 TARGET_BOARD_PLATFORM_GPU := qcom-adreno200
-#TARGET_USES_2G_VM_SPLIT := true
+
 TARGET_CPU_ABI := armeabi-v7a
 TARGET_CPU_ABI2 := armeabi
 TARGET_ARCH_VARIANT := armv7-a-neon
 ARCH_ARM_HAVE_TLS_REGISTER := true
+ARCH_ARM_HAVE_NEON := true
+ARCH_ARM_HAVE_VFP := true
+#TARGET_GLOBAL_CFLAGS += -mfpu=neon -mfloat-abi=softfp
+#TARGET_GLOBAL_CPPFLAGS += -mfpu=neon -mfloat-abi=softfp
+
+COMMON_GLOBAL_CFLAGS += -DQCOM_HARDWARE
+
+BOARD_USES_GENERIC_AUDIO := false
+
 BOARD_HAVE_BLUETOOTH := true
+
 BOARD_USES_QCOM_HARDWARE := true
 BOARD_USES_QCOM_GPS := true
 BOARD_USES_QCOM_LIBS := true
 BOARD_USES_QCOM_LIBRPC := true
 BOARD_USE_QCOM_PMEM := true
+
 BOARD_VENDOR_QCOM_AMSS_VERSION := 50000
 BOARD_VENDOR_QCOM_GPS_LOC_API_HARDWARE := true
 BOARD_VENDOR_QCOM_GPS_LOC_API_AMSS_VERSION := 50000
+
 BOARD_EGL_CFG := device/panasonic/ponyo/prebuilt/egl.cfg
-#BOARD_USE_FRAMEBUFFER_ALPHA_CHANNEL := true
+
 BOARD_USE_SCREENCAP := true
-#BOARD_OVERLAY_MINIFICATION_LIMIT := 2
-#TARGET_GLOBAL_CFLAGS += -mfpu=neon -mfloat-abi=softfp
-#TARGET_GLOBAL_CPPFLAGS += -mfpu=neon -mfloat-abi=softfp
-COMMON_GLOBAL_CFLAGS += -DQCOM_HARDWARE
+BOARD_OVERLAY_MINIFICATION_LIMIT := 2
+
+BOARD_USE_LEGACY_TOUCHSCREEN := true
+
+#BOARD_USE_FRAMEBUFFER_ALPHA_CHANNEL := true
 #BOARD_OVERLAY_FORMAT_YCbCr_420_SP := true
 #TARGET_USES_SF_BYPASS := true
-#TARGET_GRALLOC_USES_ASHMEM :=true
+#TARGET_GRALLOC_USES_ASHMEM := true
 #TARGET_USES_OVERLAY := true
+#TARGET_USES_POST_PROCESSING := true
 USE_OPENGL_RENDERER := true
+#TARGET_USES_C2D_COMPOSITION := true
 
 #
 BOARD_CUSTOM_GRAPHICS := ../../../device/panasonic/ponyo/recovery/graphics.c
@@ -46,7 +60,7 @@ BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/panasonic/ponyo/recovery/recove
 RECOVERY_RGBX := true
 
 #
-#BOARD_SDCARD_DEVICE_PRIMARY := /dev/block/mmcblk0p1
+BOARD_SDCARD_DEVICE_PRIMARY := /dev/block/mmcblk0p1
 
 # Wifi related defines
 BOARD_WPA_SUPPLICANT_DRIVER := NL80211
