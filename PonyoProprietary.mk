@@ -20,8 +20,8 @@ PRODUCT_COPY_FILES += \
 	device/panasonic/ponyo/proprietary/root/init.qcom.rc:root/init.qcom.rc \
 	device/panasonic/ponyo/proprietary/root/init.qcom.sh:root/init.qcom.sh \
 	device/panasonic/ponyo/proprietary/root/init.rc:root/init.rc \
-	device/panasonic/ponyo/proprietary/root/init.target.rc:root/init.target.rc
-	
+	device/panasonic/ponyo/proprietary/root/init.target.rc:root/init.target.rc \
+	device/panasonic/ponyo/prebuilt/atmel-touchscreen.idc:system/usr/idc/atmel-touchscreen.idc
 
 PRODUCT_COPY_FILES += \
     frameworks/base/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml \
