@@ -1,0 +1,34 @@
+## Ponyo
+/dev/kgsl-3d0 0666 system graphics
+/dev/kgsl-2d0 0666 system graphics
+/dev/genlock 0666 system graphics
+/dev/msm_rotator 0660 system graphics
+/dev/proximity 0640 system system
+/dev/ttyGS1 0660 system system
+/dev/avr 0777 system system
+/dev/i2c-0 0777 system system
+/dev/isl29018 0777 system system
+/dev/smb380 0777 system system
+/dev/tca6507 0777 system system
+/dev/tpa2018 0777 system system
+/dev/pmem_smipool 0666 system system
+/dev/gemini0 0660 system system
+
+/dev/msm_camera/* 0666 system camera
+/dev/graphics/fb* 0666 system graphics
+
+/dev/msm_pcm_dec* 0666 system audio
+/dev/snd/controlC0* 0666 system audio
+/dev/msm_aac* 0660 system audio
+/dev/amrnb* 0660 system audio
+/dev/amrwb* 0660 system audio
+/dev/msm_qcelp* 0660 system audio
+/dev/evrc* 0660 system audio
+/dev/msm_voicememo* 0660 system audio
+/dev/msm_voice 0660 system audio
+/dev/cpu_dma_latency 0660 system system
+/dev/msm_vidc_dec 0660 system audio
+/dev/msm_vidc_enc 0660 system audio
+/dev/msm_vidc_reg 0660 system audio
+/dev/oncrpc 0777 system system
+/dev/oncrpc/* 0777 system system

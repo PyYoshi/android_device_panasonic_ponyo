@@ -15,13 +15,13 @@
 # Prebuilt libraries that are needed to build open-source libraries
 
 PRODUCT_COPY_FILES += \
-	device/panasonic/ponyo/proprietary/root/ueventd.rc:root/ueventd.rc \
+	device/panasonic/ponyo/proprietary/root/ueventd.qcom.rc:root/ueventd.qcom.rc \
 	device/panasonic/ponyo/proprietary/root/initlogo.rle:root/initlogo.rle \
 	device/panasonic/ponyo/proprietary/root/init.qcom.rc:root/init.qcom.rc \
 	device/panasonic/ponyo/proprietary/root/init.qcom.sh:root/init.qcom.sh \
-	device/panasonic/ponyo/proprietary/root/init.rc:root/init.rc \
 	device/panasonic/ponyo/proprietary/root/init.target.rc:root/init.target.rc \
 	device/panasonic/ponyo/prebuilt/atmel-touchscreen.idc:system/usr/idc/atmel-touchscreen.idc
+#	device/panasonic/ponyo/proprietary/root/init.rc:root/init.rc
 
 PRODUCT_COPY_FILES += \
 	device/panasonic/ponyo/brcm_patchram_plus/BCM4330.hcd:system/etc/BCM4330.hcd \
@@ -49,7 +49,7 @@ PRODUCT_PACKAGES += \
     gralloc.msm7x30 \
     copybit.msm7x30 \
     hwcomposer.msm7x30 \
-    lights.ponyo
+    lights.default
 
 PRODUCT_COPY_FILES += \
 	frameworks/base/data/fonts/MTLc3m.ttf:system/fonts/MTLc3m.ttf \
@@ -72,6 +72,13 @@ PRODUCT_PROPERTY_OVERRIDES += \
     rild.libargs=-d /dev/smd0 \
     ril.subscription.types=NV,RUIM \
     ro.hdmi.enable=true
+
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.build.product=pana2_1 \
+    ro.product.name=pana2_1 \
+    ro.product.device=pana2_1 \
+    ro.build.display.id=07.0109.0068 \ # ベースに使ってるバイナリがこのVersionのため
+    ro.modversion=PonyoRoid9-$(shell date +%m%d%Y)-Beta1
 
 
 
