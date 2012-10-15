@@ -1,0 +1,7 @@
+HOMEキーが正しく動作しない
+Livewallpaperを設定して、いくつかの時間が立ったあと熱で端末がおかしくなる
+WiFi用のWPA_DRIVERが動作しない(insmod dhdは可能)
+Bluetoothが動作しない
+音声周りの不具合
+センサ周りの不具合
+GPS周りの不具合
