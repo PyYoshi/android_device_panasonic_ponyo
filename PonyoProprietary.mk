@@ -49,7 +49,17 @@ PRODUCT_PACKAGES += \
     gralloc.msm7x30 \
     copybit.msm7x30 \
     hwcomposer.msm7x30 \
-    lights.default
+    lights.default \
+    gps.qcom \
+    libloc_api-rpc \
+    libOmxCore \
+    libmm-omxcore \
+    libOmxVdec \
+    libOmxVidEnc \
+    libstagefrighthw \
+    audio.a2dp.default \
+    audio_policy.msm7x30 \
+    libaudioutils
 
 PRODUCT_COPY_FILES += \
 	frameworks/base/data/fonts/MTLc3m.ttf:system/fonts/MTLc3m.ttf \
@@ -74,11 +84,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.hdmi.enable=true
 
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.build.product=pana2_1 \
-    ro.product.name=pana2_1 \
-    ro.product.device=pana2_1 \
-    ro.build.display.id=07.0109.0068 \ # ベースに使ってるバイナリがこのVersionのため
-    ro.modversion=PonyoRoid9-$(shell date +%m%d%Y)-Beta1
+    ro.build.display.id=07.0109.0068
 
 
 
