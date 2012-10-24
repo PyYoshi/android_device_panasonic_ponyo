@@ -23,9 +23,11 @@ ARCH_ARM_HAVE_VFP := true
 
 COMMON_GLOBAL_CFLAGS += -DQCOM_HARDWARE
 
-BOARD_USES_GENERIC_AUDIO := false
+#BOARD_USES_GENERIC_AUDIO := false
 
 BOARD_HAVE_BLUETOOTH := true
+BOARD_HAVE_BLUETOOTH_BCM := true
+TARGET_NEEDS_BLUETOOTH_INIT_DELAY := true
 
 BOARD_USES_QCOM_HARDWARE := true
 BOARD_USES_QCOM_GPS := true
@@ -34,7 +36,7 @@ BOARD_USES_QCOM_LIBRPC := true
 BOARD_USE_QCOM_PMEM := true
 
 BOARD_VENDOR_QCOM_AMSS_VERSION := 50000
-BOARD_VENDOR_QCOM_GPS_LOC_API_HARDWARE := true
+BOARD_VENDOR_QCOM_GPS_LOC_API_HARDWARE := qcom
 BOARD_VENDOR_QCOM_GPS_LOC_API_AMSS_VERSION := 50000
 
 BOARD_EGL_CFG := device/panasonic/ponyo/prebuilt/egl.cfg
@@ -55,7 +57,6 @@ USE_OPENGL_RENDERER := true
 
 #
 BOARD_CUSTOM_GRAPHICS := ../../../device/panasonic/ponyo/recovery/graphics.c
-#BOARD_CUSTOM_RECOVERY_KEYMAPPING:= ../../../device/panasonic/ponyo/recovery/recovery_ui.c
 BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/panasonic/ponyo/recovery/recovery_keys.c
 RECOVERY_RGBX := true
 
@@ -63,17 +64,27 @@ RECOVERY_RGBX := true
 BOARD_SDCARD_DEVICE_PRIMARY := /dev/block/mmcblk0p1
 
 # Wifi related defines
-BOARD_WPA_SUPPLICANT_DRIVER := NL80211
-WPA_SUPPLICANT_VERSION      := VER_0_8_X
-BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_bcmdhd
-BOARD_HOSTAPD_DRIVER        := NL80211
-BOARD_HOSTAPD_PRIVATE_LIB   := lib_driver_cmd_bcmdhd
-BOARD_WLAN_DEVICE           := bcmdhd
-#WIFI_DRIVER_MODULE_PATH     := "/system/lib/modules/dhd.ko"
-WIFI_DRIVER_FW_PATH_PARAM   := "/sys/module/bcmdhd/parameters/firmware_path"
-WIFI_DRIVER_FW_PATH_STA     := "/vendor/firmware/fw_bcmdhd.bin"
-WIFI_DRIVER_FW_PATH_AP      := "/vendor/firmware/fw_bcmdhd_apsta.bin"
+BOARD_WPA_SUPPLICANT_DRIVER := WEXT
+WPA_SUPPLICANT_VERSION      := VER_0_6_X
+BOARD_WLAN_DEVICE           := bcm4330
+WIFI_DRIVER_MODULE_PATH := "/system/lib/modules/dhd.ko"
+WIFI_DRIVER_FW_PATH_STA     := "/etc/firmware/wlan/sdio_cit.bin"
+WIFI_DRIVER_FW_PATH_AP      := "/etc/firmware/wlan/sdio_apsta.bin"
 WIFI_DRIVER_FW_PATH_P2P     := "/vendor/firmware/fw_bcmdhd_p2p.bin"
+WIFI_DRIVER_MODULE_ARG      := "firmware_path=/etc/firmware/wlan/sdio_cit.bin nvram_path=/etc/firmware/wlan/nvram.txt"
+WIFI_DRIVER_MODULE_NAME     := "dhd"
+
+# Wifi related defines
+#BOARD_WPA_SUPPLICANT_DRIVER := NL80211
+#WPA_SUPPLICANT_VERSION      := VER_0_8_X
+#BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_bcmdhd
+#BOARD_HOSTAPD_DRIVER        := NL80211
+#BOARD_HOSTAPD_PRIVATE_LIB   := lib_driver_cmd_bcmdhd
+#BOARD_WLAN_DEVICE           := bcmdhd
+#WIFI_DRIVER_FW_PATH_PARAM   := "/sys/module/bcmdhd/parameters/firmware_path"
+#WIFI_DRIVER_FW_PATH_STA     := "/vendor/firmware/fw_bcmdhd.bin"
+#WIFI_DRIVER_FW_PATH_AP      := "/vendor/firmware/fw_bcmdhd_apsta.bin"
+#WIFI_DRIVER_FW_PATH_P2P     := "/vendor/firmware/fw_bcmdhd_p2p.bin"
 
 BOARD_KERNEL_CMDLINE := console=ttyMSM1 androidboot.hardware=qcom
 BOARD_KERNEL_BASE := 0x13800000

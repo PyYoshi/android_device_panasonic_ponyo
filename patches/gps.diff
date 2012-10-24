@@ -1,0 +1,14 @@
+diff --git a/hardware/loc_api/libloc_api/Android.mk b/hardware/loc_api/libloc_api/Android.mk
+index b1f3dfb..970bb84 100644
+--- a/hardware/loc_api/libloc_api/Android.mk
++++ b/hardware/loc_api/libloc_api/Android.mk
+@@ -29,7 +29,8 @@ LOCAL_SRC_FILES += \
+     loc_eng_ni.cpp \
+     loc_eng_log.cpp \
+     loc_eng_cfg.cpp \
+-    gps.c
++    gps.c\
++libloc_api-rpc \
+ 
+ LOCAL_CFLAGS += \
+     -fno-short-enums \
