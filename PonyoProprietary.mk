@@ -30,6 +30,9 @@ PRODUCT_COPY_FILES += \
 	device/panasonic/ponyo/brcm_patchram_plus/TEST_ONLY_Ponyo_FixedAFHMap_384M_20110511.hcd:system/etc/TEST_ONLY_Ponyo_FixedAFHMap_384M_20110511.hcd
 
 PRODUCT_COPY_FILES += \
+	device/panasonic/ponyo/prebuilt/surf_keypad.kl:system/usr/keylayout/surf_keypad.kl
+
+PRODUCT_COPY_FILES += \
     frameworks/base/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml \
     frameworks/base/data/etc/android.hardware.camera.autofocus.xml:system/etc/permissions/android.hardware.camera.autofocus.xml \
     frameworks/base/data/etc/android.hardware.camera.flash-autofocus.xml:system/etc/permissions/android.hardware.camera.flash-autofocus.xml \
@@ -84,7 +87,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.hdmi.enable=true
 
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.build.display.id=07.0109.0068
+    gsm.version.baseband=07.0109.0068
 
 
 
