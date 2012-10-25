@@ -6,3 +6,5 @@ Bluetoothが動作しない
 センサ周りの不具合
 GPS周りの不具合
 起動してからロック画面が表示された時、タッチパネルが動かないが、一旦ブラックアウトさせてもう一度表示させるとタッチパネルが動く不思議なバグ
+3G
+ICSからUSB Hostに対応されたことによるUSB認識のマスストレージ等のバグ。(/sys/class/android_usb/が見えない)(kernel/driver/usb/gadgetをICSのものに変更)
