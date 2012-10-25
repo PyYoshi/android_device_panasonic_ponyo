@@ -20,8 +20,8 @@ PRODUCT_COPY_FILES += \
 	device/panasonic/ponyo/proprietary/root/init.qcom.rc:root/init.qcom.rc \
 	device/panasonic/ponyo/proprietary/root/init.qcom.sh:root/init.qcom.sh \
 	device/panasonic/ponyo/proprietary/root/init.target.rc:root/init.target.rc \
-	device/panasonic/ponyo/prebuilt/atmel-touchscreen.idc:system/usr/idc/atmel-touchscreen.idc
-#	device/panasonic/ponyo/proprietary/root/init.rc:root/init.rc
+	device/panasonic/ponyo/prebuilt/atmel-touchscreen.idc:system/usr/idc/atmel-touchscreen.idc \
+	device/panasonic/ponyo/proprietary/root/init.qcom.usb.rc:root/init.qcom.usb.rc
 
 PRODUCT_COPY_FILES += \
 	device/panasonic/ponyo/brcm_patchram_plus/BCM4330.hcd:system/etc/BCM4330.hcd \
