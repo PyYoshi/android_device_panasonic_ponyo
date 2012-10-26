@@ -7,6 +7,7 @@ TARGET_SPECIFIC_HEADER_PATH := device/panasonic/ponyo/include
 USE_CAMERA_STUB := true
 
 #TARGET_BOOTLOADER_BOARD_NAME := ponyo
+TARGET_OTA_ASSERT_DEVICE := p01d,ponyo,pana2_1
 
 TARGET_NO_BOOTLOADER := true
 TARGET_BOARD_PLATFORM := msm7x30
@@ -26,14 +27,17 @@ COMMON_GLOBAL_CFLAGS += -DQCOM_HARDWARE
 #BOARD_USES_GENERIC_AUDIO := false
 
 BOARD_HAVE_BLUETOOTH := true
-BOARD_HAVE_BLUETOOTH_BCM := true
-TARGET_NEEDS_BLUETOOTH_INIT_DELAY := true
+# CM/system/bluetooth/brcm_patchram_plusを使用しないで、CM/device/panasonic/ponyo/brcm_patchram_plusを使うのでtrueにはしないこと
+BOARD_HAVE_BLUETOOTH_BCM := false
+#TARGET_NEEDS_BLUETOOTH_INIT_DELAY := true
 
 BOARD_USES_QCOM_HARDWARE := true
 BOARD_USES_QCOM_GPS := true
 BOARD_USES_QCOM_LIBS := true
 BOARD_USES_QCOM_LIBRPC := true
 BOARD_USE_QCOM_PMEM := true
+
+TARGET_PROVIDES_LIBRIL := true
 
 BOARD_VENDOR_QCOM_AMSS_VERSION := 50000
 BOARD_VENDOR_QCOM_GPS_LOC_API_HARDWARE := qcom
@@ -48,12 +52,14 @@ BOARD_USE_LEGACY_TOUCHSCREEN := true
 
 #BOARD_USE_FRAMEBUFFER_ALPHA_CHANNEL := true
 #BOARD_OVERLAY_FORMAT_YCbCr_420_SP := true
-#TARGET_USES_SF_BYPASS := true
-#TARGET_GRALLOC_USES_ASHMEM := true
-#TARGET_USES_OVERLAY := true
-#TARGET_USES_POST_PROCESSING := true
 USE_OPENGL_RENDERER := true
-#TARGET_USES_C2D_COMPOSITION := true
+TARGET_USES_C2D_COMPOSITION := true
+TARGET_USES_SF_BYPASS := false
+TARGET_HAVE_BYPASS := false
+TARGET_USES_OVERLAY := true
+TARGET_GRALLOC_USES_ASHMEM := true
+TARGET_USES_GENLOCK := true
+TARGET_FORCE_CPU_UPLOAD := true
 
 #
 BOARD_CUSTOM_GRAPHICS := ../../../device/panasonic/ponyo/recovery/graphics.c
@@ -63,28 +69,30 @@ RECOVERY_RGBX := true
 #
 BOARD_SDCARD_DEVICE_PRIMARY := /dev/block/mmcblk0p1
 
-# Wifi related defines
-BOARD_WPA_SUPPLICANT_DRIVER := WEXT
-WPA_SUPPLICANT_VERSION      := VER_0_6_X
-BOARD_WLAN_DEVICE           := bcm4330
-WIFI_DRIVER_MODULE_PATH := "/system/lib/modules/dhd.ko"
-WIFI_DRIVER_FW_PATH_STA     := "/etc/firmware/wlan/sdio_cit.bin"
-WIFI_DRIVER_FW_PATH_AP      := "/etc/firmware/wlan/sdio_apsta.bin"
-WIFI_DRIVER_FW_PATH_P2P     := "/vendor/firmware/fw_bcmdhd_p2p.bin"
-WIFI_DRIVER_MODULE_ARG      := "firmware_path=/etc/firmware/wlan/sdio_cit.bin nvram_path=/etc/firmware/wlan/nvram.txt"
-WIFI_DRIVER_MODULE_NAME     := "dhd"
+#sensors
+#TARGET_USES_OLD_LIBSENSORS_HAL := true
 
 # Wifi related defines
-#BOARD_WPA_SUPPLICANT_DRIVER := NL80211
-#WPA_SUPPLICANT_VERSION      := VER_0_8_X
-#BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_bcmdhd
-#BOARD_HOSTAPD_DRIVER        := NL80211
-#BOARD_HOSTAPD_PRIVATE_LIB   := lib_driver_cmd_bcmdhd
-#BOARD_WLAN_DEVICE           := bcmdhd
-#WIFI_DRIVER_FW_PATH_PARAM   := "/sys/module/bcmdhd/parameters/firmware_path"
-#WIFI_DRIVER_FW_PATH_STA     := "/vendor/firmware/fw_bcmdhd.bin"
-#WIFI_DRIVER_FW_PATH_AP      := "/vendor/firmware/fw_bcmdhd_apsta.bin"
+#BOARD_WPA_SUPPLICANT_DRIVER := WEXT
+#WPA_SUPPLICANT_VERSION      := VER_0_6_X
+#BOARD_WLAN_DEVICE           := bcm4330
+#WIFI_DRIVER_MODULE_PATH := "/system/lib/modules/dhd.ko"
+#WIFI_DRIVER_FW_PATH_STA     := "/etc/firmware/wlan/sdio_cit.bin"
+#WIFI_DRIVER_FW_PATH_AP      := "/etc/firmware/wlan/sdio_apsta.bin"
 #WIFI_DRIVER_FW_PATH_P2P     := "/vendor/firmware/fw_bcmdhd_p2p.bin"
+#WIFI_DRIVER_MODULE_ARG      := "firmware_path=/etc/firmware/wlan/sdio_cit.bin nvram_path=/etc/firmware/wlan/nvram.txt"
+#WIFI_DRIVER_MODULE_NAME     := "dhd"
+
+# Wifi related defines
+BOARD_WPA_SUPPLICANT_DRIVER := WEXT
+BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_wext
+WPA_SUPPLICANT_VERSION := VER_0_8_X
+BOARD_WLAN_DEVICE := bcm4330
+WIFI_DRIVER_MODULE_PATH := "/system/lib/modules/dhd.ko"
+WIFI_DRIVER_FW_PATH_STA := "/etc/firmware/wlan/sdio_cit.bin"
+WIFI_DRIVER_FW_PATH_AP := "/etc/firmware/wlan/sdio_apsta.bin"
+WIFI_DRIVER_MODULE_ARG      := "firmware_path=/etc/firmware/wlan/sdio_cit.bin nvram_path=/etc/firmware/wlan/nvram.txt"
+WIFI_DRIVER_MODULE_NAME     := "dhd"
 
 BOARD_KERNEL_CMDLINE := console=ttyMSM1 androidboot.hardware=qcom
 BOARD_KERNEL_BASE := 0x13800000
