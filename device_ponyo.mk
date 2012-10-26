@@ -16,6 +16,6 @@ $(call inherit-product-if-exists, device/panasonic/ponyo/PonyoProprietary.mk)
 
 PRODUCT_DEVICE := ponyo
 PRODUCT_NAME := cm_ponyo
-PRODUCT_BRAND := panasonic
-PRODUCT_MODEL := ponyo
-PRODUCT_MANUFACTURER := panasonic
+PRODUCT_BRAND := docomo
+PRODUCT_MODEL := P-01D
+PRODUCT_MANUFACTURER := PANASONIC
