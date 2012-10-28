@@ -1,0 +1,68 @@
+diff --git a/frameworks/base/data/fonts/Android.mk b/frameworks/base/data/fonts/Android.mk
+index 02d2f3d..b16bf10 100644
+--- a/frameworks/base/data/fonts/Android.mk
++++ b/frameworks/base/data/fonts/Android.mk
+@@ -51,6 +51,21 @@ ALL_MODULES.$(LOCAL_MODULE).INSTALLED := \
+     $(ALL_MODULES.$(LOCAL_MODULE).INSTALLED) $(font_symlink)
+ 
+ ################################
++# Symlink: DroidSansJapanese.ttf -> MTLc3m.ttf
++LOCAL_MODULE := DroidSansJapanese.ttf
++font_symlink_src := $(PRODUCT_OUT)/system/fonts/MTLc3m.ttf
++font_symlink := $(dir $(font_symlink_src))$(LOCAL_MODULE)
++$(font_symlink) : $(font_symlink_src)
++       @echo "Symlink: $@ -> $<"
++       @mkdir -p $(dir $@)
++       @rm -rf $@
++       $(hide) ln -sf $(notdir $<) $@
++
++# this magic makes LOCAL_REQUIRED_MODULES work
++ALL_MODULES.$(LOCAL_MODULE).INSTALLED := \
++ $(ALL_MODULES.$(LOCAL_MODULE).INSTALLED) $(font_symlink)
++
++################################
+ include $(CLEAR_VARS)
+ LOCAL_MODULE := DroidSansEthiopic-Regular.ttf
+ LOCAL_SRC_FILES := $(LOCAL_MODULE)
+@@ -62,10 +77,10 @@ include $(BUILD_PREBUILT)
+ ################################
+ ifeq ($(SMALLER_FONT_FOOTPRINT),true)
+ droidsans_fallback_src := DroidSansFallback.ttf
+-extra_droidsans_fonts := DroidSans.ttf DroidSans-Bold.ttf
++extra_droidsans_fonts := DroidSans.ttf DroidSans-Bold.ttf DroidSansJapanese.tt
+ else
+ droidsans_fallback_src := DroidSansFallbackFull.ttf
+-extra_droidsans_fonts := DroidSans.ttf DroidSans-Bold.ttf DroidSansEthiopic-Re
++extra_droidsans_fonts := DroidSans.ttf DroidSans-Bold.ttf DroidSansJapanese.tt
+ endif  # SMALLER_FONT_FOOTPRINT
+ 
+ include $(CLEAR_VARS)
+diff --git a/frameworks/base/data/fonts/fallback_fonts.xml b/frameworks/base/data/fonts/fallback_fonts.xml
+index e23004b..838f97c 100644
+--- a/frameworks/base/data/fonts/fallback_fonts.xml
++++ b/frameworks/base/data/fonts/fallback_fonts.xml
+@@ -56,6 +56,21 @@
+     </family>
+     <family>
+         <fileset>
++           <file>DroidSansJapanese.ttf</file>
++       </fileset>
++   </family>
++   <family>
++       <fileset>
++           <file>MTLc3m.ttf</file>
++   </fileset>
++   </family>
++   <family>
++       <fileset>
++           <file>MTLmr3m.ttf</file>
++       </fileset>
++   </family>
++   <family>
++       <fileset>
+             <file>Lohit-Devanagari.ttf</file>
+         </fileset>
+     </family>
+
+
+
