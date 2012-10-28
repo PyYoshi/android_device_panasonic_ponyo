@@ -22,12 +22,16 @@ ARCH_ARM_HAVE_VFP := true
 #TARGET_GLOBAL_CFLAGS += -mfpu=neon -mfloat-abi=softfp
 #TARGET_GLOBAL_CPPFLAGS += -mfpu=neon -mfloat-abi=softfp
 
+# Note about gingerbread compatibility : Require a global cflag,
+# several projects use binder's IMemory.h and MemoryHeapBase.h
+COMMON_GLOBAL_CFLAGS += -DBINDER_COMPAT
+
 # Audio
 #BOARD_USES_GENERIC_AUDIO := false
 
 # Bluetooth
 BOARD_HAVE_BLUETOOTH := true
-# P-01Dのソースコードについてるbrcm_patch...を使う場合はfalseにすること。(現状ライブラリ依存関係で使いないけれど)
+# P-01Dのソースコードについてるbrcm_patch...を使う場合はfalseにすること。(現状ライブラリ依存関係で使えないけれど)
 BOARD_HAVE_BLUETOOTH_BCM := true
 #TARGET_NEEDS_BLUETOOTH_INIT_DELAY := true
 #BOARD_CUSTOM_BLUEDROID := ../../../device/panasonic/ponyo/bluedroid/bluetooth.c
