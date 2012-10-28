@@ -100,9 +100,9 @@ PRODUCT_PACKAGES += \
     libstagefrighthw
 
 # RIL Libs
-PRODUCT_PACKAGES += \
-    libril_static \
-    libril
+#PRODUCT_PACKAGES += \
+#    libril_static \
+#    libril
 
 # Other Libs and Bins
 PRODUCT_PACKAGES += \
