@@ -147,7 +147,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     gsm.version.baseband=07.0109.0068
 
 # USB Mass Storage
-PRODUCT_PROPERTY_OVERRIDES += \
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
     persist.sys.usb.config=mass_storage
 
 # Other props
