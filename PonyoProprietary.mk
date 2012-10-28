@@ -146,6 +146,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     gsm.version.baseband=07.0109.0068
 
+# USB Mass Storage
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES +=
+    persist.sys.usb.config=mass_storage
+
 # Other props
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.sf.lcd_density=240
