@@ -12,26 +12,33 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Prebuilt libraries that are needed to build open-source libraries
+############# Prebuilt #############
 
+# Root files
 PRODUCT_COPY_FILES += \
 	device/panasonic/ponyo/proprietary/root/ueventd.qcom.rc:root/ueventd.qcom.rc \
 	device/panasonic/ponyo/proprietary/root/initlogo.rle:root/initlogo.rle \
 	device/panasonic/ponyo/proprietary/root/init.qcom.rc:root/init.qcom.rc \
 	device/panasonic/ponyo/proprietary/root/init.qcom.sh:root/init.qcom.sh \
 	device/panasonic/ponyo/proprietary/root/init.target.rc:root/init.target.rc \
-	device/panasonic/ponyo/prebuilt/atmel-touchscreen.idc:system/usr/idc/atmel-touchscreen.idc \
 	device/panasonic/ponyo/proprietary/root/init.qcom.usb.rc:root/init.qcom.usb.rc
 
+# Bluetooth firmware and related files
 PRODUCT_COPY_FILES += \
 	device/panasonic/ponyo/brcm_patchram_plus/BCM4330.hcd:system/etc/BCM4330.hcd \
 	device/panasonic/ponyo/brcm_patchram_plus/init.qcom.btcit.sh:system/etc/init.qcom.btcit.sh \
 	device/panasonic/ponyo/brcm_patchram_plus/btparam.sh:system/etc/btparam.sh \
 	device/panasonic/ponyo/brcm_patchram_plus/TEST_ONLY_Ponyo_FixedAFHMap_384M_20110511.hcd:system/etc/TEST_ONLY_Ponyo_FixedAFHMap_384M_20110511.hcd
 
+# Prebuilt files
 PRODUCT_COPY_FILES += \
-	device/panasonic/ponyo/prebuilt/surf_keypad.kl:system/usr/keylayout/surf_keypad.kl
+	device/panasonic/ponyo/prebuilt/atmel-touchscreen.idc:system/usr/idc/atmel-touchscreen.idc \
+	device/panasonic/ponyo/prebuilt/surf_keypad.kl:system/usr/keylayout/surf_keypad.kl \
+	device/panasonic/ponyo/prebuilt/init.qcom.bt.sh:system/etc/init.qcom.bt.sh \
+	device/panasonic/ponyo/prebuilt/init.qcom.post_boot.sh:system/etc/init.qcom.post_boot.sh \
+	device/panasonic/ponyo/prebuilt/init.qcom.sdio.sh:system/etc/init.qcom.sdio.sh
 
+# Permissions
 PRODUCT_COPY_FILES += \
     frameworks/base/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml \
     frameworks/base/data/etc/android.hardware.camera.autofocus.xml:system/etc/permissions/android.hardware.camera.autofocus.xml \
@@ -52,50 +59,93 @@ PRODUCT_COPY_FILES += \
     frameworks/base/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml \
     frameworks/base/data/etc/android.software.sip.xml:system/etc/permissions/android.software.sip.xml
 
-PRODUCT_PACKAGES += \
-    librs_jn \
-    overlay.default \
-    gralloc.msm7x30 \
-    copybit.msm7x30 \
-    hwcomposer.msm7x30 \
-    lights.default \
-    gps.qcom \
-    libloc_api-rpc \
-    libOmxCore \
-    libmm-omxcore \
-    libOmxVdec \
-    libOmxVidEnc \
-    libstagefrighthw \
-    audio.a2dp.default \
-    audio_policy.msm7x30 \
-    libaudioutils
-
+# Fonts
 PRODUCT_COPY_FILES += \
 	frameworks/base/data/fonts/MTLc3m.ttf:system/fonts/MTLc3m.ttf \
 	frameworks/base/data/fonts/MTLmr3m.ttf:system/fonts/MTLmr3m.ttf
 
+############# Optional files #############
+
+# Audio Libs
+PRODUCT_PACKAGES += \
+    audio.a2dp.default \
+    audio_policy.msm7x30 \
+    libaudioutils \
+    libaudiopolicybase \
+    libaudiopolicy \
+    libaudio \
+    libaudiointerface \
+    liba2dp
+
+# GPS Libs
+PRODUCT_PACKAGES += \
+    gps.qcom \
+    libloc_api-rpc
+
+# HW Libs
+PRODUCT_PACKAGES += \
+    overlay.default \
+    gralloc.msm7x30 \
+    copybit.msm7x30 \
+    hwcomposer.msm7x30 \
+    sensors.default \
+    lights.default
+
+# OMX Libs
+PRODUCT_PACKAGES += \
+    libOmxCore \
+    libmm-omxcore \
+    libOmxVdec \
+    libOmxVidEnc \
+    libstagefrighthw
+
+# RIL Libs
+PRODUCT_PACKAGES += \
+    libril_static \
+    libril
+
+# Other Libs and Bins
+PRODUCT_PACKAGES += \
+    librs_jn \
+    brcm_patchram_plus
+
+# Apps
+PRODUCT_PACKAGES += \
+    OpenWnn
+
+############# Properties #############
+
+# i18n and Timezone
+PRODUCT_PROPERTY_OVERRIDES += \
+    BUILD_UTC_DATE=0 \
+    ro.product.locale.language=ja \
+    ro.product.locale.region=JP \
+    persist.sys.timezone=Asia/Tokyo
+
+# Wifi (init.qcom.rcにセット済み)
+PRODUCT_PROPERTY_OVERRIDES += \
+    wifi.interface=wlan0
+
+# Graphics
 PRODUCT_PROPERTY_OVERRIDES += \
     hwui.render_dirty_regions=false \
     hwui.disable_vsync=true \
     ro.opengles.version=131072 \
-    ro.sf.lcd_density=240 \
-    ro.product.locale.language=ja \
-    ro.product.locale.region=JP
 
+# Rild and qcom props
 PRODUCT_PROPERTY_OVERRIDES += \
-    BUILD_UTC_DATE=0 \
-    ro.dev.dmm=1 \
-    dev.dmm.dpd.trigger_delay=30 \
-    dev.pm.dyn_samplingrate=1 \
     rild.libpath=/system/lib/libril-qc-qmi-1.so \
-    rild.libargs=-d /dev/smd0 \
+    rild.libargs=-d/dev/smd0 \
     ril.subscription.types=NV,RUIM \
-    ro.hdmi.enable=true
+    ro.use_data_netmgrd=true \
+    ro.multi.rild=true \
+    ro.qualcomm.bluetooth.dun=true \
+    ro.qualcomm.bluetooth.ftp=true
 
+# System Info
 PRODUCT_PROPERTY_OVERRIDES += \
-    gsm.version.baseband=07.0109.0068 \ 
-    wifi.interface=wlan0
+    gsm.version.baseband=07.0109.0068
 
-
-
-
+# Other props
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.sf.lcd_density=240
