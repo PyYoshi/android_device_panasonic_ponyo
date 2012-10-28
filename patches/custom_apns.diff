@@ -1,0 +1,16 @@
+diff --git a/vendor/cm/prebuilt/common/etc/apns-conf.xml b/vendor/cm/prebuilt/common/etc/apns-conf.
+index a4b928a..b094ece 100644
+--- a/vendor/cm/prebuilt/common/etc/apns-conf.xml
++++ b/vendor/cm/prebuilt/common/etc/apns-conf.xml
+@@ -1383,4 +1383,11 @@
+   <apn carrier="Movistar UY" mcc="748" mnc="07" apn="apnumt.movistar.com.uy" u
+   <apn carrier="Claro UY" mcc="748" mnc="10" apn="gprs.claro.com.uy" user="cti
+   <apn carrier="Claro UY MMS" mcc="748" mnc="10" apn="mms.ctimovil.com.uy" use
++  <apn carrier="sp Mode" mcc="440" mnc="10" apn="spmode.ne.jp" type="default,s
++  <apn carrier="mopera U (Smartphone Fixed Rate)" mcc="440" mnc="10" apn="mpr2
++  <apn carrier="mopera U Settings" mcc="440" mnc="10" apn="0120.mopera.net" ty
++  <apn carrier="hotspot" mcc="440" mnc="10" apn="dcmtrg.ne.jp" type="default,s
++  <apn carrier="fota" mcc="440" mnc="10" apn="open-dm2.dcm-dm.ne.jp" type="def
++  <apn carrier="ServersMan SIM 3G 100" mcc="440" mnc="10" apn="ynmbl.net" user
++  <apn carrier="IIJmio" mcc="440" mnc="10" apn="iijmio.jp" user="mio@iij" pass
+ </apns>
