@@ -27,6 +27,8 @@ P-01DのOSをCyanogenmod用に移植するプロジェクトです。 協力者�
 	sh extract-files.sh
 	sh setup-makefiles.sh
 	
+[QDevNet](https://developer.qualcomm.com/mobile-development/mobile-technologies/gaming-graphics-optimization-adreno/tools-and-resources)からICS用のドライバを取得してvendorツリーへ置く
+	
 #### Cyanogenmodのソースにパッチを当てる
 	cd cyanogenmod/device/panasonic/ponyo
 	sh run_patch.sh
