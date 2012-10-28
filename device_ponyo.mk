@@ -14,6 +14,8 @@ $(call inherit-product, build/target/product/full.mk)
 # proprietary side of the device
 $(call inherit-product-if-exists, device/panasonic/ponyo/PonyoProprietary.mk)
 
+PRODUCT_BUILD_PROP_OVERRIDES += PRODUCT_NAME=P_01D BUILD_FINGERPRINT=docomo/P_01D/pana2_1:2.3.4/GRH78/20120627.192518:user/release-keys PRIVATE_BUILD_DESC="P_01D-user 2.3.4 GRH78 20120627.192518 release-keys"
+
 PRODUCT_DEVICE := ponyo
 PRODUCT_NAME := cm_ponyo
 PRODUCT_BRAND := docomo
