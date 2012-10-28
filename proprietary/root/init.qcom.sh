@@ -92,7 +92,7 @@ case "$baseband" in
 esac
 
 case "$target" in
-    "msm7630_surf" | "msm7630_1x" | "msm7630_fusion" | "SH8288U" | "pana2_1")
+    "msm7630_surf" | "msm7630_1x" | "msm7630_fusion" | "SH8288U" | "pana2_1" | "ponyo")
         insmod /system/lib/modules/ss_mfcinit.ko
         insmod /system/lib/modules/ss_vencoder.ko
         insmod /system/lib/modules/ss_vdecoder.ko
