@@ -36,6 +36,16 @@ on early-init
 on fs
     mkdir /persist 0771 system system
     mount yaffs2 mtd@persist /persist nosuid nodev
+    
+on emmc-fs
+# mount mmc partitions
+    wait /dev/block/mmcblk0p12
+    mount ext4 /dev/block/mmcblk0p12 /system ro barrier=1
+    wait /dev/block/mmcblk0p13
+    exec /system/bin/e2fsck -p /dev/block/mmcblk0p13
+    mount ext4 /dev/block/mmcblk0p13 /data nosuid nodev barrier=1 noauto_da_alloc
+    mount ext4 /dev/block/mmcblk0p14 /persist nosuid nodev barrier=1
+    mount ext4 /dev/block/mmcblk0p15 /cache nosuid nodev barrier=1
 
 on post-fs
     # Mounting of persist is moved to 'on emmc-fs' and 'on fs' sections
