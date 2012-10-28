@@ -128,6 +128,8 @@ etc/wifirx.sh
 etc/wifitx.sh
 lib/libcne.so
 lib/librefcne.so
+etc/OperatorPolicy.xml
+etc/UserPolicy.xml
 
 # graphic driver
 #lib/egl/libGLESv2_adreno200.so

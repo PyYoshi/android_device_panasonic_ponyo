@@ -108,7 +108,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     librs_jn \
     brcm_patchram_plus
-
+    
 # Apps
 PRODUCT_PACKAGES += \
     OpenWnn
@@ -149,6 +149,28 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # USB Mass Storage
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
     persist.sys.usb.config=mass_storage
+
+# system props for SD card emulation of emmc partition
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.emmc.sdcard.partition=16
+    
+# system props for telephony modules
+# device supports EHRPD
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.config.ehrpd=true
+
+# system props for the cne module
+PRODUCT_PROPERTY_OVERRIDES += \
+    persist.cne.UseCne=vendor \
+    persist.cne.bat.range.low.med=30 \
+    persist.cne.bat.range.med.high=60 \
+    persist.cne.loc.policy.op=/system/etc/OperatorPolicy.xml \
+    persist.cne.loc.policy.user=/system/etc/UserPolicy.xml \
+    persist.cne.bwbased.rat.sel=false \
+    persist.cne.snsr.based.rat.mgt=false \
+    persist.cne.bat.based.rat.mgt=false \
+    persist.cne.rat.acq.time.out=30000 \
+    persist.cne.rat.acq.retry.tout=0
 
 # Other props
 PRODUCT_PROPERTY_OVERRIDES += \
