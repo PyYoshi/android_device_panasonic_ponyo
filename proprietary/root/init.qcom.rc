@@ -25,6 +25,14 @@
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
+on early-init
+    export EXTERNAL_STORAGE /mnt/sdcard
+    mkdir /mnt/sdcard 0000 system system
+    # for backwards compatibility
+    symlink /mnt/sdcard /sdcard
+    export SD_EXT_DIRECTORY /sd-ext
+    mkdir /sd-ext 0771 system system
+
 on fs
     mkdir /persist 0771 system system
     mount yaffs2 mtd@persist /persist nosuid nodev
@@ -45,7 +53,7 @@ on post-fs
     chown system system /sys/devices/platform/msm_sdcc.3/polling
     chown system system /sys/devices/platform/msm_sdcc.4/polling
 
-    mkdir /data/misc/sensors 0775 root root
+    mkdir /data/misc/sensors 0775 system system
     write /data/system/sensors/settings 0
     chmod 0664 /data/system/sensors/settings
 
@@ -67,6 +75,12 @@ on post-fs
     chmod 666 /dev/bma250
     chmod 666 /dev/bma222
     chmod 777 /dev/atmel_tp_dev
+
+    chmod 666 /dev/mot
+    chmod 666 /dev/mmc328x
+    chmod 666 /dev/ecompass_ctrl
+    chmod 666 /dev/cm3623_ps
+    chmod 666 /dev/cm3623_als
 
 on early-init
     export EXTERNAL_STORAGE /mnt/sdcard
@@ -139,9 +153,6 @@ on boot
     #Set SUID bit for diag_mdlog
     chmod 4755 /system/bin/diag_mdlog
 
-    #Set SUID bit for btwlancoex
-    #chmod 4755 /system/bin/btwlancoex
-
     #Provide the access to hostapd.conf only to root and group
     chmod 0660 /data/hostapd/hostapd.conf
 
@@ -193,35 +204,14 @@ on boot
     chown system system /sys/class/misc/cm3623_ps/fake_data
     chown system system /sys/class/misc/cm3623_ps/ps_trigger
 
-    # add for memsicd
-    chmod 666 /dev/mot
-    chmod 666 /dev/mmc328x
-    chmod 666 /dev/ecompass_ctrl
-    chmod 666 /dev/cm3623_ps
-    chmod 666 /dev/cm3623_als
-    mkdir /data/misc/sensors 0777 system system
-service memsicd /system/bin/memsicd
-	oneshot
-
-# Export GPIO56 for fusion targets to enable/disable hub
-service usbhub_init /system/bin/usbhub_init
-   user root
-   disabled
-   oneshot
-
-on property:ro.product.device=msm7630_fusion
-    start usbhub_init
-
 on property:init.svc.wpa_supplicant=stopped
     stop dhcpcd
 
 on property:init.svc.bluetoothd=running
-    start btwlancoex
     start amp_load
 
 on property:init.svc.bluetoothd=stopped
     start amp_unload
-    stop btwlancoex
 
 # reset max17040
 service reset-gague /system/bin/sh /system/etc/init.reset.max17040.sh
@@ -259,14 +249,7 @@ service bridgemgrd /system/bin/bridgemgrd
     group radio
     disabled
 
-#SH wangbenxi to remove DUN profile
-#service dund /system/bin/sdptool add --channel=1 DUN
-#    user bluetooth
-#    group bluetooth net_bt_admin
-#    disabled
-#    oneshot
-
-service port-bridge /system/bin/port-bridge /dev/smd0 /dev/ttyGS0
+service port-bridge /system/bin/port-bridge /dev/smd0 /dev/ttyGS0 &
     user system
     group system inet
     disabled
@@ -292,11 +275,6 @@ service qmuxd /system/bin/qmuxd
 service netmgrd /system/bin/netmgrd
     disabled
 
-#service sensors /system/bin/sensors.qcom
-#    user root
-#    group root
-#    disabled
-
 on property:ro.use_data_netmgrd=false
     # netmgr not supported on specific target
     stop netmgrd
@@ -305,12 +283,6 @@ on property:ro.use_data_netmgrd=false
 # but only if ro.data.large_tcp_window_size property is set.
 on property:ro.data.large_tcp_window_size=true
     write /proc/sys/net/ipv4/tcp_adv_win_scale  1
-
-service btwlancoex /system/bin/sh /system/etc/init.qcom.coex.sh
-    user shell
-    group bluetooth net_bt_admin
-    disabled
-    oneshot
 
 service amp_init /system/bin/amploader -i
     user root
@@ -327,34 +299,14 @@ service amp_unload /system/bin/amploader -u
     disabled
     oneshot
 
-#service wpa_supplicant /system/bin/wpa_supplicant \
-#-Dnl80211 -iwlan0 -puse_p2p_group_interface=1 -e/data/misc/wifi/entropy.bin
-#    socket wpa_wlan0 dgram 660 wifi wifi
-#    disabled
-#    oneshot
-
-service wpa_supplicant /system/bin/wpa_supplicant -Dwext -iwlan0 -c/data/misc/wifi/wpa_supplicant.conf -dd
+service wpa_supplicant /system/bin/wpa_supplicant -Dwext -iwlan0 -c/data/misc/wifi/wpa_supplicant.conf -e/data/misc/wifi/entropy.bin
     socket wpa_wlan0 dgram 660 wifi wifi
     disabled
+    group system wifi inet
     oneshot
 
 service dhcpcd_wlan0 /system/bin/dhcpcd -BK wlan0
-    disabled
-    oneshot
-
-# service wiperiface /system/bin/wiperiface
-#    user location
-#    group qcom_oncrpc
-#    oneshot
-
-#service gpsone_daemon /system/bin/gpsone_daemon
-#    user root
-#    group qcom_oncrpc
-#    disabled
-
-service fm_dl /system/bin/sh /system/etc/init.qcom.fm.sh
-    user root
-    group system qcom_oncrpc
+    class main
     disabled
     oneshot
 
@@ -365,11 +317,6 @@ on property:crypto.driver.load=1
 on property:crypto.driver.load=0
      exec /system/bin/rmmod qcedev.ko
      exec /system/bin/rmmod qce.ko
-
-#service drmdiag /system/bin/drmdiagapp
-#     user root
-#     disabled
-#     oneshot
 
 on property:drmdiag.load=1
     start drmdiag
@@ -386,44 +333,18 @@ service qcom-post-boot /system/bin/sh /system/etc/init.qcom.post_boot.sh
     disabled
     oneshot
 
-service qcom-wifi /system/bin/sh /system/etc/init.qcom.wifi.sh
-    user root
-    disabled
-    oneshot
-
-#on property:init.svc.bootanim=stopped
-#    start qcom-post-boot
-#    start qcom-wifi
-
-service ckpd /system/bin/CKPD-daemon
-    user system
-    group system radio
-    disabled
-    onrestart /system/bin/log -t RIL-CKPD -p w "CKPD daemon restarted"
-
-on property:ro.service.ckpd.enable=1
-    start ckpd
-
-service atfwd /system/bin/ATFWD-daemon
-    user system
-    group system radio
-    onrestart /system/bin/log -t RIL-ATFWD -p w "ATFWD daemon restarted"
-
-service hdmid /system/bin/hdmid
-    socket hdmid stream 0660 root system graphics
-    disabled
-
-on property:ro.hdmi.enable=true
-    start hdmid
+on property:init.svc.bootanim=stopped
+    start qcom-post-boot
+    start thermald
 
 service abld /system/bin/mm-abl-daemon
     disabled
 
-#service hostapd /system/bin/hostapd -dddd /data/hostapd/hostapd.conf
-#    user root
-#    group root
-#    oneshot
-#    disabled
+service hostapd /system/bin/hostapd -dddd /data/hostapd/hostapd.conf
+    user root
+    group root
+    oneshot
+    disabled
 
 service ds_fmc_appd /system/bin/ds_fmc_appd -p "rmnet0" -D
     group radio
@@ -433,58 +354,27 @@ service ds_fmc_appd /system/bin/ds_fmc_appd -p "rmnet0" -D
 on property:persist.data.ds_fmc_app.mode=1
     start ds_fmc_appd
 
-#service ims_regmanager /system/bin/exe-ims-regmanagerprocessnative
-#    user system
-#    group qcom_oncrpc net_bt_admin inet radio wifi
-#    disabled
-
-on property:persist.ims.regmanager.mode=1
-    start ims_regmanager
-
 on property:ro.data.large_tcp_window_size=true
     # Adjust socket buffer to enlarge TCP receive window for high bandwidth (e.g. DO-RevB)
     write /proc/sys/net/ipv4/tcp_adv_win_scale  1
 
-service thermald /system/bin/thermald
+service thermald /system/bin/thermald -c /system/etc/thermald.conf
+    socket thermald stream 0666 root root
     user root
     group root
     disabled
 
-on property:persist.thermal.monitor=true
-    start thermald
-
-#service time_daemon /system/bin/time_daemon
-#    user root
-#    group root
-#    oneshot
-#    disabled
-
-on property:persist.timed.enable=true
-    mkdir /data/time/ 0700
-    start time_daemon
-
-#SH wangbenxi to remove FTP profile
-#service ftp /system/bin/sdptool add --channel=20 FTP
-#    user bluetooth
-#    group bluetooth net_bt_admin
-#    disabled
-#    oneshot
-
-#SH wangbenxi to remove MAP profile
-#service map /system/bin/sdptool add --channel=16 MAS
-#    user bluetooth
-#    group bluetooth net_bt_admin
-#    disabled
-#    oneshot
-
-#service ril-daemon1 /system/bin/rild -c 1
-#    socket rild1 stream 660 root radio
-#    socket rild-debug1 stream 660 radio system
-#    user root
-#    disabled
-#    group radio cache inet misc audio sdcard_rw qcom_oncrpc diag
+service ril-daemon1 /system/bin/rild -c 1
+    socket rild1 stream 660 root radio
+    socket rild-debug1 stream 660 radio system
+    user root
+    disabled
+    group radio cache inet misc audio sdcard_rw qcom_oncrpc diag
 
 service profiler_daemon /system/bin/profiler_daemon
     user root
     group root
     disabled
+
+service memsicd /system/bin/memsicd
+    oneshot
