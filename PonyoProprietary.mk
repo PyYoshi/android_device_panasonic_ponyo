@@ -108,10 +108,16 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     librs_jn \
     brcm_patchram_plus
+
+# IME
+PRODUCT_PACKAGES += \
+    OpenWnn \
+    libwnndict \
+    libWnnEngDic \
+    libWnnJpnDic
     
 # Apps
-PRODUCT_PACKAGES += \
-    OpenWnn
+#PRODUCT_PACKAGES += \
 
 ############# Properties #############
 
