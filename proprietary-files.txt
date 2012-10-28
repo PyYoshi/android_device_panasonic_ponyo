@@ -1,25 +1,25 @@
 # Prebuilt kl keymaps
-usr/keychars/qwerty.kcm.bin
-usr/keychars/qwerty2.kcm.bin
-usr/keychars/surf_keypad_qwerty.kcm.bin
-usr/keychars/surf_keypad_numeric.kcm.bin
-usr/keychars/surf_keypad_numeric.kcm.bin
+#usr/keychars/qwerty.kcm.bin
+#usr/keychars/qwerty2.kcm.bin
+#usr/keychars/surf_keypad_qwerty.kcm.bin
+#usr/keychars/surf_keypad_numeric.kcm.bin
+#usr/keychars/surf_keypad_numeric.kcm.bin
 usr/keylayout/7k_handset.kl
-usr/keylayout/qwerty.kl
+#usr/keylayout/qwerty.kl
 usr/keylayout/fluid-keypad.kl
 usr/keylayout/msm_tma300_ts.kl
-usr/keylayout/AVRCP.kl
+#usr/keylayout/AVRCP.kl
 usr/keylayout/headset_keypad.kl
 
 ## GPS
-lib/libgps.so
-lib/librpc.so
+#lib/libgps.so
+#lib/librpc.so
 
 ## RIL related stuff
 bin/port-bridge
 bin/qmuxd
 bin/netmgrd
-lib/libril.so
+#lib/libril.so
 lib/libdiag.so
 lib/libdsm.so
 lib/libdss.so
@@ -36,67 +36,67 @@ lib/libdsutils.so
 lib/libidl.so
 lib/libnetmgr.so
 lib/libqdp.so
-lib/libreference-ril.so
+#lib/libreference-ril.so
 
 ## OMX
-lib/libOmxAacDec.so
-lib/libOmxAacEnc.so
-lib/libOmxAdpcmDec.so
-lib/libOmxAmrDec.so
-lib/libOmxAmrEnc.so
-lib/libOmxAmrRtpDec.so
-lib/libOmxAmrwbDec.so
-lib/libOmxCore.so
-lib/libOmxEvrcDec.so
-lib/libOmxEvrcEnc.so
-lib/libOmxMp3Dec.so
-lib/libOmxQcelp13Dec.so
-lib/libOmxQcelp13Enc.so
-lib/libOmxQcelpHwDec.so
-lib/libOmxVdec.so
-lib/libOmxVenc.so
-lib/libOmxWmaDec.so
+#lib/libOmxAacDec.so
+#lib/libOmxAacEnc.so
+#lib/libOmxAdpcmDec.so
+#lib/libOmxAmrDec.so
+#lib/libOmxAmrEnc.so
+#lib/libOmxAmrRtpDec.so
+#lib/libOmxAmrwbDec.so
+#lib/libOmxCore.so
+#lib/libOmxEvrcDec.so
+#lib/libOmxEvrcEnc.so
+#lib/libOmxMp3Dec.so
+#lib/libOmxQcelp13Dec.so
+#lib/libOmxQcelp13Enc.so
+#lib/libOmxQcelpHwDec.so
+#lib/libOmxVdec.so
+#lib/libOmxVenc.so
+#lib/libOmxWmaDec.so
 
 ## Andio
-lib/libaudioalsa.so
+#lib/libaudioalsa.so
 
 ## Camera proprietaries
 lib/libmmjpeg.so
 lib/libmmipl.so
-lib/libcamera.so
+#lib/libcamera.so
 lib/libgemini.so
-lib/liboemcamera.so
+#lib/liboemcamera.so
 
 ## FIRMWARE & WIFI
-etc/firmware/vidc_720p_command_control.fw
-etc/firmware/vidc_720p_h263_dec_mc.fw
-etc/firmware/vidc_720p_h264_dec_mc.fw
-etc/firmware/vidc_720p_h264_enc_mc.fw
-etc/firmware/vidc_720p_mp4_dec_mc.fw
-etc/firmware/vidc_720p_mp4_enc_mc.fw
-etc/firmware/vidc_720p_vc1_dec_mc.fw
-etc/firmware/yamato_pfp.fw
-etc/firmware/yamato_pm4.fw
+#etc/firmware/vidc_720p_command_control.fw
+#etc/firmware/vidc_720p_h263_dec_mc.fw
+#etc/firmware/vidc_720p_h264_dec_mc.fw
+#etc/firmware/vidc_720p_h264_enc_mc.fw
+#etc/firmware/vidc_720p_mp4_dec_mc.fw
+#etc/firmware/vidc_720p_mp4_enc_mc.fw
+#etc/firmware/vidc_720p_vc1_dec_mc.fw
+#etc/firmware/yamato_pfp.fw
+#etc/firmware/yamato_pm4.fw
 etc/firmware/wlan/nvram.txt
 etc/firmware/wlan/qcom_cfg.ini
 etc/firmware/wlan/sdio.bin
 etc/firmware/wlan/sdio_apsta.bin
 etc/firmware/wlan/sdio_cit.bin
 etc/nvram.txt
-etc/init.qcom.bt.sh
+#etc/init.qcom.bt.sh
 
 ## Sensor
 bin/memsicd
 
 ## *.so
 lib/libmm-abl.so
-lib/libLed.so
+#lib/libLed.so
 lib/libirda_stack.so
 
 ## Other
 etc/init.reset.max17040.sh
 bin/battery_charging
-etc/init.qcom.btcit.sh
+#etc/init.qcom.btcit.sh
 bin/usbhub_init
 bin/usbhub
 bin/rmt_storage
@@ -104,29 +104,35 @@ bin/dun-server
 bin/bridgemgrd
 bin/qmiproxy
 lib/libqmiservices.so
+bin/wl
 etc/init.qcom.coex.sh
 etc/init.qcom.fm.sh
-etc/init.qcom.post_boot.sh
+#etc/init.qcom.post_boot.sh
 etc/init.qcom.wifi.sh
-bin/CKPD-daemon
-bin/ATFWD-daemon
-bin/hdmid
+#bin/CKPD-daemon
+#bin/ATFWD-daemon
+#bin/hdmid
 bin/mm-abl-daemon
 bin/ds_fmc_appd
 bin/thermald
+etc/thermald.conf
 bin/amploader
-bin/rild
+#bin/rild
 bin/profiler_daemon
 lib/libprofiler_msmadc.so
-bin/brcm_patchram_plus.dat
-etc/BCM4330.hcd
+#bin/brcm_patchram_plus.dat
+#etc/BCM4330.hcd
+etc/wifi.sh
+etc/wificit.sh
+etc/wifirx.sh
+etc/wifitx.sh
 
 # graphic driver
-lib/egl/libGLESv2_adreno200.so
-lib/egl/libq3dtools_adreno200.so
-lib/egl/libGLESv1_CM_adreno200.so
-lib/egl/libEGL_adreno200.so
-lib/libgsl.so
+#lib/egl/libGLESv2_adreno200.so
+#lib/egl/libq3dtools_adreno200.so
+#lib/egl/libGLESv1_CM_adreno200.so
+#lib/egl/libEGL_adreno200.so
+#lib/libgsl.so
 
 
 
