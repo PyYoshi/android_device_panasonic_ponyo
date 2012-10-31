@@ -18,7 +18,7 @@ LOCAL_PATH := $(call my-dir)
 # HAL module implemenation, not prelinked, and stored in
 # hw/<SENSORS_HARDWARE_MODULE_ID>.<ro.product.board>.so
 include $(CLEAR_VARS)
-LOCAL_MODULE := sensors.default
+LOCAL_MODULE := sensors.qcom
 LOCAL_MODULE_PATH := $(TARGET_OUT_SHARED_LIBRARIES)/hw
 LOCAL_MODULE_TAGS := optional
 LOCAL_CFLAGS := -DLOG_TAG=\"Sensors\"
@@ -35,20 +35,6 @@ LOCAL_MODULE := cm3623_ps_test_0
 LOCAL_MODULE_TAGS := optional
 include $(BUILD_EXECUTABLE)
 
-##################### cm3623_ps_test_20 #####################
-include $(CLEAR_VARS)
-LOCAL_SRC_FILES := cm3623_ps_test_20.c
-LOCAL_MODULE := cm3623_ps_test_20
-LOCAL_MODULE_TAGS := optional
-include $(BUILD_EXECUTABLE)
-
-##################### cm3623_ps_test_30 #####################
-include $(CLEAR_VARS)
-LOCAL_SRC_FILES := cm3623_ps_test_30.c
-LOCAL_MODULE := cm3623_ps_test_30
-LOCAL_MODULE_TAGS := optional
-include $(BUILD_EXECUTABLE)
-
 ##################### cm3623_als_test_0 #####################
 include $(CLEAR_VARS)
 LOCAL_SRC_FILES := cm3623_als_test_0.c
@@ -56,16 +42,9 @@ LOCAL_MODULE := cm3623_als_test_0
 LOCAL_MODULE_TAGS := optional
 include $(BUILD_EXECUTABLE)
 
-##################### cm3623_als_test_20 #####################
+##################### ecompass_test #####################
 include $(CLEAR_VARS)
-LOCAL_SRC_FILES := cm3623_als_test_20.c
-LOCAL_MODULE := cm3623_als_test_20
-LOCAL_MODULE_TAGS := optional
-include $(BUILD_EXECUTABLE)
-
-##################### cm3623_als_test_30 #####################
-include $(CLEAR_VARS)
-LOCAL_SRC_FILES := cm3623_als_test_30.c
-LOCAL_MODULE := cm3623_als_test_30
+LOCAL_SRC_FILES := ecompass_test.c
+LOCAL_MODULE := ecompass_test
 LOCAL_MODULE_TAGS := optional
 include $(BUILD_EXECUTABLE)
