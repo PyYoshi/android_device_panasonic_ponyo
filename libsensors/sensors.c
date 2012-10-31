@@ -35,7 +35,9 @@
 
 #include "sensors.h"
 
-#define DEBUG_SENSOR 1
+#define LOG_TAG "SensorHAL"
+#define SENSORS_HAL_DEBUG 1
+
 #define SENSORS_SUPPORT_COUNT 3
 #define SUPPORTED_SENSORS ((1 << SENSORS_SUPPORT_COUNT) - 1)
 
@@ -48,7 +50,7 @@ struct sensors_poll_context_t{
     int events_fd;
     uint32_t active_sensors;
     uint32_t pending_sensors;
-    sensors_event_t sensors[SENSORS_SUPPORT_COUNT]
+    sensors_event_t sensors[SENSORS_SUPPORT_COUNT];
 };
 
 static int sSensorAccr[SENSORS_SUPPORT_COUNT] = {0, 0, 0};
@@ -494,3 +496,42 @@ struct sensors_module_t HAL_MODULE_INFO_SYM = {
     get_sensors_list: __get_sensors_list
 };
 
+static int open_sensors(const struct hw_module_t* module, struct hw_device_t** device);
+
+static int open_sensors(const struct hw_module_t* module, struct hw_device_t** device){
+    int res = -EINVAL;
+    int i;
+
+    struct sensors_poll_context_t *dev;
+    dev = (struct sensors_poll_context_t *)malloc(sizeof(*dev));
+    if(!dev)
+        return res;
+
+    memset(dev, 0, sizeof(*dev));
+
+    dev->ecs_fd = -1;
+    dev->events_fd = control_open_input(O_RDONLY);
+    if(dev->ecs_fd < 0){
+        free(dev);
+        return res;
+    }
+
+    dev->device.common.tag = HARDWARE_DEVICE_TAG;
+    dev->device.common.version = 0;
+    dev->device.common.module = (struct hw_module_t *)module;
+    dev->device.common.close = __common_close;
+
+    dev->device.activate = __control_activate;
+    dev->device.setDelay = __control_set_delay;
+    dev->device.poll = __data_poll;
+
+    *device = &dev->device.common;
+
+    for(i=0;i<SENSORS_SUPPORT_COUNT; i++){
+        dev->sensors[i].version = sizeof(struct sensors_event_t);
+        dev->sensors[i].sensor = SENSORS_HANDLE_BASE +1;
+        dev->sensors[i].type = i+1; 
+    }
+    res = 0;
+    return res;
+}
