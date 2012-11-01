@@ -11,10 +11,10 @@ index 02d2f3d..b16bf10 100644
 +font_symlink_src := $(PRODUCT_OUT)/system/fonts/MTLc3m.ttf
 +font_symlink := $(dir $(font_symlink_src))$(LOCAL_MODULE)
 +$(font_symlink) : $(font_symlink_src)
-+       @echo "Symlink: $@ -> $<"
-+       @mkdir -p $(dir $@)
-+       @rm -rf $@
-+       $(hide) ln -sf $(notdir $<) $@
++	@echo "Symlink: $@ -> $<"
++	@mkdir -p $(dir $@)
++	@rm -rf $@
++	$(hide) ln -sf $(notdir $<) $@
 +
 +# this magic makes LOCAL_REQUIRED_MODULES work
 +ALL_MODULES.$(LOCAL_MODULE).INSTALLED := \
@@ -29,11 +29,11 @@ index 02d2f3d..b16bf10 100644
  ifeq ($(SMALLER_FONT_FOOTPRINT),true)
  droidsans_fallback_src := DroidSansFallback.ttf
 -extra_droidsans_fonts := DroidSans.ttf DroidSans-Bold.ttf
-+extra_droidsans_fonts := DroidSans.ttf DroidSans-Bold.ttf DroidSansJapanese.tt
++extra_droidsans_fonts := DroidSans.ttf DroidSans-Bold.ttf DroidSansJapanese.ttf
  else
  droidsans_fallback_src := DroidSansFallbackFull.ttf
--extra_droidsans_fonts := DroidSans.ttf DroidSans-Bold.ttf DroidSansEthiopic-Re
-+extra_droidsans_fonts := DroidSans.ttf DroidSans-Bold.ttf DroidSansJapanese.tt
+-extra_droidsans_fonts := DroidSans.ttf DroidSans-Bold.ttf DroidSansEthiopic-Regular.ttf
++extra_droidsans_fonts := DroidSans.ttf DroidSans-Bold.ttf DroidSansJapanese.ttf DroidSansEthiopic-Regular.ttf
  endif  # SMALLER_FONT_FOOTPRINT
  
  include $(CLEAR_VARS)
