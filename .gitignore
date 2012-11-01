@@ -68,3 +68,4 @@
 /bcm4330/dhd/linux/dhd-cdc-sdmmc-gpl-debug-2.6.35.11/wl_iw.o
 *.orig
 *~
+*.swp
