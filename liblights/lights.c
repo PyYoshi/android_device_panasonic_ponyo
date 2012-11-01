@@ -115,9 +115,6 @@ set_light_backlight(struct light_device_t* dev,
     pthread_mutex_lock(&g_lock);
     g_backlight = brightness;
     err = write_int(LCD_FILE, brightness);
-    if (g_haveTrackballLight) {
-        handle_trackball_light_locked(dev);
-    }
     pthread_mutex_unlock(&g_lock);
     return err;
 }
@@ -187,13 +184,13 @@ set_speaker_light_locked(struct light_device_t* dev,
     } else {
         /* all of related red led is replaced by amber */
         if (red) {
-            write_int(AMBER_LED_FILE, 1);
+            //write_int(AMBER_LED_FILE, 1);
             write_int(GREEN_LED_FILE, 0);
         } else if (green) {
-            write_int(AMBER_LED_FILE, 0);
+            //write_int(AMBER_LED_FILE, 0);
             write_int(GREEN_LED_FILE, 1);
         } else {
-            write_int(GREEN_LED_FILE, 0);
+            //write_int(GREEN_LED_FILE, 0);
             write_int(AMBER_LED_FILE, 0);
         }
     }
@@ -222,12 +219,12 @@ set_speaker_light_locked(struct light_device_t* dev,
 
     if (!g_haveAmberLed) {
         if (blink) {
-            write_int(RED_FREQ_FILE, freq);
-            write_int(RED_PWM_FILE, pwm);
+            //write_int(RED_FREQ_FILE, freq);
+            //write_int(RED_PWM_FILE, pwm);
         }
-        write_int(RED_BLINK_FILE, blink);
+        //write_int(RED_BLINK_FILE, blink);
     } else {
-        write_int(AMBER_BLINK_FILE, blink);
+        //write_int(AMBER_BLINK_FILE, blink);
     }
 
     return 0;
@@ -265,9 +262,6 @@ set_light_notifications(struct light_device_t* dev,
     g_notification = *state;
     LOGV("set_light_notifications g_trackball=%d color=0x%08x",
             g_trackball, state->color);
-    if (g_haveTrackballLight) {
-        handle_trackball_light_locked(dev);
-    }
     handle_speaker_battery_locked(dev);
     pthread_mutex_unlock(&g_lock);
     return 0;
@@ -284,9 +278,6 @@ set_light_attention(struct light_device_t* dev,
         g_attention = state->flashOnMS;
     } else if (state->flashMode == LIGHT_FLASH_NONE) {
         g_attention = 0;
-    }
-    if (g_haveTrackballLight) {
-        handle_trackball_light_locked(dev);
     }
     pthread_mutex_unlock(&g_lock);
     return 0;
@@ -319,12 +310,6 @@ static int open_lights(const struct hw_module_t* module, char const* name,
 
     if (0 == strcmp(LIGHT_ID_BACKLIGHT, name)) {
         set_light = set_light_backlight;
-    }
-    else if (0 == strcmp(LIGHT_ID_KEYBOARD, name)) {
-        set_light = set_light_keyboard;
-    }
-    else if (0 == strcmp(LIGHT_ID_BUTTONS, name)) {
-        set_light = set_light_buttons;
     }
     else if (0 == strcmp(LIGHT_ID_BATTERY, name)) {
         set_light = set_light_battery;
