@@ -7,19 +7,25 @@ P-01DのOSをCyanogenmod用に移植するプロジェクトです。 協力者�
 ### 注意点
 *   転んでも泣かないこと。
 *   すべて自己責任です。
-*   ビルドを行う場合はひと通り[Cyanogenmod Wiki](http://wiki.cyanogenmod.com/index.php?title=Main_Page)に目を通すこと。
 
 ### 連絡
 *   [DevRenax](https://twitter.com/DevRenax)宛にリプライしてください
 *   If you want to contact me, Please reply to [DevRenax](https://twitter.com/DevRenax). I can speak a little English.
 
-### ビルド方法 (ビルドに必要なライブラリ等はインストール済みであるとする)
+### ビルド方法
+
+#### ビルド前に以下のリンクを読んで理解すること。
+*  [Cyanogenmod Wiki](http://wiki.cyanogenmod.com/index.php?title=Main_Page)
+*  [Version Control with Repo and Git](http://source.android.com/source/version-control.html)
+*  [Android Debug Bridge](http://developer.android.com/tools/help/adb.html)
+*  [Initializing a Build Environment](http://source.android.com/source/initializing.html)
 
 #### Cyanogenmodのソースコードを取得 (CM9の場合)
 	mkdir cyanogenmod; cd cyanogenmod
 	repo init -u git://github.com/CyanogenMod/android.git -b ics
 	cd .repo
 	wget https://raw.github.com/CM4IS01/android_device_panasonic_ponyo/ics/local_manifest.xml
+	cd ..
 	repo sync
 	
 #### 必要なプロプライエタリファイルを取得・vendorツリーの生成
@@ -30,8 +36,8 @@ P-01DのOSをCyanogenmod用に移植するプロジェクトです。 協力者�
 [QDevNet](https://developer.qualcomm.com/mobile-development/mobile-technologies/gaming-graphics-optimization-adreno/tools-and-resources)からICS用のドライバを取得してvendorツリーへ置く
 	
 #### Cyanogenmodのソースにパッチを当てる
-	cd cyanogenmod/device/panasonic/ponyo
-	sh run_patch.sh
+	cd cyanogenmod
+	sh device/panasonic/ponyo/run_patch.sh
 	
 #### Cyanogenmodに必要なファイルを取得する
 	cd cyanogenmod/vendor/cm/
