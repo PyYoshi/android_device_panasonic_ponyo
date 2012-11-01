@@ -88,7 +88,7 @@ PRODUCT_PACKAGES += \
     gralloc.msm7x30 \
     copybit.msm7x30 \
     hwcomposer.msm7x30 \
-    sensors.default \
+    sensors.qcom \
     lights.default
 
 # OMX Libs
