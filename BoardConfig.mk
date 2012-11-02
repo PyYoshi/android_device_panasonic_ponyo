@@ -9,6 +9,9 @@ USE_CAMERA_STUB := true
 #TARGET_BOOTLOADER_BOARD_NAME := ponyo
 TARGET_OTA_ASSERT_DEVICE := p01d,ponyo,pana2_1
 
+# Compiler ※linaro gccを使用する場合はex-patchのdiffファイルを当てるのとlinaro_compilerchecks.mkをbuild/core/にコピーすること
+#TARGET_TOOLS_PREFIX := prebuilt/linux-x86/toolchain/gcc-linaro-4.7-2012.10/bin/arm-linux-androideabi-
+
 # SoC defines and Build Flags
 TARGET_NO_BOOTLOADER := true
 TARGET_BOARD_PLATFORM := msm7x30
