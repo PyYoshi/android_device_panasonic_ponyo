@@ -1,7 +1,7 @@
 $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
 
 # The gps config appropriate for this device
-$(call inherit-product, device/common/gps/gps_us_supl.mk)
+$(call inherit-product, device/common/gps/gps_as_supl.mk)
 
 $(call inherit-product-if-exists, vendor/panasonic/ponyo/ponyo-vendor.mk)
 
@@ -21,3 +21,5 @@ PRODUCT_NAME := cm_ponyo
 PRODUCT_BRAND := docomo
 PRODUCT_MODEL := P-01D
 PRODUCT_MANUFACTURER := PANASONIC
+
+$(call inherit-product, build/target/product/full_base_telephony.mk)
