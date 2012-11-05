@@ -105,7 +105,7 @@ BOARD_WLAN_DEVICE := bcm4330
 WIFI_DRIVER_MODULE_PATH := "/system/lib/modules/dhd.ko"
 WIFI_DRIVER_FW_PATH_STA := "/etc/firmware/wlan/sdio_cit.bin"
 WIFI_DRIVER_FW_PATH_AP := "/etc/firmware/wlan/sdio_apsta.bin"
-WIFI_DRIVER_MODULE_ARG := "firmware_path=/etc/firmware/wlan/sdio_cit.bin nvram_path=/etc/firmware/wlan/nvram.txt"
+WIFI_DRIVER_MODULE_ARG := "firmware_path=/etc/firmware/wlan/sdio.bin nvram_path=/etc/firmware/wlan/nvram.txt"
 WIFI_DRIVER_MODULE_NAME := "dhd"
 TARGET_CUSTOM_WIFI := ../../device/panasonic/ponyo/wifi/wifi.c
 

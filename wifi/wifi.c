@@ -160,9 +160,9 @@ static int insmod(const char *filename, const char *args)
     unsigned int size;
     int ret;
 
-    char command0[]="echo 0 > /sys/devices/platform/msm_sdcc.3/polling";
-    char command1[]="echo 1 > /sys/devices/platform/msm_sdcc.3/polling";
-    system(command1);
+    // enable wifi sdio
+    char command_enable[]="echo 1 > /sys/devices/platform/msm_sdcc.3/polling";
+    system(command_enable);
     sched_yield();
     usleep(1000000);
 
@@ -181,6 +181,12 @@ static int rmmod(const char *modname)
 {
     int ret = -1;
     int maxtry = 10;
+    
+    // disable wifi sdio
+    char command_disable[]="echo 0 > /sys/devices/platform/msm_sdcc.3/polling";
+    system(command_disable);
+    sched_yield();
+    usleep(1000000);
 
     while (maxtry-- > 0) {
         ret = delete_module(modname, O_NONBLOCK | O_EXCL);

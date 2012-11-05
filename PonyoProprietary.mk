@@ -36,7 +36,7 @@ PRODUCT_COPY_FILES += \
 	device/panasonic/ponyo/prebuilt/surf_keypad.kl:system/usr/keylayout/surf_keypad.kl \
 	device/panasonic/ponyo/prebuilt/init.qcom.bt.sh:system/etc/init.qcom.bt.sh \
 	device/panasonic/ponyo/prebuilt/init.qcom.post_boot.sh:system/etc/init.qcom.post_boot.sh \
-	device/panasonic/ponyo/prebuilt/init.qcom.sdio.sh:system/etc/init.qcom.sdio.sh
+	device/panasonic/ponyo/prebuilt/init.network_security.sh:system/etc/init.network_security.sh
 
 # Permissions
 PRODUCT_COPY_FILES += \
