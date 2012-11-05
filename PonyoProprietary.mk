@@ -70,12 +70,13 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     audio.a2dp.default \
     audio_policy.msm7x30 \
-    libaudioutils \
-    libaudiopolicybase \
-    libaudiopolicy \
-    libaudio \
-    libaudiointerface \
-    liba2dp
+    audio.primary.msm7x30 \
+    libaudioutils
+#    libaudiopolicybase \
+#    libaudiopolicy \
+#    libaudio \
+#    libaudiointerface \
+#    liba2dp
 
 # GPS Libs
 PRODUCT_PACKAGES += \
@@ -84,7 +85,7 @@ PRODUCT_PACKAGES += \
 
 # HW Libs
 PRODUCT_PACKAGES += \
-    overlay.default \
+    liboverlay \
     gralloc.msm7x30 \
     copybit.msm7x30 \
     hwcomposer.msm7x30 \

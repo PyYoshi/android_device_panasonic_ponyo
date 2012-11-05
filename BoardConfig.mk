@@ -4,6 +4,7 @@
 # Call headers from msm-3.0: needed to build libs in hardware/qcom/display
 TARGET_SPECIFIC_HEADER_PATH := device/panasonic/ponyo/include
 
+# This define allows a dummy camera device to be built for initial testing. 
 USE_CAMERA_STUB := true
 
 #TARGET_BOOTLOADER_BOARD_NAME := ponyo
@@ -27,10 +28,17 @@ ARCH_ARM_HAVE_VFP := true
 
 # Note about gingerbread compatibility : Require a global cflag,
 # several projects use binder's IMemory.h and MemoryHeapBase.h
-COMMON_GLOBAL_CFLAGS += -DBINDER_COMPAT
+#COMMON_GLOBAL_CFLAGS += -DBINDER_COMPAT
 
 # Audio
 #BOARD_USES_GENERIC_AUDIO := false
+#TARGET_PROVIDES_LIBAUDIO := true
+#BOARD_USES_QCOM_AUDIO_LPA := true
+#BOARD_USES_QCOM_AUDIO_SPEECH := false
+#BOARD_USES_QCOM_AUDIO_VOIPMUTE := false
+#BOARD_USES_QCOM_AUDIO_RESETALL := false
+#BOARD_USES_STEREO_HW_SPEAKER := false
+BOARD_USES_QCOM_AUDIO_CALIBRATION := true
 
 # Bluetooth
 BOARD_HAVE_BLUETOOTH := true

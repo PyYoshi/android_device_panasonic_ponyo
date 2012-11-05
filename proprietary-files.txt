@@ -57,14 +57,17 @@ lib/libreference-ril.so
 #lib/libOmxVenc.so
 #lib/libOmxWmaDec.so
 
-## Andio
-#lib/libaudioalsa.so
+## Audio
+#lib/libaudio.so
+#lib/liba2dp.so
+lib/libaudioalsa.so
+lib/libaudcal.so
 
 ## Camera proprietaries
-lib/libmmjpeg.so
-lib/libmmipl.so
+#lib/libmmjpeg.so
+#lib/libmmipl.so
 #lib/libcamera.so
-lib/libgemini.so
+#lib/libgemini.so
 #lib/liboemcamera.so
 
 ## FIRMWARE & WIFI
