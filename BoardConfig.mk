@@ -84,8 +84,8 @@ BOARD_USE_SCREENCAP := true
 BOARD_USE_LEGACY_TOUCHSCREEN := true
 
 # USB Mass Storage
-TARGET_USE_CUSTOM_LUN_FILE_PATH : = /sys/devices/platform/usb_mass_storage/lun0/file
-BOARD_UMS_LUNFILE : = /sys/devices/platform/usb_mass_storage/lun0/file
+TARGET_USE_CUSTOM_LUN_FILE_PATH := /sys/devices/platform/usb_mass_storage/lun0/file
+BOARD_UMS_LUNFILE := /sys/devices/platform/usb_mass_storage/lun0/file
 BOARD_SDCARD_DEVICE_PRIMARY := /dev/block/mmcblk0p1
 
 # Recovery
