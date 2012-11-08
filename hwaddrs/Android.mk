@@ -1,4 +1,4 @@
-# Copyright (C) 2009 The Android Open Source Project
+# Copyright (C) 2011 The CyanogenMod project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,12 +12,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-LOCAL_PATH := $(my-dir)
-subdir_makefiles := \
-	$(LOCAL_PATH)/liblights/Android.mk \
-	$(LOCAL_PATH)/brcm_patchram_plus/Android.mk \
-	$(LOCAL_PATH)/brcm_afh_tx_test/Android.mk \
-	$(LOCAL_PATH)/brcm_cw_tx_test/Android.mk \
-	$(LOCAL_PATH)/libsensors/Android.mk \
-	$(LOCAL_PATH)/hwaddrs/Android.mk
-include $(subdir_makefiles)
+
+LOCAL_PATH:= $(call my-dir)
+include $(CLEAR_VARS)
+
+LOCAL_MODULE_TAGS := optional
+
+LOCAL_SRC_FILES := getmac.c
+
+LOCAL_PRELINK_MODULE := false
+LOCAL_SHARED_LIBRARIES := libcutils libnv liboncrpc
+LOCAL_MODULE := hwaddrs
+
+include $(BUILD_EXECUTABLE)
+
