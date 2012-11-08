@@ -56,30 +56,30 @@ int main() {
         wlanmac[0]&0xFF,
         (wlanmac[0]&0xFF00) >> 8,
         (wlanmac[0]&0xFF0000) >> 16,
-        (wlanmac[0]&0xFF000000) >> 24,
+        ((wlanmac[0]&0xFF000000) >> 24) - 0x03,
         wlanmac[1]&0xFF,
         (wlanmac[1]&0xFF00) >> 8
     );
     fclose(fd_wlan);
 
-    // BluetoothのMAC AddressはWLANのMACアドレスのエンディアンを逆にしたものっぽい
-    LOGD("Bluetooth MAC Address: %.2X:%.2X:%.2X:21:%.2X:%.2X\n",
-        (wlanmac[1]&0xFF00) >> 8,
-		wlanmac[1]&0xFF,
-		(wlanmac[0]&0xFF000000) >> 24,
-		//(wlanmac[0]&0xFF0000) >> 16, // 必ず0x21(Dec: 33)?
-		(wlanmac[0]&0xFF00) >> 8, 
-        wlanmac[0]&0xFF
+    // WLAN MACアドレスの4オクテット目を-0x03してる？
+    LOGD("Bluetooth MAC Address: %.2X:%.2X:%.2X:%.2X:%.2X:%.2X\n",
+        wlanmac[0]&0xFF,
+        (wlanmac[0]&0xFF00) >> 8,
+        (wlanmac[0]&0xFF0000) >> 16,
+        ((wlanmac[0]&0xFF000000) >> 24) - 0x03,
+        wlanmac[1]&0xFF,
+        (wlanmac[1]&0xFF00) >> 8
     );
 
     FILE *fd_bt;
 
     fd_bt = fopen("/data/simcom/btadd/bt_macAddr","w");
-    fprintf(fd_bt,"%.2X:%.2X:%.2X:21:%.2X:%.2X\n",
+    fprintf(fd_bt,"%.2X:%.2X:%.2X:%.2X:%.2X:%.2X\n",
         (wlanmac[1]&0xFF00) >> 8,
 		wlanmac[1]&0xFF,
-		(wlanmac[0]&0xFF000000) >> 24,
-		//(wlanmac[0]&0xFF0000) >> 16,
+		((wlanmac[0]&0xFF000000) >> 24) - 3,
+		(wlanmac[0]&0xFF0000) >> 16,
 		(wlanmac[0]&0xFF00) >> 8, 
         wlanmac[0]&0xFF
     );
