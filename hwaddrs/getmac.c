@@ -19,6 +19,9 @@
 #include <sys/stat.h>
 #include <termios.h>
 #include <fcntl.h>
+#include <utils/Log.h>
+
+#define LOG_TAG "hwaddrs"
 
 extern void nv_cmd_remote(int,int,void*);
 extern void oncrpc_init();
@@ -26,35 +29,62 @@ extern void oncrpc_deinit();
 extern void oncrpc_task_start();
 extern void oncrpc_task_stop();
 
-
-/* Get the BT address from the modem. Stock does this through
- * a RIL request, but I'd rather not pollute that API more than
- * it is already.
- * Get the wlan MAC from nv. This attempts to replicate the
- * wifi_read_wlanmac_address function from the stock software */
-
 int main() {
-	FILE *fd_wlan;
-	int wlanmac[2] = { 0, };
+    FILE *fd_wlan;
+    int wlanmac[2] = { 0, };
 
-	oncrpc_init();
-	oncrpc_task_start();
-	nv_cmd_remote(0,0x1246,&wlanmac);
-	oncrpc_task_stop();
-	oncrpc_deinit();
+    oncrpc_init();
+    oncrpc_task_start();
+    nv_cmd_remote(0,0x1246,&wlanmac);
+    oncrpc_task_stop();
+    oncrpc_deinit();
 
-	if (wlanmac[0] == 0)
-		return 0;
+    if (wlanmac[0] == 0)
+        return 0;
 
-	fd_wlan = fopen("/data/simcom/macAddr/wlan_macAddr","w");
-	fprintf(fd_wlan,"%.2X:%.2X:%.2X:%.2X:%.2X:%.2X\n",
-			wlanmac[0]&0xFF,
-			(wlanmac[0]&0xFF00) >> 8,
-			(wlanmac[0]&0xFF0000) >> 16,
-			(wlanmac[0]&0xFF000000) >> 24,
-			wlanmac[1]&0xFF,
-			(wlanmac[1]&0xFF00) >> 8);
-	fclose(fd_wlan);
-	return 0;
+    LOGD("WLAN MAC Address: %.2X:%.2X:%.2X:%.2X:%.2X:%.2X\n",
+        wlanmac[0]&0xFF,
+        (wlanmac[0]&0xFF00) >> 8,
+        (wlanmac[0]&0xFF0000) >> 16,
+        (wlanmac[0]&0xFF000000) >> 24,
+        wlanmac[1]&0xFF,
+        (wlanmac[1]&0xFF00) >> 8
+    );
+
+    fd_wlan = fopen("/data/simcom/macAddr/wlan_macAddr","w");
+    fprintf(fd_wlan,"%.2X:%.2X:%.2X:%.2X:%.2X:%.2X\n",
+        wlanmac[0]&0xFF,
+        (wlanmac[0]&0xFF00) >> 8,
+        (wlanmac[0]&0xFF0000) >> 16,
+        (wlanmac[0]&0xFF000000) >> 24,
+        wlanmac[1]&0xFF,
+        (wlanmac[1]&0xFF00) >> 8
+    );
+    fclose(fd_wlan);
+
+    // BluetoothのMAC AddressはWLANのMACアドレスのエンディアンを逆にしたものっぽい
+    LOGD("Bluetooth MAC Address: %.2X:%.2X:%.2X:21:%.2X:%.2X\n",
+        (wlanmac[1]&0xFF00) >> 8,
+		wlanmac[1]&0xFF,
+		(wlanmac[0]&0xFF000000) >> 24,
+		//(wlanmac[0]&0xFF0000) >> 16, // 必ず0x21(Dec: 33)?
+		(wlanmac[0]&0xFF00) >> 8, 
+        wlanmac[0]&0xFF
+    );
+
+    FILE *fd_bt;
+
+    fd_bt = fopen("/data/simcom/btadd/bt_macAddr","w");
+    fprintf(fd_bt,"%.2X:%.2X:%.2X:21:%.2X:%.2X\n",
+        (wlanmac[1]&0xFF00) >> 8,
+		wlanmac[1]&0xFF,
+		(wlanmac[0]&0xFF000000) >> 24,
+		//(wlanmac[0]&0xFF0000) >> 16,
+		(wlanmac[0]&0xFF00) >> 8, 
+        wlanmac[0]&0xFF
+    );
+    fclose(fd_bt);
+
+    return 0;
 }
 
