@@ -77,10 +77,10 @@ int main() {
     fd_bt = fopen("/data/simcom/btadd/bt_macAddr","w");
     fprintf(fd_bt,"%.2X:%.2X:%.2X:%.2X:%.2X:%.2X\n",
         (wlanmac[1]&0xFF00) >> 8,
-		wlanmac[1]&0xFF,
-		((wlanmac[0]&0xFF000000) >> 24) - 3,
-		(wlanmac[0]&0xFF0000) >> 16,
-		(wlanmac[0]&0xFF00) >> 8, 
+        wlanmac[1]&0xFF,
+        ((wlanmac[0]&0xFF000000) >> 24) - 3,
+        (wlanmac[0]&0xFF0000) >> 16,
+        (wlanmac[0]&0xFF00) >> 8, 
         wlanmac[0]&0xFF
     );
     fclose(fd_bt);
