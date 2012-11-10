@@ -14,6 +14,12 @@ P-01DのOSをCyanogenmod用に移植するプロジェクトです。 協力者�
 
 ### ビルド方法
 
+#### ビルド環境
+*   Ubuntu 12.04 x64
+*   Oracle JDK 6 x64
+
+上記以外は自己責任でどうぞ
+
 #### ビルド前に以下のリンクを読んで理解すること。
 *  [Cyanogenmod Wiki](http://wiki.cyanogenmod.com/index.php?title=Main_Page)
 *  [Version Control with Repo and Git](http://source.android.com/source/version-control.html)
@@ -53,3 +59,6 @@ P-01DのOSをCyanogenmod用に移植するプロジェクトです。 協力者�
 	export CCACHE_DIR=任意のディレクトリ/CCACHE
 	
 をビルド前にやっておく
+
+#### パッチの初期化
+	repo forall -c git reset --hard
