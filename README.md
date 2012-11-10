@@ -18,7 +18,7 @@ P-01DのOSをCyanogenmod用に移植するプロジェクトです。 協力者�
 *   Ubuntu 12.04 x64
 *   Oracle JDK 6 x64
 
-上記以外は自己責任でどうぞ
+上記以外はノンサポでどうぞ
 
 #### ビルド前に以下のリンクを読んで理解すること。
 *  [Cyanogenmod Wiki](http://wiki.cyanogenmod.com/index.php?title=Main_Page)
