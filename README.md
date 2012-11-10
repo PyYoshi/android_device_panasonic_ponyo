@@ -20,6 +20,11 @@ P-01DのOSをCyanogenmod用に移植するプロジェクトです。 協力者�
 
 上記以外はノンサポでどうぞ
 
+#### ビルドエラーやバグの報告時の注意
+自分のビルド環境やエラーログを報告時に添付してください。
+
+これが無い場合、基本的に返信はしません。
+
 #### ビルド前に以下のリンクを読んで理解すること。
 *  [Cyanogenmod Wiki](http://wiki.cyanogenmod.com/index.php?title=Main_Page)
 *  [Version Control with Repo and Git](http://source.android.com/source/version-control.html)
