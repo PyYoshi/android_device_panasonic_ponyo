@@ -23,12 +23,12 @@ TARGET_ARCH_VARIANT := armv7-a-neon
 ARCH_ARM_HAVE_TLS_REGISTER := true
 ARCH_ARM_HAVE_NEON := true
 ARCH_ARM_HAVE_VFP := true
-#TARGET_GLOBAL_CFLAGS += -mfpu=neon -mfloat-abi=softfp
-#TARGET_GLOBAL_CPPFLAGS += -mfpu=neon -mfloat-abi=softfp
+TARGET_GLOBAL_CFLAGS += -mfpu=neon -mfloat-abi=softfp
+TARGET_GLOBAL_CPPFLAGS += -mfpu=neon -mfloat-abi=softfp
 
 # Note about gingerbread compatibility : Require a global cflag,
 # several projects use binder's IMemory.h and MemoryHeapBase.h
-#COMMON_GLOBAL_CFLAGS += -DBINDER_COMPAT
+COMMON_GLOBAL_CFLAGS += -DBINDER_COMPAT
 
 # Audio
 #BOARD_USES_GENERIC_AUDIO := false
@@ -42,8 +42,8 @@ BOARD_USES_QCOM_AUDIO_CALIBRATION := true
 
 # Bluetooth
 BOARD_HAVE_BLUETOOTH := true
-# P-01Dのソースコードについてるbrcm_patch...を使う場合はfalseにすること。(現状ライブラリ依存関係で使えないけれど)
-BOARD_HAVE_BLUETOOTH_BCM := true
+# PONYOのOSSを使用する
+#BOARD_HAVE_BLUETOOTH_BCM := true
 #TARGET_NEEDS_BLUETOOTH_INIT_DELAY := true
 #BOARD_CUSTOM_BLUEDROID := ../../../device/panasonic/ponyo/bluedroid/bluetooth.c
 
@@ -103,11 +103,12 @@ BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_wext
 WPA_SUPPLICANT_VERSION := VER_0_8_X
 BOARD_WLAN_DEVICE := bcm4330
 WIFI_DRIVER_MODULE_PATH := "/system/lib/modules/dhd.ko"
-WIFI_DRIVER_FW_PATH_STA := "/etc/firmware/wlan/sdio_cit.bin"
-WIFI_DRIVER_FW_PATH_AP := "/etc/firmware/wlan/sdio_apsta.bin"
-WIFI_DRIVER_MODULE_ARG := "firmware_path=/etc/firmware/wlan/sdio.bin nvram_path=/etc/firmware/wlan/nvram.txt"
+WIFI_DRIVER_FW_PATH_STA := "/etc/firmware/wlan/sdio.bin"
+WIFI_DRIVER_FW_PATH_AP := "/etc/firmware/wlan/sdio.bin"
+WIFI_DRIVER_MODULE_ARG := "firmware_path=/etc/firmware/wlan/sdio.bin nvram_path=/data/simcom/nvram.txt"
 WIFI_DRIVER_MODULE_NAME := "dhd"
 TARGET_CUSTOM_WIFI := ../../device/panasonic/ponyo/wifi/wifi.c
+#BOARD_WEXT_NO_COMBO_SCAN
 
 # Kernel Boot defines
 BOARD_KERNEL_CMDLINE := console=ttyMSM1 androidboot.hardware=qcom

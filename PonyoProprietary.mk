@@ -36,7 +36,9 @@ PRODUCT_COPY_FILES += \
 	device/panasonic/ponyo/prebuilt/surf_keypad.kl:system/usr/keylayout/surf_keypad.kl \
 	device/panasonic/ponyo/prebuilt/init.qcom.bt.sh:system/etc/init.qcom.bt.sh \
 	device/panasonic/ponyo/prebuilt/init.qcom.post_boot.sh:system/etc/init.qcom.post_boot.sh \
-	device/panasonic/ponyo/prebuilt/init.network_security.sh:system/etc/init.network_security.sh
+	device/panasonic/ponyo/prebuilt/init.network_security.sh:system/etc/init.network_security.sh \
+	device/panasonic/ponyo/prebuilt/generate_nvram.sh:system/bin/generate_nvram.sh \
+	device/panasonic/ponyo/prebuilt/init.gen.mac_address.sh:system/etc/init.gen.mac_address.sh
 
 # Permissions
 PRODUCT_COPY_FILES += \
@@ -72,11 +74,6 @@ PRODUCT_PACKAGES += \
     audio_policy.msm7x30 \
     audio.primary.msm7x30 \
     libaudioutils
-#    libaudiopolicybase \
-#    libaudiopolicy \
-#    libaudio \
-#    libaudiointerface \
-#    liba2dp
 
 # GPS Libs
 PRODUCT_PACKAGES += \
@@ -101,14 +98,16 @@ PRODUCT_PACKAGES += \
     libstagefrighthw
 
 # RIL Libs
-#PRODUCT_PACKAGES += \
+PRODUCT_PACKAGES += \
+    radiooptions
 #    libril_static \
 #    libril
 
 # Other Libs and Bins
 PRODUCT_PACKAGES += \
     librs_jn \
-    brcm_patchram_plus
+    brcm_patchram_plus.ponyo \
+    hwaddrs
 
 # IME
 PRODUCT_PACKAGES += \
@@ -116,7 +115,17 @@ PRODUCT_PACKAGES += \
     libwnndict \
     libWnnEngDic \
     libWnnJpnDic
-    
+
+# Camera
+PRODUCT_PACKAGES += \
+    Camera \
+    Torch
+
+# Quake
+#PRODUCT_PACKAGES += \
+#    libquake \
+#    Quake
+
 # Apps
 #PRODUCT_PACKAGES += \
 
@@ -133,6 +142,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     wifi.interface=wlan0
 
+# Bluetooth
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.bt.bdaddr_path=/data/simcom/btadd/bt_add.file
+
 # Graphics
 PRODUCT_PROPERTY_OVERRIDES += \
     hwui.render_dirty_regions=false \
@@ -147,7 +160,16 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.use_data_netmgrd=true \
     ro.multi.rild=true \
     ro.qualcomm.bluetooth.dun=true \
-    ro.qualcomm.bluetooth.ftp=true
+    ro.qualcomm.bluetooth.ftp=true \
+    persist.rild.nitz_plmn= \
+    persist.rild.nitz_long_ons_0= \
+    persist.rild.nitz_long_ons_1= \
+    persist.rild.nitz_long_ons_2= \
+    persist.rild.nitz_long_ons_3= \
+    persist.rild.nitz_short_ons_0= \
+    persist.rild.nitz_short_ons_1= \
+    persist.rild.nitz_short_ons_2= \
+    persist.rild.nitz_short_ons_3= \
 
 # System Info
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -181,4 +203,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # Other props
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.sf.lcd_density=240
+    ro.sf.lcd_density=240 \
+    ro.com.google.locationfeatures=1 \
+    ro.zram.default=0
