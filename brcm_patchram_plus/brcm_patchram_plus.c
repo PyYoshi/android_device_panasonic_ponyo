@@ -1,21 +1,20 @@
-/**
- * brcm_patchram_plus.c
+/*******************************************************************************
  *
- * Copyright (C) 2009 Broadcom Corporation.
- * 
- * This software is licensed under the terms of the GNU General Public License,
- * version 2, as published by the Free Software Foundation (the "GPL"), and may
- * be copied, distributed, and modified under those terms.
+ *  Copyright (C) 2009-2011 Broadcom Corporation
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE. See the GPL for more details.
- * 
- * A copy of the GPL is available at http://www.broadcom.com/licenses/GPLv2.php
- * or by writing to the Free Software Foundation, Inc.,
- * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA
- */
-
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ ******************************************************************************/
 
 /*****************************************************************************
 **                                                                           
@@ -32,6 +31,56 @@
 **						<--bd_addr bd_address>
 **						<--enable_lpm>
 **						<--enable_hci>
+**						<--use_baudrate_for_download>
+**						<--scopcm=sco_routing,pcm_interface_rate,frame_type,
+**							sync_mode,clock_mode,lsb_first,fill_bits,
+**							fill_method,fill_num,right_justify>
+**
+**							Where
+**
+**							sco_routing is 0 for PCM, 1 for Transport,
+**							2 for Codec and 3 for I2S,
+**
+**							pcm_interface_rate is 0 for 128KBps, 1 for
+**							256 KBps, 2 for 512KBps, 3 for 1024KBps,
+**							and 4 for 2048Kbps,
+**
+**							frame_type is 0 for short and 1 for long,
+**
+**							sync_mode is 0 for slave and 1 for master,
+**
+**							clock_mode is 0 for slabe and 1 for master,
+**
+**							lsb_first is 0 for false aand 1 for true,
+**
+**							fill_bits is the value in decimal for unused bits,
+**
+**							fill_method is 0 for 0's and 1 for 1's, 2 for
+**								signed and 3 for programmable,
+**
+**							fill_num is the number or bits to fill,
+**
+**							right_justify is 0 for false and 1 for true
+**
+**						<--i2s=i2s_enable,is_master,sample_rate,clock_rate>
+**
+**							Where
+**
+**							i2s_enable is 0 for disable and 1 for enable,
+**
+**							is_master is 0 for slave and 1 for master,
+**
+**							sample_rate is 0 for 8KHz, 1 for 16Khz and
+**								2 for 4 KHz,
+**
+**							clock_rate is 0 for 128KHz, 1 for 256KHz, 3 for
+**								1024 KHz and 4 for 2048 KHz.
+**
+**						<--no2bytes skips waiting for two byte confirmation
+**							before starting patchram download. Newer chips
+**                          do not generate these two bytes.>
+**						<--tosleep=number of microsseconds to sleep before
+**							patchram download begins.>
 **						uart_device_name
 **
 **                 For example:
@@ -69,12 +118,24 @@
 #include <termios.h>
 #else
 #include <sys/termios.h>
+#include <sys/ioctl.h>
+#include <limits.h>
 #endif
 
 #include <string.h>
 #include <signal.h>
 
+#ifdef ANDROID
 #include <cutils/properties.h>
+#define LOG_TAG "brcm_patchram_plus"
+#include <cutils/log.h>
+#undef printf
+#define printf LOGD
+#undef fprintf
+#define fprintf(x, ...) \
+  { if(x==stderr) LOGE(__VA_ARGS__); else fprintf(x, __VA_ARGS__); }
+
+#endif //ANDROID
 
 #ifndef N_HCI
 #define N_HCI	15
@@ -90,127 +151,129 @@
 #define HCI_UART_H4DS	3
 #define HCI_UART_LL		4
 
-#define HCI_COMMAND_PKT 1
-
-#define NEED_BTADDR 5
+typedef unsigned char uchar;
 
 int uart_fd = -1;
 int hcdfile_fd = -1;
 int termios_baudrate = 0;
-//Add by taoyuan for bluetooth address 2011.5.3
-#ifdef NEED_BTADDR
-int bdaddr_flag = 1;
-#else
 int bdaddr_flag = 0;
-#endif
 int enable_lpm = 0;
 int enable_hci = 0;
-int debug = 0;
-static char enable_test_mode = 0 ;
+int use_baudrate_for_download = 0;
+int debug = 1;
+int scopcm = 0;
+int i2s = 0;
+int no2bytes = 0;
+int tosleep = 0;
 
 struct termios termios;
-unsigned char buffer[1024];
+uchar buffer[1024];
 
-unsigned char hci_reset[] = { 0x01, 0x03, 0x0c, 0x00 };
+uchar hci_reset[] = { 0x01, 0x03, 0x0c, 0x00 };
 
-unsigned char hci_download_minidriver[] = { 0x01, 0x2e, 0xfc, 0x00 };
+uchar hci_download_minidriver[] = { 0x01, 0x2e, 0xfc, 0x00 };
 
-unsigned char hci_update_baud_rate[] = { 0x01, 0x18, 0xfc, 0x06, 0x00, 0x00,
+uchar hci_update_baud_rate[] = { 0x01, 0x18, 0xfc, 0x06, 0x00, 0x00,
 	0x00, 0x00, 0x00, 0x00 };
 
-unsigned char hci_write_bd_addr[] = { 0x01, 0x01, 0xfc, 0x06, 
+uchar hci_write_bd_addr[] = { 0x01, 0x01, 0xfc, 0x06,
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
-unsigned char hci_write_sleep_mode[] = { 0x01, 0x27, 0xfc, 0x0c, 
-	0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+uchar hci_write_sleep_mode[] = { 0x01, 0x27, 0xfc, 0x0c,
+	0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00,
 	0x00, 0x00 };
-unsigned char hci_write_sco_pcm_int[] ={ 0x01,0x1c,0xfc,0x05,0x00,0x04,
- 0x00,0x00,0x00 };
- 
-unsigned char hci_write_data_format[]={ 0x01,0x1e,0xfc,0x05,0x00,0x00,
- 0x00,0x00,0x00 };
- 
-unsigned char hci_write_voice_setting[]={ 0x01,0x26,0x0c,0x02,0x60,0x00,
- };
 
-void
-proc_enable_test_mode();
+uchar hci_write_sco_pcm_int[] =
+	{ 0x01, 0x1C, 0xFC, 0x05, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
-static volatile sig_atomic_t __io_canceled = 0;
+uchar hci_write_pcm_data_format[] =
+	{ 0x01, 0x1e, 0xFC, 0x05, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
-static void sig_hup(int sig)
+uchar hci_write_i2spcm_interface_param[] =
+	{ 0x01, 0x6d, 0xFC, 0x04, 0x00, 0x00, 0x00, 0x00 };
+
+#ifdef SAMSUNG_BLUETOOTH
+char* get_samsung_bluetooth_type()
 {
-}
+    char buf[10];
+    int fd = open("/data/.cid.info", O_RDONLY);
+    if (fd < 0) {
+        fprintf(stderr, "couldn't open file /data/.cid.info for reading\n");
+        return NULL;
+    }
 
-static void sig_term(int sig)
-{
-	__io_canceled = 1;
-}
+    if (read(fd, buf, sizeof(buf)) < 0) {
+        close(fd);
+        return NULL;
+    }
 
-static void sig_alarm(int sig)
-{
-	fprintf(stderr, "Initialization timed out.\n");
-	exit(1);
-}
+    close(fd);
 
+    if (strncmp(buf, "murata", 6) == 0)
+        return "_murata";
 
-int
-brcm_set_pcm_parameter()
-{
- hci_send_cmd(hci_write_sco_pcm_int, sizeof(hci_write_sco_pcm_int));
- read_event(uart_fd,buffer);
- 
- hci_send_cmd(hci_write_data_format, sizeof(hci_write_data_format));
- read_event(uart_fd,buffer);
- 
- hci_send_cmd(hci_write_voice_setting, sizeof(hci_write_voice_setting));
- read_event(uart_fd,buffer); 
- 
- if (debug) {
-  fprintf(stderr, "Done setting PCM parameter\n");
-  //LOGE("Done setting PCM parameter");
- }
- 
- return 0;
+    if (strncmp(buf, "semcove", 7) == 0)
+        return "_semcove";
+
+    if (strncmp(buf, "semcosh", 7) == 0)
+        return "_semcosh";
+
+    return NULL;
 }
+#endif
 
 int
 parse_patchram(char *optarg)
 {
-	char *p;
+    char *p;
 
-	if (!(p = strrchr(optarg, '.'))) {
-		fprintf(stderr, "file %s not an HCD file\n", optarg);
-		exit(3);
-	}
+    if (!(p = strrchr(optarg, '.'))) {
+        fprintf(stderr, "file %s not an HCD file\n", optarg);
+        exit(3);
+    }
 
-	p++;
+    p++;
 
-	if (strcasecmp("hcd", p) != 0) {
-		fprintf(stderr, "file %s not an HCD file\n", optarg);
-		exit(4);
-	}
+    if (strcasecmp("hcd", p) != 0) {
+        fprintf(stderr, "file %s not an HCD file\n", optarg);
+        exit(4);
+    }
 
-	if ((hcdfile_fd = open(optarg, O_RDONLY)) == -1) {
-		fprintf(stderr, "file %s could not be opened, error %d\n", optarg, errno);
-		exit(5);
-	}
+#ifdef SAMSUNG_BLUETOOTH
+    char optarg2[256];
+    char* type = get_samsung_bluetooth_type();
+    char* fext = ".hcd";
 
-	return(0);
+    if (type != NULL) {
+        memset(optarg2, 0, 256);
+        strncpy(optarg2, optarg, strlen(optarg) - 4);
+        strcpy(optarg2 + strlen(optarg2), type);
+        strcpy(optarg2 + strlen(optarg2), fext);
+        optarg = optarg2;
+        fprintf(stderr, "using %s as hcdfile\n", optarg);
+    }
+#endif
+
+    if ((hcdfile_fd = open(optarg, O_RDONLY)) == -1) {
+        fprintf(stderr, "file %s could not be opened, error %d\n", optarg, errno);
+        exit(5);
+    }
+
+    return(0);
 }
 
-void 
-BRCM_encode_baud_rate(uint baud_rate, unsigned char *encoded_baud)
+void
+BRCM_encode_baud_rate(uint baud_rate, uchar *encoded_baud)
 {
 	if(baud_rate == 0 || encoded_baud == NULL) {
 		fprintf(stderr, "Baudrate not supported!");
-		return; 
+		return;
 	}
 
-	encoded_baud[3] = (unsigned char)(baud_rate >> 24);
-	encoded_baud[2] = (unsigned char)(baud_rate >> 16);
-	encoded_baud[1] = (unsigned char)(baud_rate >> 8);
-	encoded_baud[0] = (unsigned char)(baud_rate & 0xFF);
+	encoded_baud[3] = (uchar)(baud_rate >> 24);
+	encoded_baud[2] = (uchar)(baud_rate >> 16);
+	encoded_baud[1] = (uchar)(baud_rate >> 8);
+	encoded_baud[0] = (uchar)(baud_rate & 0xFF);
 }
 
 typedef struct {
@@ -278,7 +341,26 @@ parse_bdaddr(char *optarg)
 		hci_write_bd_addr[4 + i] = bd_addr[i];
 	}
 
-	bdaddr_flag = 1;	
+	bdaddr_flag = 1;
+
+	return(0);
+}
+
+int
+parse_bdaddr_ponyo(char *optarg)
+{
+	int bd_addr[6];
+	int i;
+
+	sscanf(optarg, "%02X%02X%02X%02X%02X%02X",
+		&bd_addr[5], &bd_addr[4], &bd_addr[3],
+		&bd_addr[2], &bd_addr[1], &bd_addr[0]);
+
+	for (i = 0; i < 6; i++) {
+		hci_write_bd_addr[4 + i] = bd_addr[i];
+	}
+
+	bdaddr_flag = 1;
 
 	return(0);
 }
@@ -291,6 +373,13 @@ parse_enable_lpm(char *optarg)
 }
 
 int
+parse_use_baudrate_for_download(char *optarg)
+{
+	use_baudrate_for_download = 1;
+	return(0);
+}
+
+int
 parse_enable_hci(char *optarg)
 {
 	enable_hci = 1;
@@ -298,83 +387,200 @@ parse_enable_hci(char *optarg)
 }
 
 int
+parse_scopcm(char *optarg)
+{
+	int param[10];
+	int ret;
+	int i;
+
+	ret = sscanf(optarg, "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d",
+		&param[0], &param[1], &param[2], &param[3], &param[4],
+		&param[5], &param[6], &param[7], &param[8], &param[9]);
+
+	if (ret != 10) {
+		return(1);
+	}
+
+	scopcm = 1;
+
+	for (i = 0; i < 5; i++) {
+		hci_write_sco_pcm_int[4 + i] = param[i];
+	}
+
+	for (i = 0; i < 5; i++) {
+		hci_write_pcm_data_format[4 + i] = param[5 + i];
+	}
+
+	return(0);
+}
+
+int
+parse_i2s(char *optarg)
+{
+	int param[4];
+	int ret;
+	int i;
+
+	ret = sscanf(optarg, "%d,%d,%d,%d", &param[0], &param[1], &param[2],
+		&param[3]);
+
+	if (ret != 4) {
+		return(1);
+	}
+
+	i2s = 1;
+
+	for (i = 0; i < 4; i++) {
+		hci_write_i2spcm_interface_param[4 + i] = param[i];
+	}
+
+	return(0);
+}
+
+int
+parse_no2bytes(char *optarg)
+{
+	no2bytes = 1;
+	return(0);
+}
+
+int
+parse_tosleep(char *optarg)
+{
+	tosleep = atoi(optarg);
+
+	if (tosleep <= 0) {
+		return(1);
+	}
+
+	return(0);
+}
+
+void
+usage(char *argv0)
+{
+	printf("Usage %s:\n", argv0);
+	printf("\t<-d> to print a debug log\n");
+	printf("\t<--patchram patchram_file>\n");
+	printf("\t<--baudrate baud_rate>\n");
+	printf("\t<--bd_addr bd_address>\n");
+	printf("\t<--enable_lpm>\n");
+	printf("\t<--enable_hci>\n");
+	printf("\t<--use_baudrate_for_download> - Uses the\n");
+	printf("\t\tbaudrate for downloading the firmware\n");
+	printf("\t<--scopcm=sco_routing,pcm_interface_rate,frame_type,\n");
+	printf("\t\tsync_mode,clock_mode,lsb_first,fill_bits,\n");
+	printf("\t\tfill_method,fill_num,right_justify>\n");
+	printf("\n\t\tWhere\n");
+	printf("\n\t\tsco_routing is 0 for PCM, 1 for Transport,\n");
+	printf("\t\t2 for Codec and 3 for I2S,\n");
+	printf("\n\t\tpcm_interface_rate is 0 for 128KBps, 1 for\n");
+	printf("\t\t256 KBps, 2 for 512KBps, 3 for 1024KBps,\n");
+	printf("\t\tand 4 for 2048Kbps,\n");
+	printf("\n\t\tframe_type is 0 for short and 1 for long,\n");
+	printf("\t\tsync_mode is 0 for slave and 1 for master,\n");
+	printf("\n\t\tclock_mode is 0 for slabe and 1 for master,\n");
+	printf("\n\t\tlsb_first is 0 for false aand 1 for true,\n");
+	printf("\n\t\tfill_bits is the value in decimal for unused bits,\n");
+	printf("\n\t\tfill_method is 0 for 0's and 1 for 1's, 2 for\n");
+	printf("\t\tsigned and 3 for programmable,\n");
+	printf("\n\t\tfill_num is the number or bits to fill,\n");
+	printf("\n\t\tright_justify is 0 for false and 1 for true\n");
+	printf("\n\t<--i2s=i2s_enable,is_master,sample_rate,clock_rate>\n");
+	printf("\n\t\tWhere\n");
+	printf("\n\t\ti2s_enable is 0 for disable and 1 for enable,\n");
+	printf("\n\t\tis_master is 0 for slave and 1 for master,\n");
+	printf("\n\t\tsample_rate is 0 for 8KHz, 1 for 16Khz and\n");
+	printf("\t\t2 for 4 KHz,\n");
+	printf("\n\t\tclock_rate is 0 for 128KHz, 1 for 256KHz, 3 for\n");
+	printf("\t\t1024 KHz and 4 for 2048 KHz.\n\n");
+	printf("\t<--no2bytes skips waiting for two byte confirmation\n");
+	printf("\t\tbefore starting patchram download. Newer chips\n");
+	printf("\t\tdo not generate these two bytes.>\n");
+	printf("\t<--tosleep=microseconds>\n");
+	printf("\tuart_device_name\n");
+}
+
+int
 parse_cmd_line(int argc, char **argv)
 {
 	int c;
-	int digit_optind = 0;
+	int ret = 0;
 
 	typedef int (*PFI)();
 
-	PFI parse_param[] = { parse_patchram, parse_baudrate,
-		parse_bdaddr, parse_enable_lpm, parse_enable_hci ,proc_enable_test_mode};
+	PFI parse[] = { parse_patchram, parse_baudrate,
+		parse_bdaddr, parse_enable_lpm, parse_enable_hci,
+		parse_use_baudrate_for_download,
+		parse_scopcm, parse_i2s, parse_no2bytes, parse_tosleep};
 
-    while (1)
-    {
-    	int this_option_optind = optind ? optind : 1;
-        int option_index = 0;
+	while (1) {
+		int this_option_optind = optind ? optind : 1;
+		int option_index = 0;
 
-       	static struct option long_options[] = {
-         {"patchram", 1, 0, 0},
-         {"baudrate", 1, 0, 0},
-         {"bd_addr", 1, 0, 0},
-         {"enable_lpm", 0, 0, 0},
-         {"enable_hci", 0, 0, 0},
-         {"enable_tst", 0, 0, 0},
+		static struct option long_options[] = {
+			{"patchram", 1, 0, 0},
+			{"baudrate", 1, 0, 0},
+			{"bd_addr", 1, 0, 0},
+			{"enable_lpm", 0, 0, 0},
+			{"enable_hci", 0, 0, 0},
+			{"use_baudrate_for_download", 0, 0, 0},
+			{"scopcm", 1, 0, 0},
+			{"i2s", 1, 0, 0},
+			{"no2bytes", 0, 0, 0},
+			{"tosleep", 1, 0, 0},
+			{0, 0, 0, 0}
+		};
 
-         {0, 0, 0, 0}
-       	};
+		c = getopt_long_only (argc, argv, "d", long_options,
+				&option_index);
 
-       	c = getopt_long_only (argc, argv, "d", long_options, &option_index);
-
-       	if (c == -1) {
-      		break;
+		if (c == -1) {
+			break;
 		}
 
-       	switch (c) {
-        case 0:
-        	printf ("option %s", long_options[option_index].name);
+		switch (c) {
+			case 0:
+				if (debug) {
+					printf ("option %s",
+						long_options[option_index].name);
+					if (optarg)
+						printf (" with arg %s", optarg);
+					printf ("\n");
+				}
 
-        	if (optarg) {
-           		printf (" with arg %s", optarg);
-			}
+				ret = (*parse[option_index])(optarg);
 
-           	printf ("\n");
+				break;
+			case 'd':
+				debug = 1;
+				break;
 
-			(*parse_param[option_index])(optarg);
-		break;
+			case '?':
+				//nobreak
+			default:
+				usage(argv[0]);
+				break;
+		}
 
-		case 'd':
-			debug = 1;
-		break;
-
-        case '?':
-			//nobreak
-        default:
-
-			printf("Usage %s:\n", argv[0]);
-			printf("\t<-d> to print a debug log\n");
-			printf("\t<--patchram patchram_file>\n");
-			printf("\t<--baudrate baud_rate>\n");
-			printf("\t<--bd_addr bd_address>\n");
-			printf("\t<--enable_lpm\n");
-			printf("\t<--enable_hci\n");
-			printf("\tuart_device_name\n");
-           	break;
-
-        }
+		if (ret) {
+			usage(argv[0]);
+			break;
+		}
 	}
 
-   	if (optind < argc) {
-       	if (optind < argc) {
-       		printf ("%s ", argv[optind]);
+	if (ret) {
+		return(1);
+	}
 
-			if ((uart_fd = open(argv[optind], O_RDWR | O_NOCTTY)) == -1) {
-				fprintf(stderr, "port %s could not be opened, error %d\n", argv[2], errno);
-			}
+	if (optind < argc) {
+		if (debug)
+			printf ("%s \n", argv[optind]);
+		if ((uart_fd = open(argv[optind], O_RDWR | O_NOCTTY)) == -1) {
+			fprintf(stderr, "port %s could not be opened, error %d\n",
+					argv[optind], errno);
 		}
-
-       	printf ("\n");
-    }
+	}
 
 	return(0);
 }
@@ -382,6 +588,9 @@ parse_cmd_line(int argc, char **argv)
 void
 init_uart()
 {
+#ifdef BCM_INIT_DELAY
+	usleep(150*1000);
+#endif
 	tcflush(uart_fd, TCIOFLUSH);
 	tcgetattr(uart_fd, &termios);
 
@@ -408,7 +617,7 @@ init_uart()
 }
 
 void
-dump(unsigned char *out, int len)
+dump(uchar *out, int len)
 {
 	int i;
 
@@ -423,59 +632,8 @@ dump(unsigned char *out, int len)
 	fprintf(stderr, "\n");
 }
 
-/* 
- * Read an HCI event from the given file descriptor.
- */
-static int read_hci_event(int fd, unsigned char* buf, int size) 
-{
-	int remain, r;
-	int count = 0;
-
-	if (size <= 0)
-		return -1;
-
-	/* The first byte identifies the packet type. For HCI event packets, it
-	 * should be 0x04, so we read until we get to the 0x04. */
-	while (1) {
-		r = read(fd, buf, 1);
-		if (r <= 0)
-			return -1;
-		if (buf[0] == 0x04)
-			break;
-	}
-	count++;
-
-	/* The next two bytes are the event code and parameter total length. */
-	while (count < 3) {
-		r = read(fd, buf + count, 3 - count);
-		if (r <= 0)
-			return -1;
-		count += r;
-	}
-
-	/* Now we read the parameters. */
-	if (buf[2] < (size - 3)) 
-		remain = buf[2];
-	else 
-		remain = size - 3;
-
-	while ((count - 3) < remain) {
-		r = read(fd, buf + count, remain - (count - 3));
-		if (r <= 0)
-			return -1;
-		count += r;
-	}
-	if (debug) {
-
-		fprintf(stderr, "received %d\n", count);
-		dump(buf, count);
-	}
-	return count;
-}
-
-
 void
-read_event(int fd, unsigned char *buffer)
+read_event(int fd, uchar *buffer)
 {
 	int i = 0;
 	int len = 3;
@@ -503,7 +661,7 @@ read_event(int fd, unsigned char *buffer)
 }
 
 void
-hci_send_cmd(unsigned char *buf, int len)
+hci_send_cmd(uchar *buf, int len)
 {
 	if (debug) {
 		fprintf(stderr, "writing\n");
@@ -544,9 +702,13 @@ proc_patchram()
 
 	read_event(uart_fd, buffer);
 
-	//read(uart_fd, &buffer[0], 2);
+	if (!no2bytes) {
+		read(uart_fd, &buffer[0], 2);
+	}
 
-	usleep(50000);
+	if (tosleep) {
+		usleep(tosleep);
+	}
 
 	while (read(hcdfile_fd, &buffer[1], 3)) {
 		buffer[0] = 0x01;
@@ -559,8 +721,12 @@ proc_patchram()
 
 		read_event(uart_fd, buffer);
 	}
-       printf (" proc_reset  \n");
 
+	if (use_baudrate_for_download) {
+		cfsetospeed(&termios, B115200);
+		cfsetispeed(&termios, B115200);
+		tcsetattr(uart_fd, TCSANOW, &termios);
+	}
 	proc_reset();
 }
 
@@ -580,63 +746,9 @@ proc_baudrate()
 	}
 }
 
-#ifdef NEED_BTADDR
-//Add by taoyuan for bluetooth address 2011.5.3
-void 
-proc_bdaddr_BCM4330(char * filename)
-{
-char buffer [1024*8]={0};
-char tmp[128]={0};
-char * p2=hci_write_bd_addr;
-char *p=buffer;
-int count=0;
-int adtmp[6];
-
-FILE * fp=fopen(filename,"r");
-int i=0;
-
-if(!fp){
-
-        fprintf(stderr, "BCM4330 read bluetooth address error,can not proceed...\n");
-}
- while(fgets(buffer,sizeof(buffer),fp)){
-
-       }
-while(i<6){           
-
-  memcpy(tmp,p,2); 
-  adtmp[i]=strtol(tmp,NULL,16);
-  i++;
-  p=p+2;              
-       }
-
-
-      hci_write_bd_addr[4] = adtmp[0];   
-      hci_write_bd_addr[5] = adtmp[1];
-      hci_write_bd_addr[6] = adtmp[2];
-      hci_write_bd_addr[7] = adtmp[3];
-      hci_write_bd_addr[8] = adtmp[4];
-      hci_write_bd_addr[9] = adtmp[5];
-
-      printf("adtmp[0]=0x%x\n",adtmp[0]);
-      printf("adtmp[1]=0x%x\n",adtmp[1]);
-      printf("adtmp[2]=0x%x\n",adtmp[2]);
-      printf("adtmp[3]=0x%x\n",adtmp[3]);
-      printf("adtmp[4]=0x%x\n",adtmp[4]);
-      printf("adtmp[5]=0x%x\n",adtmp[5]);
-
-      fclose(fp);
-}
-#endif
-
 void
 proc_bdaddr()
 {
-         #ifdef NEED_BTADDR
-         //Add by taoyuan for bluetooth address 2011.5.3
-         fprintf(stderr, "BCM4330 starting  to read bluetooth address...\n");
-         proc_bdaddr_BCM4330("/data/simcom/btadd/bt_add.file");
-	#endif
 	hci_send_cmd(hci_write_bd_addr, sizeof(hci_write_bd_addr));
 
 	read_event(uart_fd, buffer);
@@ -650,100 +762,27 @@ proc_enable_lpm()
 	read_event(uart_fd, buffer);
 }
 
-
 void
-proc_enable_test_mode()
+proc_scopcm()
 {
-	enable_test_mode = 1;
-	return(0);
+	hci_send_cmd(hci_write_sco_pcm_int,
+		sizeof(hci_write_sco_pcm_int));
+
+	read_event(uart_fd, buffer);
+
+	hci_send_cmd(hci_write_pcm_data_format,
+		sizeof(hci_write_pcm_data_format));
+
+	read_event(uart_fd, buffer);
 }
 
 void
-enable_bt_test_mode()
+proc_i2s()
 {
-		unsigned char cmd[30], resp[30];
-		int n;
-        fprintf(stderr, "enable_bt_test_mode\n");
-#if 0
-        /*
-         * clear all event filter
-         */        
-	    cmd[0] = HCI_COMMAND_PKT;
-	    cmd[1] = 0x05;
-	    cmd[2] = 0x0c;
-	    cmd[3] = 0x01; 
-	    cmd[4] = 0x00;        
-        
-    	/* Send command */
-    	hci_send_cmd( cmd, 5);
+	hci_send_cmd(hci_write_i2spcm_interface_param,
+		sizeof(hci_write_i2spcm_interface_param));
 
-    	/* Read reply */
-    	if ((n = read_hci_event(uart_fd, resp, 5)) < 0) {
-    		fprintf(stderr, "Failed to clear all event filter\n");
-    		return -1;
-    	}
-#endif
-        /*
-         * set event filter: connection setup
-         */        
-	    cmd[0] = HCI_COMMAND_PKT;
-	    cmd[1] = 0x05;
-	    cmd[2] = 0x0c;
-	    cmd[3] = 0x03; 
-	    cmd[4] = 0x02;
-	    cmd[5] = 0x00; 
-	    cmd[6] = 0x02;        
-        
-    	/* Send command */
-    	hci_send_cmd( cmd, 7);
-
-    	/* Read reply */
-    	if ((n = read_hci_event(uart_fd, resp, 7)) < 0) {
-    		fprintf(stderr, "Failed to set event filter\n");
-    		return -1;
-    	}
-       sleep(1);
-        /*
-         * write scan enable
-         */        
-	    cmd[0] = HCI_COMMAND_PKT;
-	    cmd[1] = 0x1a;
-	    cmd[2] = 0x0c;
-	    cmd[3] = 0x01; 
-	    cmd[4] = 0x03;        
-        
-    	/* Send command */
-    	hci_send_cmd( cmd, 5) ;
-
-    	/* Read reply */
-    	if ((n = read_hci_event(uart_fd, resp, 7)) < 0) {
-    		fprintf(stderr, "Failed to write scan enable\n");
-    		return -1;
-    	}
-
-       sleep(1);
-        
-        /*
-         * enable test mode
-         */  
-	    cmd[0] = HCI_COMMAND_PKT;
-	    cmd[1] = 0x03;
-	    cmd[2] = 0x18;
-	    cmd[3] = 0x00;        
-        
-    	/* Send command */
-    	hci_send_cmd(cmd, 4);
-
-    	/* Read reply */
-    	if ((n = read_hci_event(uart_fd, resp, 7)) < 0) {
-    		fprintf(stderr, "Failed to enter test mode\n");
-    		return -1;
-    	}
-       printf("enter test mode  \n");
-	   
-	alarm(0);
-
-	return 0;
+	read_event(uart_fd, buffer);
 }
 
 void
@@ -751,11 +790,6 @@ proc_enable_hci()
 {
 	int i = N_HCI;
 	int proto = HCI_UART_H4;
-	/*
-	if (enable_lpm) {
-		proto = HCI_UART_LL;
-	}
-	*/
 	if (ioctl(uart_fd, TIOCSETD, &i) < 0) {
 		fprintf(stderr, "Can't set line discipline\n");
 		return;
@@ -769,13 +803,18 @@ proc_enable_hci()
 	return;
 }
 
+#ifdef ANDROID
 void
 read_default_bdaddr()
 {
 	int sz;
 	int fd;
+
 	char path[PROPERTY_VALUE_MAX];
+
 	char bdaddr[18];
+	int len = 17;
+	memset(bdaddr, 0, (len + 1) * sizeof(char));
 
 	property_get("ro.bt.bdaddr_path", path, "");
 	if (path[0] == 0)
@@ -788,45 +827,56 @@ read_default_bdaddr()
 		return;
 	}
 
-	sz = read(fd, bdaddr, sizeof(bdaddr));
+	sz = read(fd, bdaddr, len);
 	if (sz < 0) {
 		fprintf(stderr, "read(%s) failed: %s (%d)", path, strerror(errno),
 				errno);
 		close(fd);
 		return;
-	} else if (sz != sizeof(bdaddr)) {
+	} else if (sz != len) {
 		fprintf(stderr, "read(%s) unexpected size %d", path, sz);
 		close(fd);
 		return;
 	}
 
-	printf("Read default bdaddr of %s\n", bdaddr);
-	parse_bdaddr(bdaddr);
+	if (debug) {
+		printf("Read default bdaddr of %s\n", bdaddr);
+	}
+
+	//parse_bdaddr(bdaddr);
+	parse_bdaddr_ponyo(bdaddr);
 }
+#endif
+
 
 int
 main (int argc, char **argv)
 {
+#ifdef ANDROID
 	read_default_bdaddr();
+#endif
 
-	parse_cmd_line(argc, argv);
+	if (parse_cmd_line(argc, argv)) {
+		exit(1);
+	}
 
 	if (uart_fd < 0) {
-		exit(1);
+		exit(2);
 	}
 
 	init_uart();
 
 	proc_reset();
 
+	if (use_baudrate_for_download) {
+		if (termios_baudrate) {
+			proc_baudrate();
+		}
+	}
+
 	if (hcdfile_fd > 0) {
 		proc_patchram();
 	}
-
-	proc_reset();
-        
-        if(enable_test_mode)
-           enable_bt_test_mode();
 
 	if (termios_baudrate) {
 		proc_baudrate();
@@ -836,15 +886,21 @@ main (int argc, char **argv)
 		proc_bdaddr();
 	}
 
-
 	if (enable_lpm) {
 		proc_enable_lpm();
 	}
 
-        brcm_set_pcm_parameter();
+	if (scopcm) {
+		proc_scopcm();
+	}
+
+	if (i2s) {
+		proc_i2s();
+	}
 
 	if (enable_hci) {
 		proc_enable_hci();
+
 		while (1) {
 			sleep(UINT_MAX);
 		}
