@@ -43,7 +43,9 @@ PRODUCT_COPY_FILES := \\
     $OUTDIR/proprietary/etc/firmware/yamato_pfp.fw:system/etc/firmware/yamato_pfp.fw \\
     $OUTDIR/proprietary/etc/firmware/yamato_pm4.fw:system/etc/firmware/yamato_pm4.fw \\
     $OUTDIR/proprietary/lib/libaudcal.so:obj/lib/libaudcal.so \\
-    $OUTDIR/proprietary/lib/libaudioalsa.so:obj/lib/libaudioalsa.so
+    $OUTDIR/proprietary/lib/libaudioalsa.so:obj/lib/libaudioalsa.so \\
+    $OUTDIR/proprietary/lib/libnv.so:obj/lib/libnv.so \\
+    $OUTDIR/proprietary/lib/liboncrpc.so:obj/lib/liboncrpc.so
 
 PRODUCT_COPY_FILES += \\
 EOF
