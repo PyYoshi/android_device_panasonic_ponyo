@@ -45,9 +45,9 @@ kill_hciattach ()
 
 cd /system/bin
 logi "Starting to patchram for BCM4330..."
-./brcm_patchram_plus -d --enable_lpm --patchram /etc/BCM4330.hcd /dev/ttyHS0
+./brcm_patchram_plus.ponyo -d --enable_lpm --patchram /etc/BCM4330.hcd /dev/ttyHS0
 logi "Change baudrate to 3000000"
-./brcm_patchram_plus -d -baudrate 3000000 /dev/ttyHS0 
+./brcm_patchram_plus.ponyo -d -baudrate 3000000 /dev/ttyHS0 
 exit_code_hci_qcomm_download=$?
 
 case $exit_code_hci_qcomm_download in
