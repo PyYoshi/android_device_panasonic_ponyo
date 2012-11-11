@@ -264,15 +264,15 @@ service bridgemgrd /system/bin/bridgemgrd
     group radio
     disabled
 
-service port-bridge /system/bin/port-bridge /dev/smd0 /dev/ttyGS0 &
-    user system
-    group system inet
-    disabled
+#service port-bridge /system/bin/port-bridge /dev/smd0 /dev/ttyGS0 &
+#    user system
+#    group system inet
+#    disabled
 
-on property:ro.baseband="msm"
-    start port-bridge
-    # Enable BT-DUN only for all msms
-    setprop ro.qualcomm.bluetooth.dun true
+#on property:ro.baseband="msm"
+#    start port-bridge
+#    # Enable BT-DUN only for all msms
+#    setprop ro.qualcomm.bluetooth.dun true
 
 on property:ro.baseband="unknown"
     start port-bridge
