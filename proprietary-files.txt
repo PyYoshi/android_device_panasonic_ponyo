@@ -36,7 +36,7 @@ lib/libdsutils.so
 lib/libidl.so
 lib/libnetmgr.so
 lib/libqdp.so
-lib/libreference-ril.so
+#lib/libreference-ril.so
 
 ## OMX
 #lib/libOmxAacDec.so
