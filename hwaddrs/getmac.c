@@ -56,7 +56,7 @@ int main() {
         wlanmac[0]&0xFF,
         (wlanmac[0]&0xFF00) >> 8,
         (wlanmac[0]&0xFF0000) >> 16,
-        ((wlanmac[0]&0xFF000000) >> 24) - 0x03,
+        (wlanmac[0]&0xFF000000) >> 24,
         wlanmac[1]&0xFF,
         (wlanmac[1]&0xFF00) >> 8
     );
