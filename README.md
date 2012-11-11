@@ -21,9 +21,7 @@ P-01DのOSをCyanogenmod用に移植するプロジェクトです。 協力者�
 上記以外はノンサポでどうぞ
 
 #### ビルドエラーやバグの報告時の注意
-自分のビルド環境やエラーログを報告時に添付してください。
-
-これが無い場合、基本的に返信はしません。
+自分のビルド環境やエラーログを報告時に添付してください。これが無い場合、基本的に返信はしません。
 
 #### ビルド前に以下のリンクを読んで理解すること。
 *  [Cyanogenmod Wiki](http://wiki.cyanogenmod.com/index.php?title=Main_Page)
@@ -38,31 +36,31 @@ P-01DのOSをCyanogenmod用に移植するプロジェクトです。 協力者�
 	wget https://raw.github.com/CM4IS01/android_device_panasonic_ponyo/ics/local_manifest.xml
 	cd ..
 	repo sync
-	
+
 #### 必要なプロプライエタリファイルを取得・vendorツリーの生成
 	cd cyanogenmod/device/panasonic/ponyo
 	sh extract-files.sh
 	sh setup-makefiles.sh
-	
+
 [QDevNet](https://developer.qualcomm.com/mobile-development/mobile-technologies/gaming-graphics-optimization-adreno/tools-and-resources)からICS用のドライバを取得してvendorツリーへ置く
 	
 #### Cyanogenmodのソースにパッチを当てる
 	cd cyanogenmod
 	sh device/panasonic/ponyo/run_patch.sh
-	
+
 #### Cyanogenmodに必要なファイルを取得する
 	cd cyanogenmod/vendor/cm/
 	sh get-prebuilts
-	
+
 #### ビルド
 	cd cyanogenmod
 	. build/envsetup.sh
 	brunch cm_ponyo-eng 2>error.log
-	
+
 #### 2度目以降のビルドを高速化させる(Optional)
 	export USE_CCACHE=1
 	export CCACHE_DIR=任意のディレクトリ/CCACHE
-	
+
 をビルド前にやっておく
 
 #### パッチの初期化
