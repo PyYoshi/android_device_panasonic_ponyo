@@ -97,6 +97,7 @@ static struct sensor_t sensors_list[SENSORS_SUPPORT_COUNT] = {
 };
 
 static int control_open_input(int mode){
+    LOGD("control_open_input");
     int fd = -1;
     const char *dirname = "/dev/input";
     char devname[PATH_MAX];
@@ -143,6 +144,7 @@ static int control_open_input(int mode){
 }
 
 static int control_open_ecs(struct sensors_poll_context_t* dev){
+    LOGD("control_open_ecs");
     if(dev->ecs_fd < 0){
         dev->ecs_fd = open(ECS_CTRL_DEV_NAME,O_RDONLY);
         LOGE_IF(dev->ecs_fd < 0, "Couldn't open %s (%s)", ECS_CTRL_DEV_NAME, strerror(errno));
@@ -154,6 +156,7 @@ static int control_open_ecs(struct sensors_poll_context_t* dev){
 }
 
 static void control_close_ecs(struct sensors_poll_context_t* dev){
+    LOGD("control_close_ecs");
     if(dev->ecs_fd >= 0){
         close(dev->ecs_fd);
         dev->ecs_fd = -1;
@@ -161,6 +164,7 @@ static void control_close_ecs(struct sensors_poll_context_t* dev){
 }
 
 static void control_enable_disable_sensors(int fd, uint32_t sensors, uint32_t mask){
+    LOGD("control_enable_disable_sensors");
     if(fd<0) 
         return;
     short flags;
@@ -188,6 +192,7 @@ static void control_enable_disable_sensors(int fd, uint32_t sensors, uint32_t ma
 }
 
 static uint32_t control_read_sensors_state(int fd){
+    LOGD("control_read_sensors_state");
     if(fd < 0) 
         return 0;
     short flags;
@@ -221,6 +226,7 @@ static uint32_t control_read_sensors_state(int fd){
 }
 
 static int data_pick_sensors(struct sensors_poll_context_t *dev, sensors_event_t* data, int count){
+    LOGD("data_pick_sensors");
     uint32_t mask = SUPPORTED_SENSORS;
     int num = 0;
 
@@ -248,6 +254,7 @@ FINISH:
 }
 
 static int __control_activate(struct sensors_poll_device_t *device, int handle, int enabled){
+    LOGD("__control_activate");
     struct sensors_poll_context_t *dev;
 
     dev = (struct sensors_poll_context_t *)device;
@@ -288,6 +295,7 @@ static int __control_activate(struct sensors_poll_device_t *device, int handle, 
 }
 
 static int __control_set_delay(struct sensors_poll_device_t *device, int handle, int64_t ns){
+    LOGD("__control_set_delay");
     struct sensors_poll_context_t *dev;
     dev = (struct sensors_poll_context_t *)device;
     LOGD("+%s: ns=%d", __FUNCTION__,(int)ns);
@@ -303,6 +311,7 @@ static int __control_set_delay(struct sensors_poll_device_t *device, int handle,
 }
 
 static int __data_poll(struct sensors_poll_device_t *device, sensors_event_t* data, int count){
+    LOGD("__data_poll");
     struct sensors_poll_context_t *dev;
     dev = (struct sensors_poll_context_t *)device;
 
@@ -415,6 +424,7 @@ static int __data_poll(struct sensors_poll_device_t *device, sensors_event_t* da
 }
 
 static int __common_close(struct hw_device_t *device){
+    LOGD("__common_close");
     struct sensors_poll_context_t *dev;
 
     dev = (struct sensors_poll_context_t *)device;
@@ -434,6 +444,7 @@ static int __common_close(struct hw_device_t *device){
 
 static int __module_methods_open(const struct hw_module_t *module, const char *id, 
                                                             struct hw_device_t **device){
+    LOGD("__module_methods_open");
     int res = -EINVAL;
     int i;
 
@@ -474,6 +485,7 @@ static int __module_methods_open(const struct hw_module_t *module, const char *i
 }
 
 static int __get_sensors_list(struct sensors_module_t* module, struct sensor_t const** list){
+    LOGD("__get_sensors_list");
     *list = sensors_list;
     return (sizeof(sensors_list) / sizeof(struct sensor_t));
 }
@@ -495,43 +507,3 @@ struct sensors_module_t HAL_MODULE_INFO_SYM = {
     },
     get_sensors_list: __get_sensors_list
 };
-
-static int open_sensors(const struct hw_module_t* module, struct hw_device_t** device);
-
-static int open_sensors(const struct hw_module_t* module, struct hw_device_t** device){
-    int res = -EINVAL;
-    int i;
-
-    struct sensors_poll_context_t *dev;
-    dev = (struct sensors_poll_context_t *)malloc(sizeof(*dev));
-    if(!dev)
-        return res;
-
-    memset(dev, 0, sizeof(*dev));
-
-    dev->ecs_fd = -1;
-    dev->events_fd = control_open_input(O_RDONLY);
-    if(dev->ecs_fd < 0){
-        free(dev);
-        return res;
-    }
-
-    dev->device.common.tag = HARDWARE_DEVICE_TAG;
-    dev->device.common.version = 0;
-    dev->device.common.module = (struct hw_module_t *)module;
-    dev->device.common.close = __common_close;
-
-    dev->device.activate = __control_activate;
-    dev->device.setDelay = __control_set_delay;
-    dev->device.poll = __data_poll;
-
-    *device = &dev->device.common;
-
-    for(i=0;i<SENSORS_SUPPORT_COUNT; i++){
-        dev->sensors[i].version = sizeof(struct sensors_event_t);
-        dev->sensors[i].sensor = SENSORS_HANDLE_BASE +1;
-        dev->sensors[i].type = i+1; 
-    }
-    res = 0;
-    return res;
-}
