@@ -117,9 +117,10 @@ PRODUCT_PACKAGES += \
     libWnnJpnDic
 
 # Camera
-PRODUCT_PACKAGES += \
-    Camera \
-    Torch
+#PRODUCT_PACKAGES += \
+#    Camera \
+#    Torch \
+#    camera.qcom
 
 # Quake
 #PRODUCT_PACKAGES += \
@@ -138,9 +139,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.product.locale.region=JP \
     persist.sys.timezone=Asia/Tokyo
 
-# Wifi (init.qcom.rcにセット済み)
+# Wifi
 PRODUCT_PROPERTY_OVERRIDES += \
-    wifi.interface=wlan0
+    wifi.interface=wlan0 \
+    wifi.supplicant_scan_interval=15
 
 # Bluetooth
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -151,6 +153,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     hwui.render_dirty_regions=false \
     hwui.disable_vsync=true \
     ro.opengles.version=131072 \
+    com.qc.hardware=true
 
 # Rild and qcom props
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -161,15 +164,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.multi.rild=true \
     ro.qualcomm.bluetooth.dun=true \
     ro.qualcomm.bluetooth.ftp=true \
-    persist.rild.nitz_plmn= \
-    persist.rild.nitz_long_ons_0= \
-    persist.rild.nitz_long_ons_1= \
-    persist.rild.nitz_long_ons_2= \
-    persist.rild.nitz_long_ons_3= \
-    persist.rild.nitz_short_ons_0= \
-    persist.rild.nitz_short_ons_1= \
-    persist.rild.nitz_short_ons_2= \
-    persist.rild.nitz_short_ons_3= \
+    ro.telephony.default_network=0 \
+    ro.ril.gprsclass=10 \
+    ro.ril.def.agps.mode=2 \
+    ro.ril.def.agps.feature=1
 
 # System Info
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -203,6 +201,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # Other props
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.sf.lcd_density=240 \
+    ro.sf.lcd_density=200 \
     ro.com.google.locationfeatures=1 \
     ro.zram.default=0
