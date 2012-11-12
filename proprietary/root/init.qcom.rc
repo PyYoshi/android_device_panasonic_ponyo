@@ -38,6 +38,7 @@ on early-init
 on fs
     mkdir /persist 0771 system system
     mount yaffs2 mtd@persist /persist nosuid nodev
+    mkdir /log 0771 system system
     
 on emmc-fs
 # mount mmc partitions
@@ -87,7 +88,7 @@ on post-fs
     chmod 666 /dev/bma250
     chmod 666 /dev/bma222
     chmod 777 /dev/atmel_tp_dev
-
+    
     chmod 666 /dev/mot
     chmod 666 /dev/mmc328x
     chmod 666 /dev/ecompass_ctrl
@@ -101,6 +102,8 @@ on early-init
     symlink /mnt/sdcard /sdcard
     export SD_EXT_DIRECTORY /sd-ext
     mkdir /sd-ext 0771 system system
+    chmod 777 /dev/icodec
+    chmod 666 /dev/threadright0
 
 on boot-pause
     exec system/bin/battery_charging
