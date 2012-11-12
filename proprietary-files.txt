@@ -19,7 +19,7 @@ usr/keylayout/headset_keypad.kl
 bin/port-bridge
 bin/qmuxd
 bin/netmgrd
-lib/libril.so
+#lib/libril.so
 lib/libdiag.so
 lib/libdsm.so
 lib/libdss.so
@@ -140,6 +140,3 @@ etc/UserPolicy.xml
 #lib/egl/libGLESv1_CM_adreno200.so
 #lib/egl/libEGL_adreno200.so
 #lib/libgsl.so
-
-
-
