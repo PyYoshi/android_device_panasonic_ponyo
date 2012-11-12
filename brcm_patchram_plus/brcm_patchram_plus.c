@@ -813,7 +813,7 @@ read_default_bdaddr()
 	char path[PROPERTY_VALUE_MAX];
 
 	char bdaddr[18];
-	int len = 17;
+	int len = 12;
 	memset(bdaddr, 0, (len + 1) * sizeof(char));
 
 	property_get("ro.bt.bdaddr_path", path, "");
