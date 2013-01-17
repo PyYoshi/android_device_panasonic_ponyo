@@ -98,10 +98,10 @@ PRODUCT_PACKAGES += \
     libstagefrighthw
 
 # RIL Libs
-PRODUCT_PACKAGES += \
-    radiooptions
+#PRODUCT_PACKAGES += \
 #    libril_static \
-#    libril
+#    libril \
+#    rild
 
 # Other Libs and Bins
 PRODUCT_PACKAGES += \
@@ -164,10 +164,13 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.multi.rild=true \
     ro.qualcomm.bluetooth.dun=true \
     ro.qualcomm.bluetooth.ftp=true \
-    ro.telephony.default_network=0 \
+    ro.telephony.default_network=2 \
     ro.ril.gprsclass=10 \
     ro.ril.def.agps.mode=2 \
-    ro.ril.def.agps.feature=1
+    ro.ril.def.agps.feature=1 \
+    ro.telephony.ril.v3=datacall \
+    ro.ril.hsxpa=2 \
+    ro.telephony.ril_class=PanasonicQualcommRIL
 
 # System Info
 PRODUCT_PROPERTY_OVERRIDES += \
