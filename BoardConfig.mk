@@ -42,10 +42,9 @@ BOARD_USES_QCOM_AUDIO_CALIBRATION := true
 
 # Bluetooth
 BOARD_HAVE_BLUETOOTH := true
-# PONYOのOSSを使用する
-#BOARD_HAVE_BLUETOOTH_BCM := true
-#TARGET_NEEDS_BLUETOOTH_INIT_DELAY := true
-#BOARD_CUSTOM_BLUEDROID := ../../../device/panasonic/ponyo/bluedroid/bluetooth.c
+BOARD_HAVE_BLUETOOTH_BCM := true
+TARGET_NEEDS_BLUETOOTH_INIT_DELAY := true
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/panasonic/ponyo/bluetooth
 
 # Qcom Hardware defines and GPS defines
 BOARD_USES_QCOM_HARDWARE := true

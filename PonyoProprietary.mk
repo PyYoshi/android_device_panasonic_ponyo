@@ -104,7 +104,6 @@ PRODUCT_PACKAGES += \
 # Other Libs and Bins
 PRODUCT_PACKAGES += \
     librs_jn \
-    brcm_patchram_plus.ponyo \
     hwaddrs
 
 # IME
@@ -141,10 +140,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     wifi.interface=wlan0 \
     wifi.supplicant_scan_interval=15
-
-# Bluetooth
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.bt.bdaddr_path=/data/simcom/btadd/bt_add.file
 
 # Graphics
 PRODUCT_PROPERTY_OVERRIDES += \
