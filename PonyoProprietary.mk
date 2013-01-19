@@ -25,10 +25,8 @@ PRODUCT_COPY_FILES += \
 
 # Bluetooth firmware and related files
 PRODUCT_COPY_FILES += \
-	device/panasonic/ponyo/brcm_patchram_plus/BCM4330.hcd:system/etc/BCM4330.hcd \
-	device/panasonic/ponyo/brcm_patchram_plus/init.qcom.btcit.sh:system/etc/init.qcom.btcit.sh \
-	device/panasonic/ponyo/brcm_patchram_plus/btparam.sh:system/etc/btparam.sh \
-	device/panasonic/ponyo/brcm_patchram_plus/TEST_ONLY_Ponyo_FixedAFHMap_384M_20110511.hcd:system/etc/TEST_ONLY_Ponyo_FixedAFHMap_384M_20110511.hcd
+	device/panasonic/ponyo/prebuilt/BCM4330.hcd:system/etc/BCM4330.hcd \
+	device/panasonic/ponyo/prebuilt/init.qcom.btcit.sh:system/etc/init.qcom.btcit.sh
 
 # Prebuilt files
 PRODUCT_COPY_FILES += \
