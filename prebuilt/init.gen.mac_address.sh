@@ -27,6 +27,6 @@ cat ${macAddrsFile} | sed -e "s/://g" > ${outMacAddrsFile}
 chmod 0666 ${outMacAddrsFile}
 chown system.system ${outMacAddrsFile}
 
-#/system/bin/sh /system/bin/generate_nvram.sh
+/system/bin/sh /system/bin/generate_nvram.sh
 
 exit 0

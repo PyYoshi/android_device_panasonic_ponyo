@@ -18,6 +18,6 @@ echo 1 > /sys/devices/platform/bt_power/rfkill/rfkill0/state
 
 logi "+BCM4330 entered HCIT mode"
 cd /system/bin
-./brcm_patchram_plus -d --patchram /etc/BCM4330.hcd /dev/ttyHS0
+./brcm_patchram_plus.ponyo -d --patchram /etc/BCM4330.hcd /dev/ttyHS0
 logi "-BCM4330 entered HCIT mode"
 exit 0

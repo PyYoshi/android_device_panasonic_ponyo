@@ -14,24 +14,6 @@
 /dev/cm3623_als 0660 system system
 /dev/bma250 0660 system system
 
-# ril
-/dev/smd0 0770 system system
-/dev/smd21 0700 root root
-/dev/smd22 0700 root root
-/dev/smd27 0700 root root
-/dev/smd36 0700 root root
-/dev/smd7 0740 radio radio
-/dev/smd_pkt_loopback  0700 root root
-/dev/smd_sns_dsps  0700 root root
-/dev/smdcntl0 0740 radio radio
-/dev/smdcntl1 0740 radio radio
-/dev/smdcntl2 0740 radio radio
-/dev/smdcntl3 0740 radio radio
-/dev/smdcntl4 0740 radio radio
-/dev/smdcntl5 0740 radio radio
-/dev/smdcntl6 0740 radio radio
-/dev/smdcntl7 0740 radio radio
-
 # other
 /dev/msm_rotator 0660 system graphics
 /dev/proximity 0640 system system

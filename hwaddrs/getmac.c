@@ -20,10 +20,8 @@
 #include <termios.h>
 #include <fcntl.h>
 #include <utils/Log.h>
-#include <cutils/properties.h>
 
 #define LOG_TAG "hwaddrs"
-#define BDADDR_PATH "/data/simcom/btadd/hwaddrs_bt_add.file"
 
 extern void nv_cmd_remote(int,int,void*);
 extern void oncrpc_init();
@@ -32,7 +30,7 @@ extern void oncrpc_task_start();
 extern void oncrpc_task_stop();
 
 int main() {
-    //FILE *fd_wlan;
+    FILE *fd_wlan;
     int wlanmac[2] = { 0, };
 
     oncrpc_init();
@@ -53,7 +51,7 @@ int main() {
         (wlanmac[1]&0xFF00) >> 8
     );
 
-    /*fd_wlan = fopen("/data/simcom/macAddr/wlan_macAddr","w");
+    fd_wlan = fopen("/data/simcom/macAddr/wlan_macAddr","w");
     fprintf(fd_wlan,"%.2X:%.2X:%.2X:%.2X:%.2X:%.2X\n",
         wlanmac[0]&0xFF,
         (wlanmac[0]&0xFF00) >> 8,
@@ -63,7 +61,6 @@ int main() {
         (wlanmac[1]&0xFF00) >> 8
     );
     fclose(fd_wlan);
-    */
 
     // WLAN MACアドレスの4オクテット目を-0x03してる？
     LOGD("Bluetooth MAC Address: %.2X:%.2X:%.2X:%.2X:%.2X:%.2X\n",
@@ -78,8 +75,8 @@ int main() {
     FILE *fd_bt;
 
     // brcm_patchram_plus用に出力
-    fd_bt = fopen(BDADDR_PATH,"w");
-    fprintf(fd_bt,"%.2X:%.2X:%.2X:%.2X:%.2X:%.2X",      
+    fd_bt = fopen("/data/simcom/btadd/bt_add.file","w");
+    fprintf(fd_bt,"%.2X%.2X%.2X%.2X%.2X%.2X",      
         (wlanmac[1]&0xFF00) >> 8,
         wlanmac[1]&0xFF,
         ((wlanmac[0]&0xFF000000) >> 24) - 0x03,
@@ -88,8 +85,6 @@ int main() {
         wlanmac[0]&0xFF
     );
     fclose(fd_bt);
-
-    property_set("ro.bt.bdaddr_path", BDADDR_PATH);
 
     return 0;
 }

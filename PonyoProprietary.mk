@@ -25,8 +25,10 @@ PRODUCT_COPY_FILES += \
 
 # Bluetooth firmware and related files
 PRODUCT_COPY_FILES += \
-	device/panasonic/ponyo/prebuilt/BCM4330.hcd:system/etc/BCM4330.hcd \
-	device/panasonic/ponyo/prebuilt/init.qcom.btcit.sh:system/etc/init.qcom.btcit.sh
+	device/panasonic/ponyo/brcm_patchram_plus/BCM4330.hcd:system/etc/BCM4330.hcd \
+	device/panasonic/ponyo/brcm_patchram_plus/init.qcom.btcit.sh:system/etc/init.qcom.btcit.sh \
+	device/panasonic/ponyo/brcm_patchram_plus/btparam.sh:system/etc/btparam.sh \
+	device/panasonic/ponyo/brcm_patchram_plus/TEST_ONLY_Ponyo_FixedAFHMap_384M_20110511.hcd:system/etc/TEST_ONLY_Ponyo_FixedAFHMap_384M_20110511.hcd
 
 # Prebuilt files
 PRODUCT_COPY_FILES += \
@@ -96,14 +98,15 @@ PRODUCT_PACKAGES += \
     libstagefrighthw
 
 # RIL Libs
-#PRODUCT_PACKAGES += \
+PRODUCT_PACKAGES += \
+    radiooptions
 #    libril_static \
-#    libril \
-#    rild
+#    libril
 
 # Other Libs and Bins
 PRODUCT_PACKAGES += \
     librs_jn \
+    brcm_patchram_plus.ponyo \
     hwaddrs
 
 # IME
@@ -141,6 +144,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
     wifi.interface=wlan0 \
     wifi.supplicant_scan_interval=15
 
+# Bluetooth
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.bt.bdaddr_path=/data/simcom/btadd/bt_add.file
+
 # Graphics
 PRODUCT_PROPERTY_OVERRIDES += \
     hwui.render_dirty_regions=false \
@@ -157,13 +164,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.multi.rild=true \
     ro.qualcomm.bluetooth.dun=true \
     ro.qualcomm.bluetooth.ftp=true \
-    ro.telephony.default_network=2 \
+    ro.telephony.default_network=0 \
     ro.ril.gprsclass=10 \
     ro.ril.def.agps.mode=2 \
-    ro.ril.def.agps.feature=1 \
-    ro.telephony.ril.v3=datacall \
-    ro.ril.hsxpa=2 \
-    ro.telephony.ril_class=PanasonicQualcommRIL
+    ro.ril.def.agps.feature=1
 
 # System Info
 PRODUCT_PROPERTY_OVERRIDES += \
