@@ -26,7 +26,7 @@ PRODUCT_COPY_FILES += \
 # Bluetooth firmware and related files
 PRODUCT_COPY_FILES += \
 	device/panasonic/ponyo/brcm_patchram_plus/BCM4330.hcd:system/etc/BCM4330.hcd \
-	device/panasonic/ponyo/brcm_patchram_plus/init.qcom.btcit.sh:system/etc/init.qcom.btcit.sh \
+	device/panasonic/ponyo/prebuilt/init.qcom.bt.sh:system/etc/init.qcom.bt.sh \
 	device/panasonic/ponyo/brcm_patchram_plus/btparam.sh:system/etc/btparam.sh \
 	device/panasonic/ponyo/brcm_patchram_plus/TEST_ONLY_Ponyo_FixedAFHMap_384M_20110511.hcd:system/etc/TEST_ONLY_Ponyo_FixedAFHMap_384M_20110511.hcd
 
@@ -34,7 +34,6 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
 	device/panasonic/ponyo/prebuilt/atmel-touchscreen.idc:system/usr/idc/atmel-touchscreen.idc \
 	device/panasonic/ponyo/prebuilt/surf_keypad.kl:system/usr/keylayout/surf_keypad.kl \
-	device/panasonic/ponyo/prebuilt/init.qcom.bt.sh:system/etc/init.qcom.bt.sh \
 	device/panasonic/ponyo/prebuilt/init.qcom.post_boot.sh:system/etc/init.qcom.post_boot.sh \
 	device/panasonic/ponyo/prebuilt/init.network_security.sh:system/etc/init.network_security.sh \
 	device/panasonic/ponyo/prebuilt/generate_nvram.sh:system/bin/generate_nvram.sh \
@@ -143,10 +142,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     wifi.interface=wlan0 \
     wifi.supplicant_scan_interval=15
-
-# Bluetooth
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.bt.bdaddr_path=/data/simcom/btadd/bt_add.file
 
 # Graphics
 PRODUCT_PROPERTY_OVERRIDES += \
