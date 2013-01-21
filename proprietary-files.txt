@@ -86,11 +86,17 @@ etc/firmware/wlan/qcom_cfg.ini
 etc/firmware/wlan/sdio.bin
 etc/firmware/wlan/sdio_apsta.bin
 etc/firmware/wlan/sdio_cit.bin
-etc/nvram.txt
 #etc/init.qcom.bt.sh
 
 ## Sensor
 bin/memsicd
+
+# IrDA
+lib/libirda_stack.so
+lib/libobex.so
+lib/libopp.so
+lib/liboppjni.so
+app/IrDA.apk
 
 ## *.so
 lib/libmm-abl.so

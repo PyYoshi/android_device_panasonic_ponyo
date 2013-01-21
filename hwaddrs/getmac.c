@@ -30,7 +30,6 @@ extern void oncrpc_task_start();
 extern void oncrpc_task_stop();
 
 int main() {
-    FILE *fd_wlan;
     int wlanmac[2] = { 0, };
 
     oncrpc_init();
@@ -51,6 +50,7 @@ int main() {
         (wlanmac[1]&0xFF00) >> 8
     );
 
+    FILE *fd_wlan;
     fd_wlan = fopen("/data/simcom/macAddr/wlan_macAddr","w");
     fprintf(fd_wlan,"%.2X:%.2X:%.2X:%.2X:%.2X:%.2X\n",
         wlanmac[0]&0xFF,
@@ -70,11 +70,11 @@ int main() {
         ((wlanmac[0]&0xFF000000) >> 24) - 0x03,
         wlanmac[1]&0xFF,
         (wlanmac[1]&0xFF00) >> 8
-    );
-
-    FILE *fd_bt;
+    );  
 
     // brcm_patchram_plus用に出力
+    /*
+    FILE *fd_bt;
     fd_bt = fopen("/data/simcom/btadd/bt_add.file","w");
     fprintf(fd_bt,"%.2X%.2X%.2X%.2X%.2X%.2X",      
         (wlanmac[1]&0xFF00) >> 8,
@@ -85,7 +85,7 @@ int main() {
         wlanmac[0]&0xFF
     );
     fclose(fd_bt);
-
+    */
     return 0;
 }
 

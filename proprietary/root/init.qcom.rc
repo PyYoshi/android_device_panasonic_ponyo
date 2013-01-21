@@ -408,7 +408,7 @@ service memsicd /system/bin/memsicd
     class core
     oneshot
 
-service gen_macaddr /system/bin/sh /system/etc/init.gen.mac_address.sh
+service nvram_generator /system/bin/sh /system/etc/init.gen.nvram.sh
     user root
     group root
     class core
