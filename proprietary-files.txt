@@ -19,7 +19,8 @@ usr/keylayout/headset_keypad.kl
 bin/port-bridge
 bin/qmuxd
 bin/netmgrd
-#lib/libril.so
+bin/rild
+lib/libril.so
 lib/libdiag.so
 lib/libdsm.so
 lib/libdss.so
@@ -36,7 +37,7 @@ lib/libdsutils.so
 lib/libidl.so
 lib/libnetmgr.so
 lib/libqdp.so
-#lib/libreference-ril.so
+lib/libreference-ril.so
 
 ## OMX
 #lib/libOmxAacDec.so
@@ -140,3 +141,4 @@ etc/UserPolicy.xml
 #lib/egl/libGLESv1_CM_adreno200.so
 #lib/egl/libEGL_adreno200.so
 #lib/libgsl.so
+

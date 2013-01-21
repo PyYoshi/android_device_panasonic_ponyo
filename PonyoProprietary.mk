@@ -98,8 +98,8 @@ PRODUCT_PACKAGES += \
     libstagefrighthw
 
 # RIL Libs
-PRODUCT_PACKAGES += \
-    radiooptions
+#PRODUCT_PACKAGES += \
+#    radiooptions
 #    libril_static \
 #    libril
 
@@ -167,7 +167,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.telephony.default_network=0 \
     ro.ril.gprsclass=10 \
     ro.ril.def.agps.mode=2 \
-    ro.ril.def.agps.feature=1
+    ro.ril.def.agps.feature=1 \
+    ro.telephony.ril.v3=datacall \
+    ro.telephony.ril_class=PanasonicQualcommRIL
 
 # System Info
 PRODUCT_PROPERTY_OVERRIDES += \

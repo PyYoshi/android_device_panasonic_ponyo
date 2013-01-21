@@ -14,6 +14,21 @@
 /dev/cm3623_als 0660 system system
 /dev/bma250 0660 system system
 
+# ril
+/dev/smd21 0640 root root
+/dev/smd22 0640 root root
+/dev/smd27 0640 root root
+/dev/smd36 0640 root root
+/dev/smd7 0740 radio radio
+/dev/smdcntl0 0640 radio radio
+/dev/smdcntl1 0640 radio radio
+/dev/smdcntl2 0640 radio radio
+/dev/smdcntl3 0640 radio radio
+/dev/smdcntl4 0640 radio radio
+/dev/smdcntl5 0640 radio radio
+/dev/smdcntl6 0640 radio radio
+/dev/smdcntl7 0640 radio radio
+
 # other
 /dev/msm_rotator 0660 system graphics
 /dev/proximity 0640 system system
