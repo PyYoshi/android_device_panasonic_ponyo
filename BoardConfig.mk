@@ -42,10 +42,6 @@ BOARD_USES_QCOM_AUDIO_CALIBRATION := true
 
 # Bluetooth
 BOARD_HAVE_BLUETOOTH := true
-# PONYOのOSSを使用する
-#BOARD_HAVE_BLUETOOTH_BCM := true
-#TARGET_NEEDS_BLUETOOTH_INIT_DELAY := true
-#BOARD_CUSTOM_BLUEDROID := ../../../device/panasonic/ponyo/bluedroid/bluetooth.c
 
 # Qcom Hardware defines and GPS defines
 BOARD_USES_QCOM_HARDWARE := true
@@ -57,9 +53,6 @@ COMMON_GLOBAL_CFLAGS += -DQCOM_HARDWARE
 BOARD_VENDOR_QCOM_AMSS_VERSION := 50000
 BOARD_VENDOR_QCOM_GPS_LOC_API_HARDWARE := qcom
 BOARD_VENDOR_QCOM_GPS_LOC_API_AMSS_VERSION := 50000
-
-# RIL
-#TARGET_PROVIDES_LIBRIL := true
 
 # Graphics
 BOARD_EGL_CFG := device/panasonic/ponyo/prebuilt/egl.cfg
@@ -108,7 +101,6 @@ WIFI_DRIVER_FW_PATH_AP := "/etc/firmware/wlan/sdio.bin"
 WIFI_DRIVER_MODULE_ARG := "firmware_path=/etc/firmware/wlan/sdio.bin nvram_path=/data/simcom/nvram.txt"
 WIFI_DRIVER_MODULE_NAME := "dhd"
 TARGET_CUSTOM_WIFI := ../../device/panasonic/ponyo/wifi/wifi.c
-#BOARD_WEXT_NO_COMBO_SCAN
 
 # Kernel Boot defines
 BOARD_KERNEL_CMDLINE := console=ttyMSM1 androidboot.hardware=qcom
@@ -157,7 +149,3 @@ KERNEL_EXTERNAL_MODULES:
 	make -C device/panasonic/ponyo/bcm4330/dhd/linux/ LINUXDIR=$(KERNEL_OUT) ARCH="arm" CROSS_COMPILE="arm-eabi-" dhd-cdc-sdmmc-gpl-debug
 	mv device/panasonic/ponyo/bcm4330/dhd/linux/dhd-cdc-sdmmc-gpl-debug-2.6.35.11/dhd.ko $(KERNEL_MODULES_OUT)
 TARGET_KERNEL_MODULES := KERNEL_EXTERNAL_MODULES
-
-#BOARD_HAS_NO_SELECT_BUTTON := true
-# Use this flag if the board has a ext4 partition larger than 2gb
-#BOARD_HAS_LARGE_FILESYSTEM := true

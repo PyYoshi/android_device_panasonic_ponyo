@@ -26,9 +26,7 @@ PRODUCT_COPY_FILES += \
 # Bluetooth firmware and related files
 PRODUCT_COPY_FILES += \
 	device/panasonic/ponyo/brcm_patchram_plus/BCM4330.hcd:system/etc/BCM4330.hcd \
-	device/panasonic/ponyo/prebuilt/init.qcom.bt.sh:system/etc/init.qcom.bt.sh \
-	device/panasonic/ponyo/brcm_patchram_plus/btparam.sh:system/etc/btparam.sh \
-	device/panasonic/ponyo/brcm_patchram_plus/TEST_ONLY_Ponyo_FixedAFHMap_384M_20110511.hcd:system/etc/TEST_ONLY_Ponyo_FixedAFHMap_384M_20110511.hcd
+	device/panasonic/ponyo/prebuilt/init.qcom.bt.sh:system/etc/init.qcom.bt.sh
 
 # Prebuilt files
 PRODUCT_COPY_FILES += \
@@ -96,12 +94,6 @@ PRODUCT_PACKAGES += \
     libOmxVidEnc \
     libstagefrighthw
 
-# RIL Libs
-#PRODUCT_PACKAGES += \
-#    radiooptions
-#    libril_static \
-#    libril
-
 # Other Libs and Bins
 PRODUCT_PACKAGES += \
     librs_jn \
@@ -120,11 +112,6 @@ PRODUCT_PACKAGES += \
 #    Camera \
 #    Torch \
 #    camera.qcom
-
-# Quake
-#PRODUCT_PACKAGES += \
-#    libquake \
-#    Quake
 
 # Apps
 #PRODUCT_PACKAGES += \
@@ -165,10 +152,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.ril.def.agps.feature=1 \
     ro.telephony.ril.v3=datacall \
     ro.telephony.ril_class=PanasonicQualcommRIL
-
-# System Info
-PRODUCT_PROPERTY_OVERRIDES += \
-    gsm.version.baseband=07.0109.0068
 
 # USB Mass Storage
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
