@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+**
+** Copyright 2009, The Android Open Source Project
+**
+** Licensed under the Apache License, Version 2.0 (the "License")
+** you may not use this file except in compliance with the License.
+** You may obtain a copy of the License at
+**
+**     http://www.apache.org/licenses/LICENSE-2.0
+**
+** Unless required by applicable law or agreed to in writing, software
+** distributed under the License is distributed on an "AS IS" BASIS,
+** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+** See the License for the specific language governing permissions and
+** limitations under the License.
+*/
+-->
+
+<!-- 
+    I've been having some values from similar devices. Because I don't know how to estimate values.
+    Based on LG Victor
+    https://github.com/CyanogenMod/android_device_lge_victor-common/blob/ics/overlay/frameworks/base/core/res/res/xml/power_profile.xml
+-->
+
+<device name="Android">
+    <!-- https://www.bluetooth.org/tpg/RefNotes/4330-PB10X-R1.pdf -->
+    <!--
+        WiFi/Bluetooth's value are based on GalaxyS2
+        https://github.com/CyanogenMod/android_device_samsung_galaxys2-common/blob/cm-10.1/overlay/frameworks/base/core/res/res/xml/power_profile.xml 
+    -->
+    <item name="none">0</item>
+    <item name="screen.on">100</item>
+    <item name="bluetooth.active">32</item>
+    <item name="bluetooth.on">0.3</item>
+    <item name="screen.full">200</item>
+    <item name="wifi.on">0.3</item>
+    <item name="wifi.active">83</item>
+    <item name="wifi.scan">52</item>
+    <item name="dsp.audio">0.1</item>
+    <item name="dsp.video">0.1</item>
+    <item name="radio.active">89</item>
+    <item name="radio.scanning">129.1</item>
+    <item name="gps.on">114</item>
+    <array name="radio.on">
+        <value>72</value>
+        <value>72</value>
+    </array>
+    <!-- This is the battery capacity in mAh -->
+    <!-- 1200mAh 3.7V 4.5Wh-->
+    <item name="battery.capacity">1200</item>
+    <!-- from /sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies -->
+    <array name="cpu.speeds">
+        <value>122880</value>
+        <value>245760</value>
+        <value>368640</value>
+        <value>768000</value>
+        <value>806400</value>
+        <value>1024000</value>
+    </array>
+    <!-- Power consumption in suspend -->
+    <item name="cpu.idle">30</item>
+    <item name="cpu.awake">142</item>
+    <!-- Power consumption at different speeds -->
+    <array name="cpu.active">
+        <value>32</value>
+        <value>33</value>
+        <value>61.6</value>
+        <value>69.6</value>
+        <value>81.3</value>
+        <value>135</value>
+    </array>
+</device>
+

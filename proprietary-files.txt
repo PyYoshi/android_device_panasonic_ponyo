@@ -88,6 +88,10 @@ etc/firmware/wlan/sdio_apsta.bin
 etc/firmware/wlan/sdio_cit.bin
 #etc/init.qcom.bt.sh
 
+# Battery
+etc/gauge.soc
+etc/gauge.vcell
+
 ## Sensor
 bin/memsicd
 
