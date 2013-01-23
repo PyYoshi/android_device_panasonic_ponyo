@@ -8,11 +8,11 @@
 /dev/dtvtuner 0660 secureav system
 
 # memsicd
-/dev/ecompass_ctrl 0660 system system
-/dev/mmc328x 0660 system system
-/dev/cm3623_ps 0660 system system
-/dev/cm3623_als 0660 system system
-/dev/bma250 0660 system system
+/dev/ecompass_ctrl 0666 root root
+/dev/mmc328x 0666 root root
+/dev/cm3623_ps 0666 root root
+/dev/cm3623_als 0666 root root
+/dev/bma250 0666 root root
 
 # ril
 /dev/smd21 0640 root root
@@ -34,7 +34,15 @@
 /dev/proximity 0640 system system
 /dev/ttyGS1 0660 system system
 /dev/avr 0777 system system
-/dev/i2c-0 0777 system system
+/dev/i2c-0 0600 root root
+/dev/i2c-1 0600 root root
+/dev/i2c-2 0664 root system
+/dev/i2c-3 0600 system system
+/dev/i2c-4 0664 root system
+/dev/i2c-6 0600 root root
+/dev/i2c-7 0600 root root
+/dev/i2c-10 0600 root root
+/dev/i2c-11 0600 root root
 /dev/isl29018 0777 system system
 /dev/smb380 0777 system system
 /dev/tca6507 0777 system system
