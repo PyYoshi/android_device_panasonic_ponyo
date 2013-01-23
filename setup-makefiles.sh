@@ -47,7 +47,8 @@ PRODUCT_COPY_FILES := \\
     $OUTDIR/proprietary/lib/libnv.so:obj/lib/libnv.so \\
     $OUTDIR/proprietary/lib/liboncrpc.so:obj/lib/liboncrpc.so \\
     $OUTDIR/proprietary/lib/libril.so:obj/lib/libril.so \\
-    $OUTDIR/proprietary/lib/libreference-ril.so:obj/lib/lib/libreference-ril.so
+    $OUTDIR/proprietary/lib/libreference-ril.so:obj/lib/libreference-ril.so \\
+    $OUTDIR/proprietary/lib/lights.qcom.so:system/lib/lights.qcom.so
 
 PRODUCT_COPY_FILES += \\
 EOF
