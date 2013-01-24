@@ -14,6 +14,6 @@ for FILE in `cat proprietary-files.txt | grep -v ^# | grep -v ^$`; do
     adb pull /system/$FILE $BASE/$FILE
 done
 
-adb pull /system/lib/lights.msm7k.so $BASE/lib/lights.qcom.so
+adb pull /system/lib/hw/lights.msm7k.so $BASE/lib/hw/lights.qcom.so
 
 ./setup-makefiles.sh
