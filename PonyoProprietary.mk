@@ -96,7 +96,7 @@ PRODUCT_PACKAGES += \
 
 # Other Libs and Bins
 PRODUCT_PACKAGES += \
-    librs_jn \
+    librs_jni \
     brcm_patchram_plus.ponyo \
     hwaddrs
 
@@ -181,11 +181,13 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # Other props
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.sf.lcd_density=200 \
+    ro.sf.lcd_density=240 \
     ro.com.google.locationfeatures=1 \
-    ro.zram.default=0
-    ro.com.google.clientidbase=android-pmc
-    ro.com.google.clientidbase.ms=android-pmc
-    ro.com.google.clientidbase.yt=android-pmc
-    ro.com.google.clientidbase.am=android-docomo-jp
-    ro.com.google.clientidbase.gmm=android-pmc
+    ro.zram.default=0 \
+    ro.com.google.clientidbase=android-pmc \
+    ro.com.google.clientidbase.ms=android-pmc \
+    ro.com.google.clientidbase.yt=android-pmc \
+    ro.com.google.clientidbase.am=android-docomo-jp \
+    ro.com.google.clientidbase.gmm=android-pmc \
+    dalvik.vm.heapsize=32m \
+    ro.config.libemoji=libemoji_docomo.so
