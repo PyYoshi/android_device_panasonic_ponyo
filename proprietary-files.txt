@@ -84,11 +84,13 @@ lib/libopp.so
 lib/liboppjni.so
 app/IrDA.apk
 
-## QuickTegaki
+## Emoji module
+lib/libemoji_docomo.so
+
+## QuickTegaki (Required Emoji module)
 app/HandWriteInput.apk
 lib/libcxdict.so
 lib/libdetail.so
-lib/libemoji_docomo.so
 lib/libEnjemailuri_tegaki.so
 lib/libennjubase1gb_tegaki.so
 lib/libennjubase1us_tegaki.so

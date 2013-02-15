@@ -179,6 +179,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.cne.rat.acq.time.out=30000 \
     persist.cne.rat.acq.retry.tout=0
 
+# Emoji module
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.config.libemoji=libemoji_docomo.so
+
 # Other props
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.sf.lcd_density=240 \
@@ -189,5 +193,5 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.com.google.clientidbase.yt=android-pmc \
     ro.com.google.clientidbase.am=android-docomo-jp \
     ro.com.google.clientidbase.gmm=android-pmc \
-    dalvik.vm.heapsize=32m \
-    ro.config.libemoji=libemoji_docomo.so
+    dalvik.vm.heapsize=32m
+
