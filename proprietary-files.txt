@@ -84,6 +84,42 @@ lib/libopp.so
 lib/liboppjni.so
 app/IrDA.apk
 
+## Emoji module
+lib/libemoji_docomo.so
+
+## QuickTegaki (Required Emoji module)
+app/HandWriteInput.apk
+lib/libcxdict.so
+lib/libdetail.so
+lib/libEnjemailuri_tegaki.so
+lib/libennjubase1gb_tegaki.so
+lib/libennjubase1us_tegaki.so
+lib/libennjubase1_tegaki.so
+lib/libennjubase2_tegaki.so
+lib/libennjubase3_tegaki.so
+lib/libfjdict_v2_j2k4_uni.so
+lib/libFjRecogEngine.so
+lib/libfmphwcr.so
+lib/libiwnn_handwriteinput.so
+lib/libkaomoji_kihon_full_tegaki.so
+lib/libkaomoji_kihon_tegaki.so
+lib/libkaomoji_tyukyu_full_tegaki.so
+lib/libkaomoji_tyukyu_tegaki.so
+lib/libn96_v2_uni_c.so
+lib/libnjaddress_tegaki.so
+lib/libnjcon_tegaki.so
+lib/libnjemoji_tegaki.so
+lib/libnjexyomi_tegaki.so
+lib/libnjfzk_tegaki.so
+lib/libnjname_tegaki.so
+lib/libnjtan_tegaki.so
+lib/libnjubase1_tegaki.so
+lib/libnjubase2_tegaki.so
+lib/libnjubasek_tegaki.so
+lib/libsscl_cr.so
+lib/libversion.so
+lib/lib_dic_ja_JP.conf_tegaki.so
+
 ## Other
 etc/init.reset.max17040.sh
 bin/battery_charging
