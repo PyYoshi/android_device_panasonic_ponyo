@@ -48,8 +48,6 @@ lib/libreference-ril.so
 #lib/libOmxWmaDec.so
 
 ## Audio
-#lib/libaudio.so
-#lib/liba2dp.so
 lib/libaudioalsa.so
 lib/libaudcal.so
 
@@ -95,9 +93,6 @@ bin/bridgemgrd
 bin/qmiproxy
 lib/libqmiservices.so
 bin/wl
-etc/init.qcom.coex.sh
-etc/init.qcom.fm.sh
-etc/init.qcom.wifi.sh
 bin/mm-abl-daemon
 bin/ds_fmc_appd
 bin/thermald
@@ -105,10 +100,6 @@ etc/thermald.conf
 bin/amploader
 bin/profiler_daemon
 lib/libprofiler_msmadc.so
-etc/wifi.sh
-etc/wificit.sh
-etc/wifirx.sh
-etc/wifitx.sh
 lib/libcne.so
 lib/librefcne.so
 etc/OperatorPolicy.xml
