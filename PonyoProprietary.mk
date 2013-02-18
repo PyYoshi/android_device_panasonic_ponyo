@@ -96,7 +96,7 @@ PRODUCT_PACKAGES += \
 
 # Other Libs and Bins
 PRODUCT_PACKAGES += \
-    librs_jn \
+    librs_jni \
     brcm_patchram_plus.ponyo \
     hwaddrs
 
