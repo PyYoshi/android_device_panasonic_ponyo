@@ -1,0 +1,13 @@
+diff --git a/system/core/init/init.c b/system/core/init/init.c
+--- a/system/core/init/init.c
++++ b/system/core/init/init.c
+@@ -648,7 +648,7 @@ static int set_init_properties_action(int nargs, char **args)
+     else
+         property_set("ro.factorytest", "0");
+ 
+-    property_set("ro.serialno", serialno[0] ? serialno : "");
++    property_set("ro.serialno", "");
+     property_set("ro.bootmode", bootmode[0] ? bootmode : "unknown");
+     property_set("ro.baseband", baseband[0] ? baseband : "unknown");
+     property_set("ro.carrier", carrier[0] ? carrier : "unknown");
+
