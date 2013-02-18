@@ -34,6 +34,8 @@ on early-init
     symlink /mnt/sdcard /sdcard
     export SD_EXT_DIRECTORY /sd-ext
     mkdir /sd-ext 0771 system system
+    chmod 777 /dev/icodec
+    chmod 666 /dev/threadright0
 
 on fs
     mkdir /persist 0771 system system
@@ -94,16 +96,6 @@ on post-fs
     chmod 666 /dev/ecompass_ctrl
     chmod 666 /dev/cm3623_ps
     chmod 666 /dev/cm3623_als
-
-on early-init
-    export EXTERNAL_STORAGE /mnt/sdcard
-    mkdir /mnt/sdcard 0000 system system
-    # for backwards compatibility
-    symlink /mnt/sdcard /sdcard
-    export SD_EXT_DIRECTORY /sd-ext
-    mkdir /sd-ext 0771 system system
-    chmod 777 /dev/icodec
-    chmod 666 /dev/threadright0
 
 on boot-pause
     exec system/bin/battery_charging
