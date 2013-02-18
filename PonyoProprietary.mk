@@ -183,6 +183,11 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.bt.bdaddr_path=/data/simcom/btadd/bt_add.file
 
+# Chager mode
+PRODUCT_PACKAGES += \
+	charger \
+	charger_res_images
+
 # Other props
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.sf.lcd_density=240 \

@@ -400,3 +400,6 @@ service nvram_generator /system/bin/sh /system/etc/init.gen.nvram.sh
     group root
     class core
     oneshot
+    
+service battery_charger /charger
+	class charger
