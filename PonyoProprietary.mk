@@ -181,7 +181,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # Other props
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.sf.lcd_density=200 \
+    ro.sf.lcd_density=240 \
     ro.com.google.locationfeatures=1 \
     ro.zram.default=0
     ro.com.google.clientidbase=android-pmc
