@@ -179,6 +179,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.cne.rat.acq.time.out=30000 \
     persist.cne.rat.acq.retry.tout=0
 
+# BT Mac Adress File
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.bt.bdaddr_path=/data/simcom/btadd/bt_add.file
+
 # Other props
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.sf.lcd_density=240 \

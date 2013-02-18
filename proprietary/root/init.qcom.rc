@@ -238,15 +238,10 @@ service rmt_storage /system/bin/rmt_storage /dev/block/mmcblk0p10 /dev/block/mmc
 on property:ro.emmc=1
     start rmt_storage
 
-service bluetoothcit /system/bin/sh /system/etc/init.qcom.btcit.sh
+service hciattach /system/bin/brcm_patchram_plus.ponyo --baudrate 3000000 --tosleep 50000 --enable_hci --no2bytes --enable_lpm --scopcm 0,4,0,0,0,0,0,0,0,0 --patchram /etc/BCM4330.hcd /dev/ttyHS0
+    class main
     user bluetooth
-    group qcom_oncrpc bluetooth net_bt_admin
-    disabled
-    oneshot
-
-service hciattach /system/bin/sh /system/etc/init.qcom.bt.sh
-    user bluetooth
-    group qcom_oncrpc bluetooth net_bt_admin
+    group bluetooth net_bt_admin
     disabled
     oneshot
 

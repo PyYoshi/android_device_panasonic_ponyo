@@ -16,6 +16,10 @@
 LOCAL_PATH:= $(call my-dir)
 include $(CLEAR_VARS)
 
+ifeq ($(TARGET_NEEDS_BLUETOOTH_INIT_DELAY),true)
+LOCAL_CFLAGS += -DBCM_INIT_DELAY
+endif
+
 LOCAL_MODULE_TAGS := optional
 
 LOCAL_SRC_FILES := brcm_patchram_plus.c
@@ -23,6 +27,6 @@ LOCAL_PRELINK_MODULE := false
 LOCAL_SHARED_LIBRARIES := libcutils
 LOCAL_MODULE := brcm_patchram_plus.ponyo
 
-LOCAL_CFLAGS += -DNEED_BTADDR
+LOCAL_C_FLAGS := -DANDROID
 
 include $(BUILD_EXECUTABLE)
