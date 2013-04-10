@@ -25,7 +25,7 @@
 
     <!-- Flag indicating whether we should enable the automatic brightness in Settings.
          config_hardware_automatic_brightness_available is not set, so we will use software implementation -->
-    <bool name="config_automatic_brightness_available">false</bool>
+    <bool name="config_automatic_brightness_available">true</bool>
 
     <!-- The duration (in milliseconds) that the radio will scan for a signal
     when there's no network connection. If the scan doesn't timeout, use zero -->
