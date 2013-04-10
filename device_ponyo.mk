@@ -3,6 +3,8 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
 # The gps config appropriate for this device
 $(call inherit-product, device/common/gps/gps_as_supl.mk)
 
+$(call inherit-product, frameworks/base/build/phone-hdpi-512-dalvik-heap.mk) 
+
 $(call inherit-product-if-exists, vendor/panasonic/ponyo/ponyo-vendor.mk)
 
 DEVICE_PACKAGE_OVERLAYS += device/panasonic/ponyo/overlay
