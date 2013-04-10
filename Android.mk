@@ -15,5 +15,6 @@
 LOCAL_PATH := $(my-dir)
 subdir_makefiles := \
 	$(LOCAL_PATH)/brcm_patchram_plus/Android.mk \
-	$(LOCAL_PATH)/hwaddrs/Android.mk
+	$(LOCAL_PATH)/hwaddrs/Android.mk \
+	$(LOCAL_PATH)/liblights/Android.mk
 include $(subdir_makefiles)
