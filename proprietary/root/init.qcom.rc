@@ -221,12 +221,6 @@ on property:init.svc.bluetoothd=running
 on property:init.svc.bluetoothd=stopped
     start amp_unload
 
-# reset max17040
-service reset-gague /system/bin/sh /system/etc/init.reset.max17040.sh
-    class core
-    user root
-    oneshot
-
 service cnd /system/bin/cnd
     class core
     socket cnd stream 660 root radio

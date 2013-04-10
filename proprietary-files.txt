@@ -82,8 +82,7 @@ lib/libopp.so
 lib/liboppjni.so
 app/IrDA.apk
 
-## Other
-etc/init.reset.max17040.sh
+## Others
 bin/battery_charging
 bin/usbhub_init
 bin/usbhub

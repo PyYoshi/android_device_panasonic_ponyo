@@ -102,9 +102,6 @@ WIFI_DRIVER_MODULE_ARG := "firmware_path=/etc/firmware/wlan/sdio.bin nvram_path=
 WIFI_DRIVER_MODULE_NAME := "dhd"
 TARGET_CUSTOM_WIFI := ../../device/panasonic/ponyo/wifi/wifi.c
 
-# Battery
-BOARD_BATTERY_DEVICE_NAME := "battery"
-
 # Kernel Boot defines
 BOARD_KERNEL_CMDLINE := console=ttyMSM1 androidboot.hardware=qcom
 BOARD_KERNEL_BASE := 0x13800000
