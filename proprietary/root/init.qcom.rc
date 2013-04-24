@@ -232,16 +232,16 @@ service rmt_storage /system/bin/rmt_storage /dev/block/mmcblk0p10 /dev/block/mmc
 on property:ro.emmc=1
     start rmt_storage
 
-service hciattach /system/bin/brcm_patchram_plus.ponyo --baudrate 3000000 --tosleep 50000 --enable_hci --no2bytes --enable_lpm --scopcm 0,4,0,0,0,0,0,0,0,0 --patchram /etc/BCM4330.hcd /dev/ttyHS0
-    class main
-    user bluetooth
-    group bluetooth net_bt_admin
-    disabled
-    oneshot
+#service hciattach /system/bin/brcm_patchram_plus.ponyo --baudrate 3000000 --tosleep 50000 --enable_hci --no2bytes --enable_lpm --scopcm 0,4,0,0,0,0,0,0,0,0 --patchram /etc/BCM4330.hcd /dev/ttyHS0
+#    class main
+#    user bluetooth
+#    group bluetooth net_bt_admin
+#    disabled
+#    oneshot
 
-service bt-dun /system/bin/dun-server /dev/smd7 /dev/rfcomm0
-    disabled
-    oneshot
+#service bt-dun /system/bin/dun-server /dev/smd7 /dev/rfcomm0
+#    disabled
+#    oneshot
 
 service bridgemgrd /system/bin/bridgemgrd
     user radio
@@ -309,20 +309,20 @@ service dhcpcd_wlan0 /system/bin/dhcpcd -ABKL
     disabled
     oneshot
 
-service dhcpcd_bnep0 /system/bin/dhcpcd -ABKL
-    class main
-    disabled
-    oneshot
+#service dhcpcd_bnep0 /system/bin/dhcpcd -ABKL
+#    class main
+#    disabled
+#    oneshot
 
 service iprenew_wlan0 /system/bin/dhcpcd -n
     class main
     disabled
     oneshot
 
-service iprenew_bnep0 /system/bin/dhcpcd -n
-    class main
-    disabled
-    oneshot
+#service iprenew_bnep0 /system/bin/dhcpcd -n
+#    class main
+#    disabled
+#    oneshot
 
 on property:crypto.driver.load=1
      insmod /system/lib/modules/qce.ko
