@@ -201,21 +201,21 @@ static int set_light_notifications(struct light_device_t* dev, struct light_stat
     if(state->color == 0x00){
         // Off
         LOGD("set_light_notifications: LED OFF");
-        write_blink_on_off(LED_RED, 0, 0);
-        write_blink_on_off(LED_GREEN, 0, 0);
+        //write_blink_on_off(LED_RED, 0, 0);
+        //write_blink_on_off(LED_GREEN, 0, 0);
         write_blink_on_off(LED_BLUE, 0, 0);
     }else if(state->color == 0xffffff){
         // Uknown
         LOGD("set_light_notifications: LED 0xffffff");
-        write_blink_on_off(LED_RED, 0, 0);
-        write_blink_on_off(LED_GREEN, 0, 0);
-        write_blink_on_off(LED_BLUE, 0, 0);
+        //write_blink_on_off(LED_RED, 0, 0);
+        //write_blink_on_off(LED_GREEN, 0, 0);
+        write_blink_on_off(LED_BLUE, 1300, 900);
     }else{
         // Any
         LOGD("set_light_notifications: LED ANY");
-        write_blink_on_off(LED_RED, 0, 0);
-        write_blink_on_off(LED_GREEN, 0, 0);
-        write_blink_on_off(LED_BLUE, 1000, 1000);
+        //write_blink_on_off(LED_RED, 0, 0);
+        //write_blink_on_off(LED_GREEN, 0, 0);
+        write_blink_on_off(LED_BLUE, 1300, 900);
     }
 
     return 0;
