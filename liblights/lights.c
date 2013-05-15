@@ -70,7 +70,7 @@ static int write_int(const char *path, int value) {
         return -errno;
     }
 
-    LOGD("write_int wrote: %s, %d", path, value);
+    //LOGD("write_int wrote: %s, %d", path, value);
     char buffer[20];
     int bytes = snprintf(buffer, sizeof(buffer), "%d\n", value);
     int written = write(fd, buffer, bytes);
@@ -176,7 +176,7 @@ static int set_light_backlight(struct light_device_t *dev, struct light_state_t 
     int err = 0;
     int brightness = rgb_to_brightness(state);
 
-    LOGV("%s brightness=%d", __func__, brightness);
+    //LOGV("%s brightness=%d", __func__, brightness);
     pthread_mutex_lock(&g_lock);
     err = write_int(LCD_BACKLIGHT_FILE, brightness);
     pthread_mutex_unlock(&g_lock);
@@ -200,19 +200,19 @@ static int set_light_notifications(struct light_device_t* dev, struct light_stat
 
     if(state->color == 0x00){
         // Off
-        LOGD("set_light_notifications: LED OFF");
+        //LOGD("set_light_notifications: LED OFF");
         //write_blink_on_off(LED_RED, 0, 0);
         //write_blink_on_off(LED_GREEN, 0, 0);
         write_blink_on_off(LED_BLUE, 0, 0);
     }else if(state->color == 0xffffff){
         // Uknown
-        LOGD("set_light_notifications: LED 0xffffff");
+        //LOGD("set_light_notifications: LED 0xffffff");
         //write_blink_on_off(LED_RED, 0, 0);
         //write_blink_on_off(LED_GREEN, 0, 0);
         write_blink_on_off(LED_BLUE, 1300, 900);
     }else{
         // Any
-        LOGD("set_light_notifications: LED ANY");
+        //LOGD("set_light_notifications: LED ANY");
         //write_blink_on_off(LED_RED, 0, 0);
         //write_blink_on_off(LED_GREEN, 0, 0);
         write_blink_on_off(LED_BLUE, 1300, 900);
