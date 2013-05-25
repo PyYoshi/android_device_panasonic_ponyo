@@ -19,7 +19,7 @@
 #include <sys/stat.h>
 #include <termios.h>
 #include <fcntl.h>
-#include <utils/Log.h>
+#include <cutils/log.h>
 
 #define LOG_TAG "hwaddrs"
 
@@ -41,7 +41,7 @@ int main() {
     if (wlanmac[0] == 0)
         return 0;
 
-    LOGD("WLAN MAC Address: %.2X:%.2X:%.2X:%.2X:%.2X:%.2X\n",
+    ALOGD("WLAN MAC Address: %.2X:%.2X:%.2X:%.2X:%.2X:%.2X\n",
         wlanmac[0]&0xFF,
         (wlanmac[0]&0xFF00) >> 8,
         (wlanmac[0]&0xFF0000) >> 16,
@@ -63,7 +63,7 @@ int main() {
     fclose(fd_wlan);
 
     // WLAN MACアドレスの4オクテット目を-0x03してる？
-    LOGD("Bluetooth MAC Address: %.2X:%.2X:%.2X:%.2X:%.2X:%.2X\n",
+    ALOGD("Bluetooth MAC Address: %.2X:%.2X:%.2X:%.2X:%.2X:%.2X\n",
         wlanmac[0]&0xFF,
         (wlanmac[0]&0xFF00) >> 8,
         (wlanmac[0]&0xFF0000) >> 16,

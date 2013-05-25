@@ -130,10 +130,10 @@
 #define LOG_TAG "brcm_patchram_plus_ponyo"
 #include <cutils/log.h>
 #undef printf
-#define printf LOGD
+#define printf ALOGD
 #undef fprintf
 #define fprintf(x, ...) \
-  { if(x==stderr) LOGE(__VA_ARGS__); else fprintf(x, __VA_ARGS__); }
+  { if(x==stderr) ALOGE(__VA_ARGS__); else fprintf(x, __VA_ARGS__); }
 
 #endif //ANDROID
 
