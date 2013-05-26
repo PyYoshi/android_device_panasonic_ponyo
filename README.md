@@ -29,9 +29,9 @@ P-01DのOSをCyanogenmod用に移植するプロジェクトです。 協力者�
 *  [Android Debug Bridge](http://developer.android.com/tools/help/adb.html)
 *  [Initializing a Build Environment](http://source.android.com/source/initializing.html)
 
-#### Cyanogenmodのソースコードを取得 (CM9の場合)
+#### Cyanogenmodのソースコードを取得 (CM10の場合)
 	mkdir cyanogenmod; cd cyanogenmod
-	repo init -u git://github.com/CyanogenMod/android.git -b ics
+	repo init -u git://github.com/CyanogenMod/android.git -b jellybean
 	cd .repo
 	wget https://raw.github.com/CM4IS01/android_device_panasonic_ponyo/ics/local_manifest.xml
 	cd ..
@@ -41,7 +41,7 @@ P-01DのOSをCyanogenmod用に移植するプロジェクトです。 協力者�
 	cd cyanogenmod/device/panasonic/ponyo
 	sh extract-files.sh
 
-[QDevNet](https://developer.qualcomm.com/mobile-development/mobile-technologies/gaming-graphics-optimization-adreno/tools-and-resources)からICS用のドライバを取得してvendorツリーへ置く
+[QDevNet](https://developer.qualcomm.com/mobile-development/mobile-technologies/gaming-graphics-optimization-adreno/tools-and-resources)からJelly Bean用のドライバを取得してvendorツリーへ置く
 	
 #### Cyanogenmodのソースにパッチを当てる
 	cd cyanogenmod
