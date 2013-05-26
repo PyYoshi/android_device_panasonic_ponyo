@@ -58,6 +58,7 @@ struct msm_rotator_img_info {
 	unsigned int    dst_y;
 	unsigned char   rotations;
 	int enable;
+	unsigned int	downscale_ratio;
 };
 
 struct msm_rotator_data_info {
@@ -80,6 +81,9 @@ struct msm_rotator_platform_data {
 	unsigned int hardware_version_number;
 	struct msm_rot_clocks *rotator_clks;
 	const char *regulator_name;
+#ifdef CONFIG_MSM_BUS_SCALING
+	struct msm_bus_scale_pdata *bus_scale_table;
+#endif
 };
 #endif
 
