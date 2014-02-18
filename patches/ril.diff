@@ -1052,7 +1052,6 @@ diff --git a/telephony/java/com/android/internal/telephony/gsm/GsmServiceStateTr
  
                  case EVENT_POLL_STATE_OPERATOR:
 diff --git a/rild/Android.mk b/rild/Android.mk
-index a94da12..e0264a5 100644
 --- a/rild/Android.mk
 +++ b/rild/Android.mk
 @@ -1,40 +1,41 @@
