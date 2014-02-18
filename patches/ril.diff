@@ -1051,4 +1051,75 @@ diff --git a/telephony/java/com/android/internal/telephony/gsm/GsmServiceStateTr
                  break;
  
                  case EVENT_POLL_STATE_OPERATOR:
-
+diff --git a/rild/Android.mk b/rild/Android.mk
+index a94da12..e0264a5 100644
+--- a/rild/Android.mk
++++ b/rild/Android.mk
+@@ -1,40 +1,41 @@
+-# Copyright 2006 The Android Open Source Project
++## Copyright 2006 The Android Open Source Project
+ 
+-LOCAL_PATH:= $(call my-dir)
+-include $(CLEAR_VARS)
++#LOCAL_PATH:= $(call my-dir)
++#include $(CLEAR_VARS)
+ 
+-LOCAL_SRC_FILES:= \
+-	rild.c
++#LOCAL_SRC_FILES:= \
++#	rild.c
+ 
+ 
+-LOCAL_SHARED_LIBRARIES := \
+-	libcutils \
+-	libril
++#LOCAL_SHARED_LIBRARIES := \
++#	libcutils \
++#	libril
+ 
+-ifeq ($(TARGET_ARCH),arm)
+-LOCAL_SHARED_LIBRARIES += libdl
+-endif # arm
++#ifeq ($(TARGET_ARCH),arm)
++#LOCAL_SHARED_LIBRARIES += libdl
++#endif # arm
+ 
+-LOCAL_CFLAGS := -DRIL_SHLIB
++#LOCAL_CFLAGS := -DRIL_SHLIB
+ 
+-LOCAL_MODULE:= rild
+-LOCAL_MODULE_TAGS := optional
++#LOCAL_MODULE:= rild
++#LOCAL_MODULE_TAGS := optional
+ 
+-include $(BUILD_EXECUTABLE)
++#include $(BUILD_EXECUTABLE)
+ 
+-# For radiooptions binary
+-# =======================
+-include $(CLEAR_VARS)
++## For radiooptions binary
++## =======================
++#include $(CLEAR_VARS)
+ 
+-LOCAL_SRC_FILES:= \
+-	radiooptions.c
++#LOCAL_SRC_FILES:= \
++#	radiooptions.c
+ 
+-LOCAL_SHARED_LIBRARIES := \
+-	libcutils \
++#LOCAL_SHARED_LIBRARIES := \
++#	libcutils \
+ 
+-LOCAL_CFLAGS := \
++#LOCAL_CFLAGS := \
+ 
+-LOCAL_MODULE:= radiooptions
+-LOCAL_MODULE_TAGS := debug
++#LOCAL_MODULE:= radiooptions
++#LOCAL_MODULE_TAGS := debug
++
++#include $(BUILD_EXECUTABLE)
+ 
+-include $(BUILD_EXECUTABLE)
