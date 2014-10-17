@@ -9,9 +9,8 @@ P-01DのOSをCyanogenmod用に移植するプロジェクトです。 協力者�
 *   すべて自己責任です。
 
 ### 連絡
-*   [DevRenax](https://twitter.com/DevRenax)宛にリプライしてください
-*   If you want to contact me, Please reply to [DevRenax](https://twitter.com/DevRenax). I can speak a little English.
-
+*   フォークについてはDevRenax氏とは無関係ということで、氏にご連絡はなさらないように願います。
+   
 ### ビルド方法
 
 #### ビルド環境
@@ -33,7 +32,7 @@ P-01DのOSをCyanogenmod用に移植するプロジェクトです。 協力者�
 	mkdir cyanogenmod; cd cyanogenmod
 	repo init -u git://github.com/CyanogenMod/android.git -b jellybean
 	cd .repo
-	wget https://raw.github.com/CM4IS01/android_device_panasonic_ponyo/ics/local_manifest.xml
+	wget https://raw.github.com/chuukai/android_device_panasonic_ponyo/jb-dev/local_manifest.xml
 	cd ..
 	repo sync
 
