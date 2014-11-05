@@ -39,8 +39,6 @@ P-01DのOSをCyanogenmod用に移植するプロジェクトです。 協力者�
 #### 必要なプロプライエタリファイルを取得・vendorツリーの生成
 	cd cyanogenmod/device/panasonic/ponyo
 	sh extract-files.sh
-
-[QDevNet](https://developer.qualcomm.com/mobile-development/mobile-technologies/gaming-graphics-optimization-adreno/tools-and-resources)からJelly Bean用のドライバを取得してvendorツリーへ置く
 	
 #### Cyanogenmodのソースにパッチを当てる
 	cd cyanogenmod
@@ -53,7 +51,7 @@ P-01DのOSをCyanogenmod用に移植するプロジェクトです。 協力者�
 #### ビルド
 	cd cyanogenmod
 	. build/envsetup.sh
-	brunch cm_ponyo-eng 2>error.log
+	brunch cm_ponyo-eng 2>&1 | tee make.log
 
 #### 2度目以降のビルドを高速化させる(Optional)
 	export USE_CCACHE=1
