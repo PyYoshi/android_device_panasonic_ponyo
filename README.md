@@ -9,9 +9,8 @@ P-01DのOSをCyanogenmod用に移植するプロジェクトです。 協力者�
 *   すべて自己責任です。
 
 ### 連絡
-*   [DevRenax](https://twitter.com/DevRenax)宛にリプライしてください
-*   If you want to contact me, Please reply to [DevRenax](https://twitter.com/DevRenax). I can speak a little English.
-
+*   フォークについてはDevRenax氏とは無関係ということで、氏にご連絡はなさらないように願います。
+   
 ### ビルド方法
 
 #### ビルド環境
@@ -33,15 +32,13 @@ P-01DのOSをCyanogenmod用に移植するプロジェクトです。 協力者�
 	mkdir cyanogenmod; cd cyanogenmod
 	repo init -u git://github.com/CyanogenMod/android.git -b jellybean
 	cd .repo
-	wget https://raw.github.com/CM4IS01/android_device_panasonic_ponyo/ics/local_manifest.xml
+	wget https://raw.github.com/chuukai/android_device_panasonic_ponyo/jb-dev/local_manifest.xml
 	cd ..
 	repo sync
 
 #### 必要なプロプライエタリファイルを取得・vendorツリーの生成
 	cd cyanogenmod/device/panasonic/ponyo
 	sh extract-files.sh
-
-[QDevNet](https://developer.qualcomm.com/mobile-development/mobile-technologies/gaming-graphics-optimization-adreno/tools-and-resources)からJelly Bean用のドライバを取得してvendorツリーへ置く
 	
 #### Cyanogenmodのソースにパッチを当てる
 	cd cyanogenmod
@@ -54,7 +51,7 @@ P-01DのOSをCyanogenmod用に移植するプロジェクトです。 協力者�
 #### ビルド
 	cd cyanogenmod
 	. build/envsetup.sh
-	brunch cm_ponyo-eng 2>error.log
+	brunch cm_ponyo-eng 2>&1 | tee make.log
 
 #### 2度目以降のビルドを高速化させる(Optional)
 	export USE_CCACHE=1

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest>
-  <project name="CM4IS01/android_device_panasonic_ponyo" path="device/panasonic/ponyo" remote="github" revision="jb-dev" />
-  <project name="CM4IS01/ponyo_kernel" path="kernel/panasonic/ponyo_kernel" remote="github" revision="jb-dev" />
+  <project name="chuukai/android_device_panasonic_ponyo" path="device/panasonic/ponyo" remote="github" revision="jb-dev" />
+  <project name="chuukai/ponyo_kernel" path="kernel/panasonic/ponyo_kernel" remote="github" revision="jb-dev" />
 </manifest>

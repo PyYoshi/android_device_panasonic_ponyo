@@ -1,0 +1,29 @@
+diff --git a/frameworks/base/data/fonts/Android.mk b/frameworks/base/data/fonts/Android.mk
+index 02d2f3d..b16bf10 100644
+--- a/frameworks/base/data/fonts/Android.mk
++++ b/frameworks/base/data/fonts/Android.mk
+@@ -37,12 +37,13 @@ endef
+ ##########################################
+ $(eval $(call create-font-symlink,DroidSans.ttf,Roboto-Regular.ttf))
+ $(eval $(call create-font-symlink,DroidSans-Bold.ttf,Roboto-Bold.ttf))
++$(eval $(call create-font-symlink,DroidSansJapanese.ttf,MTLmr3m.ttf))
+ 
+ ################################
+ # On space-constrained devices, we include a subset of fonts:
+ ifeq ($(SMALLER_FONT_FOOTPRINT),true)
+ droidsans_fallback_src := DroidSansFallback.ttf
+-extra_font_files := DroidSans.ttf DroidSans-Bold.ttf
++extra_font_files := DroidSans.ttf DroidSans-Bold.ttf DroidSansJapanese.ttf
+ else
+ include $(CLEAR_VARS)
+ LOCAL_MODULE := DroidSansEthiopic-Regular.ttf
+@@ -96,6 +97,7 @@ droidsans_fallback_src := DroidSansFallbackFull.ttf
+ extra_font_files := \
+ 	DroidSans.ttf \
+ 	DroidSans-Bold.ttf \
++	DroidSansJapanese.ttf \
+ 	DroidSansEthiopic-Regular.ttf \
+ 	DroidSansTamil-Regular.ttf \
+ 	DroidSansTamil-Bold.ttf \
+
+
