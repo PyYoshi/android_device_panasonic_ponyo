@@ -66,6 +66,8 @@ etc/firmware/vidc_720p_h264_enc_mc.fw
 etc/firmware/vidc_720p_mp4_dec_mc.fw
 etc/firmware/vidc_720p_mp4_enc_mc.fw
 etc/firmware/vidc_720p_vc1_dec_mc.fw
+etc/firmware/yamato_pfp.fw
+etc/firmware/yamato_pm4.fw
 etc/firmware/wlan/nvram.txt
 etc/firmware/wlan/qcom_cfg.ini
 etc/firmware/wlan/sdio.bin
@@ -104,4 +106,15 @@ lib/librefcne.so
 etc/OperatorPolicy.xml
 etc/UserPolicy.xml
 lib/libmm-abl.so
-
+lib/libC2D2.so
+lib/libOpenVG.so
+lib/libgsl.so
+#lib/libsc-a2xx.so
+#lib/libc2d2_z180.so
+lib/egl/egl.cfg
+lib/egl/eglsubAndroid.so
+lib/egl/libGLESv1_CM_adreno200.so
+lib/egl/libq3dtools_adreno200.so
+lib/egl/libEGL_adreno200.so
+lib/egl/libGLES_android.so
+lib/egl/libGLESv2_adreno200.so
